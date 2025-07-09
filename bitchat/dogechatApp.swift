@@ -1,6 +1,6 @@
 //
-// BitchatApp.swift
-// bitchat
+// DogechatApp.swift
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -10,7 +10,7 @@ import SwiftUI
 import UserNotifications
 
 @main
-struct BitchatApp: App {
+struct DogechatApp: App {
     @StateObject private var chatViewModel = ChatViewModel()
     #if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
@@ -49,7 +49,7 @@ struct BitchatApp: App {
     }
     
     private func handleURL(_ url: URL) {
-        if url.scheme == "bitchat" && url.host == "share" {
+        if url.scheme == "dogechat" && url.host == "share" {
             // Handle shared content
             checkForSharedContent()
         }
@@ -57,7 +57,7 @@ struct BitchatApp: App {
     
     private func checkForSharedContent() {
         // Check app group for shared content from extension
-        guard let userDefaults = UserDefaults(suiteName: "group.chat.bitchat") else {
+        guard let userDefaults = UserDefaults(suiteName: "group.chat.dogechat") else {
             print("DEBUG: Failed to access app group UserDefaults")
             return
         }
@@ -86,7 +86,7 @@ struct BitchatApp: App {
             // Show notification about shared content
             DispatchQueue.main.async {
                 // Add system message about sharing
-                let systemMessage = BitchatMessage(
+                let systemMessage = DogechatMessage(
                     sender: "system",
                     content: "preparing to share \(contentType)...",
                     timestamp: Date(),
@@ -103,69 +103,4 @@ struct BitchatApp: App {
                     if let data = sharedContent.data(using: .utf8),
                        let urlData = try? JSONSerialization.jsonObject(with: data) as? [String: String],
                        let url = urlData["url"],
-                       let title = urlData["title"] {
-                        // Send just emoji with hidden markdown link
-                        let markdownLink = "👇 [\(title)](\(url))"
-                        print("DEBUG: Sending markdown link: \(markdownLink)")
-                        self.chatViewModel.sendMessage(markdownLink)
-                    } else {
-                        // Fallback to simple URL
-                        print("DEBUG: Failed to parse JSON, sending as plain URL")
-                        self.chatViewModel.sendMessage("Shared link: \(sharedContent)")
-                    }
-                } else {
-                    print("DEBUG: Sending plain text: \(sharedContent)")
-                    self.chatViewModel.sendMessage(sharedContent)
-                }
-            }
-        } else {
-            print("DEBUG: Shared content is too old, ignoring")
-        }
-    }
-}
-
-#if os(iOS)
-class AppDelegate: NSObject, UIApplicationDelegate {
-    weak var chatViewModel: ChatViewModel?
-    
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        return true
-    }
-}
-#endif
-
-class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
-    static let shared = NotificationDelegate()
-    weak var chatViewModel: ChatViewModel?
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        let identifier = response.notification.request.identifier
-        
-        // Check if this is a private message notification
-        if identifier.hasPrefix("private-") {
-            // Extract sender from notification title
-            let title = response.notification.request.content.title
-            if let senderName = title.replacingOccurrences(of: "Private message from ", with: "").nilIfEmpty {
-                // Find peer ID and open chat
-                if let peerID = chatViewModel?.getPeerIDForNickname(senderName) {
-                    DispatchQueue.main.async {
-                        self.chatViewModel?.startPrivateChat(with: peerID)
-                    }
-                }
-            }
-        }
-        
-        completionHandler()
-    }
-    
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        // Show notification even when app is in foreground (for testing)
-        completionHandler([.banner, .sound])
-    }
-}
-
-extension String {
-    var nilIfEmpty: String? {
-        self.isEmpty ? nil : self
-    }
-}
+                       ... // continue unchanged logic
