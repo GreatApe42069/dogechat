@@ -1,6 +1,6 @@
 //
 // ContentView.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -1049,7 +1049,7 @@ struct ContentView: View {
 
 // Helper view for rendering message content with clickable hashtags
 struct MessageContentView: View {
-    let message: BitchatMessage
+    let message: DogehatMessage
     let viewModel: ChatViewModel
     let colorScheme: ColorScheme
     let isMentioned: Bool
