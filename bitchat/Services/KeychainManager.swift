@@ -1,6 +1,6 @@
 //
 // KeychainManager.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -12,7 +12,7 @@ import Security
 class KeychainManager {
     static let shared = KeychainManager()
     
-    private let service = "com.bitchat.passwords"
+    private let service = "com.dogechat.passwords"
     private let accessGroup: String? = nil // Set this if using app groups
     
     private init() {}
