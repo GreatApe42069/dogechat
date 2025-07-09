@@ -1,6 +1,6 @@
 //
 // DeliveryTracker.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -67,7 +67,7 @@ class DeliveryTracker {
     
     // MARK: - Public Methods
     
-    func trackMessage(_ message: BitchatMessage, recipientID: String, recipientNickname: String, isFavorite: Bool = false, expectedRecipients: Int = 1) {
+    func trackMessage(_ message: DogechatMessage, recipientID: String, recipientNickname: String, isFavorite: Bool = false, expectedRecipients: Int = 1) {
         // Don't track broadcasts or certain message types
         guard message.isPrivate || message.channel != nil else { return }
         
@@ -141,7 +141,7 @@ class DeliveryTracker {
         }
     }
     
-    func generateAck(for message: BitchatMessage, myPeerID: String, myNickname: String, hopCount: UInt8) -> DeliveryAck? {
+    func generateAck(for message: DogechatMessage, myPeerID: String, myNickname: String, hopCount: UInt8) -> DeliveryAck? {
         // Don't ACK our own messages
         guard message.senderPeerID != myPeerID else { return nil }
         
@@ -259,7 +259,7 @@ class DeliveryTracker {
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
             // Trigger resend through delegate or notification
             NotificationCenter.default.post(
-                name: Notification.Name("bitchat.retryMessage"),
+                name: Notification.Name("dogechat.retryMessage"),
                 object: nil,
                 userInfo: ["messageID": messageID]
             )
