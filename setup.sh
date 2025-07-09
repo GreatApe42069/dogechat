@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "bitchat Setup Script"
+echo "dogechat Setup Script"
 echo "==================="
 
 # Check if XcodeGen is installed
@@ -11,7 +11,7 @@ if command -v xcodegen &> /dev/null; then
     echo "✓ Project generated successfully"
     echo ""
     echo "To open the project, run:"
-    echo "  open bitchat.xcodeproj"
+    echo "  open dogechat.xcodeproj"
 else
     echo "⚠️  XcodeGen not found"
     echo ""
@@ -27,8 +27,8 @@ fi
 
 echo ""
 echo "Project Structure:"
-echo "- bitchat/           Main source files"
-echo "  - BitchatApp.swift    App entry point"
+echo "- dogechat/           Main source files"
+echo "  - Dogechat.swift    App entry point"
 echo "  - Views/              SwiftUI views"
 echo "  - ViewModels/         View models"
 echo "  - Services/           Bluetooth and encryption"
