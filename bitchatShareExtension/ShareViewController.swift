@@ -1,6 +1,6 @@
 //
 // ShareViewController.swift
-// bitchatShareExtension
+// dogechatShareExtension
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -15,7 +15,7 @@ class ShareViewController: SLComposeServiceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set placeholder text
-        placeholder = "Share to bitchat..."
+        placeholder = "Share to dogechat..."
         // Set character limit (optional)
         charactersRemaining = 500
     }
@@ -189,7 +189,7 @@ class ShareViewController: SLComposeServiceViewController {
     
     private func saveToSharedDefaults(content: String, type: String) {
         // Use app groups to share data between extension and main app
-        guard let userDefaults = UserDefaults(suiteName: "group.chat.bitchat") else {
+        guard let userDefaults = UserDefaults(suiteName: "group.chat.dogechat") else {
             print("ShareExtension: Failed to access app group UserDefaults")
             return
         }
@@ -211,7 +211,7 @@ class ShareViewController: SLComposeServiceViewController {
         // The app will check for shared content when it becomes active
         // Show success feedback to user
         DispatchQueue.main.async {
-            self.textView.text = "✓ Shared to bitchat"
+            self.textView.text = "✓ Shared to dogechat"
             self.textView.isEditable = false
         }
     }
