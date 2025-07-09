@@ -11,7 +11,7 @@ settings:
   CURRENT_PROJECT_VERSION: 1
   
 targets:
-  bitchat_iOS:
+  dogechat_iOS:
     type: application
     platform: iOS
     sources: 
@@ -26,7 +26,7 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         NSBluetoothAlwaysUsageDescription: dogechat uses Bluetooth to create a secure mesh network for chatting with nearby users.
-        NSBluetoothPeripheralUsageDescription: dogechat uses Bluetooth to discover and connect with other bitchat users nearby.
+        NSBluetoothPeripheralUsageDescription: dogechat uses Bluetooth to discover and connect with other dogechat users nearby.
         UIBackgroundModes:
           - bluetooth-central
           - bluetooth-peripheral
@@ -76,7 +76,7 @@ targets:
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
         NSBluetoothAlwaysUsageDescription: dogechat uses Bluetooth to create a secure mesh network for chatting with nearby users.
-        NSBluetoothPeripheralUsageDescription: dogechat uses Bluetooth to discover and connect with other bitchat users nearby.
+        NSBluetoothPeripheralUsageDescription: dogechat uses Bluetooth to discover and connect with other dogechat users nearby.
         CFBundleURLTypes:
           - CFBundleURLSchemes:
               - dogechat
@@ -101,7 +101,7 @@ targets:
     sources:
       - dogechatShareExtension
     info:
-      path: bitchatShareExtension/Info.plist
+      path: dogechatShareExtension/Info.plist
       properties:
         CFBundleDisplayName: dogechat
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -138,7 +138,7 @@ targets:
       INFOPLIST_FILE: dogechatTests/Info.plist
       SWIFT_VERSION: 5.0
       IPHONEOS_DEPLOYMENT_TARGET: 16.0
-      TEST_HOST: $(BUILT_PRODUCTS_DIR)/dogechat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/bitchat
+      TEST_HOST: $(BUILT_PRODUCTS_DIR)/dogechat.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/dogechat
       BUNDLE_LOADER: $(TEST_HOST)
       CODE_SIGN_STYLE: Automatic
       CODE_SIGNING_REQUIRED: YES
@@ -157,7 +157,7 @@ targets:
       INFOPLIST_FILE: dogechatTests/Info.plist
       SWIFT_VERSION: 5.0
       MACOSX_DEPLOYMENT_TARGET: 13.0
-      TEST_HOST: $(BUILT_PRODUCTS_DIR)/bitchat.app/Contents/MacOS/dogechat
+      TEST_HOST: $(BUILT_PRODUCTS_DIR)/dogechat.app/Contents/MacOS/dogechat
       BUNDLE_LOADER: $(TEST_HOST)
       CODE_SIGN_STYLE: Automatic
       CODE_SIGNING_REQUIRED: YES
