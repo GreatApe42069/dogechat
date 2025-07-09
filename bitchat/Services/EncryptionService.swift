@@ -1,6 +1,6 @@
 //
 // EncryptionService.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -29,7 +29,7 @@ class EncryptionService {
     public let identityPublicKey: Curve25519.Signing.PublicKey
     
     // Thread safety
-    private let cryptoQueue = DispatchQueue(label: "chat.bitchat.crypto", attributes: .concurrent)
+    private let cryptoQueue = DispatchQueue(label: "chat.dogechat.crypto", attributes: .concurrent)
     
     init() {
         // Generate ephemeral key pairs for this session
@@ -40,13 +40,13 @@ class EncryptionService {
         self.signingPublicKey = signingPrivateKey.publicKey
         
         // Load or create persistent identity key
-        if let identityData = UserDefaults.standard.data(forKey: "bitchat.identityKey"),
+        if let identityData = UserDefaults.standard.data(forKey: "dogechat.identityKey"),
            let loadedKey = try? Curve25519.Signing.PrivateKey(rawRepresentation: identityData) {
             self.identityKey = loadedKey
         } else {
             // First run - create and save identity key
             self.identityKey = Curve25519.Signing.PrivateKey()
-            UserDefaults.standard.set(identityKey.rawRepresentation, forKey: "bitchat.identityKey")
+            UserDefaults.standard.set(identityKey.rawRepresentation, forKey: "dogechat.identityKey")
         }
         self.identityPublicKey = identityKey.publicKey
     }
@@ -92,7 +92,7 @@ class EncryptionService {
                 let sharedSecret = try privateKey.sharedSecretFromKeyAgreement(with: publicKey)
                 let symmetricKey = sharedSecret.hkdfDerivedSymmetricKey(
                     using: SHA256.self,
-                    salt: "bitchat-v1".data(using: .utf8)!,
+                    salt: "dogechat-v1".data(using: .utf8)!,
                     sharedInfo: Data(),
                     outputByteCount: 32
                 )
@@ -110,7 +110,7 @@ class EncryptionService {
     
     // Clear persistent identity (for panic mode)
     func clearPersistentIdentity() {
-        UserDefaults.standard.removeObject(forKey: "bitchat.identityKey")
+        UserDefaults.standard.removeObject(forKey: "dogechat.identityKey")
         // print("[CRYPTO] Cleared persistent identity key")
     }
     
