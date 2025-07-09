@@ -84,3 +84,77 @@ This project is released into the public domain. See the [LICENSE](LICENSE) file
 2. Set your nickname (or use the auto-generated one)
 3. You'll automatically connect to nearby peers
 4. Join a channel with `/j #general` or start chatting in public
+5. Messages relay through the mesh network to reach distant peers
+
+### Channel Features
+
+- **Password Protection**: Channel owners can set passwords with `/pass`
+- **Message Retention**: Owners can enable mandatory message saving with `/save`
+- **@ Mentions**: Use `@nickname` to mention users (with autocomplete)
+- **Ownership Transfer**: Pass control to trusted users with `/transfer`
+
+## Security & Privacy
+
+### Encryption
+- **Private Messages**: X25519 key exchange + AES-256-GCM encryption
+- **Channel Messages**: Argon2id password derivation + AES-256-GCM
+- **Digital Signatures**: Ed25519 for message authenticity
+- **Forward Secrecy**: New key pairs generated each session
+
+### Privacy Features
+- **No Registration**: No accounts, emails, or phone numbers required
+- **Ephemeral by Default**: Messages exist only in device memory
+- **Cover Traffic**: Random delays and dummy messages prevent traffic analysis
+- **Emergency Wipe**: Triple-tap logo to instantly clear all data
+- **Local-First**: Works completely offline, no servers involved
+
+## Performance & Efficiency
+
+### Message Compression
+- **LZ4 Compression**: Automatic compression for messages >100 bytes
+- **30-70% bandwidth savings** on typical text messages
+- **Smart compression**: Skips already-compressed data
+
+### Battery Optimization
+- **Adaptive Power Modes**: Automatically adjusts based on battery level
+  - Performance mode: Full features when charging or >60% battery
+  - Balanced mode: Default operation (30-60% battery)
+  - Power saver: Reduced scanning when <30% battery
+  - Ultra-low power: Emergency mode when <10% battery
+- **Background efficiency**: Automatic power saving when app backgrounded
+- **Configurable scanning**: Duty cycle adapts to battery state
+
+### Network Efficiency
+- **Optimized Bloom filters**: Faster duplicate detection with less memory
+- **Message aggregation**: Batches small messages to reduce transmissions
+- **Adaptive connection limits**: Adjusts peer connections based on power mode
+
+## Technical Architecture
+
+### Binary Protocol
+bitchat uses an efficient binary protocol optimized for Bluetooth LE:
+- Compact packet format with 1-byte type field
+- TTL-based message routing (max 7 hops)
+- Automatic fragmentation for large messages
+- Message deduplication via unique IDs
+
+### Mesh Networking
+- Each device acts as both client and peripheral
+- Automatic peer discovery and connection management
+- Store-and-forward for offline message delivery
+- Adaptive duty cycling for battery optimization
+
+For detailed protocol documentation, see the [Technical Whitepaper](WHITEPAPER.md).
+
+## Building for Production
+
+1. Set your development team in project settings
+2. Configure code signing
+3. Archive and distribute through App Store or TestFlight
+
+## Android Compatibility
+
+The protocol is designed to be platform-agnostic. An Android client can be built using:
+- Bluetooth LE APIs
+- Same packet structure and encryption
+- Compatible service/characteristic UUIDs
