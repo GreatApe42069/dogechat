@@ -3,21 +3,21 @@
 import PackageDescription
 
 let package = Package(
-    name: "bitchat",
+    name: "dogechat",
     platforms: [
         .iOS(.v16),
         .macOS(.v13)
     ],
     products: [
         .executable(
-            name: "bitchat",
-            targets: ["bitchat"]
+            name: "dogechat",
+            targets: ["dogechat"]
         ),
     ],
     targets: [
         .executableTarget(
-            name: "bitchat",
-            path: "bitchat"
+            name: "dogechat",
+            path: "dogechat"
         ),
     ]
 )
