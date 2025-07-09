@@ -1,18 +1,18 @@
 //
-// BitchatMessageTests.swift
-// bitchatTests
+// DogechatMessageTests.swift
+// dogechatTests
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
 //
 
 import XCTest
-@testable import bitchat
+@testable import dogechat
 
-class BitchatMessageTests: XCTestCase {
+class DogechatMessageTests: XCTestCase {
     
     func testMessageEncodingDecoding() {
-        let message = BitchatMessage(
+        let message = DogechatMessage(
             sender: "testuser",
             content: "Hello, World!",
             timestamp: Date(),
@@ -29,7 +29,7 @@ class BitchatMessageTests: XCTestCase {
             return
         }
         
-        guard let decoded = BitchatMessage.fromBinaryPayload(encoded) else {
+        guard let decoded = DogechatMessage.fromBinaryPayload(encoded) else {
             XCTFail("Failed to decode message")
             return
         }
@@ -43,7 +43,7 @@ class BitchatMessageTests: XCTestCase {
     }
     
     func testRoomMessage() {
-        let channelMessage = BitchatMessage(
+        let channelMessage = DogechatMessage(
             sender: "alice",
             content: "Hello #general",
             timestamp: Date(),
@@ -61,7 +61,7 @@ class BitchatMessageTests: XCTestCase {
             return
         }
         
-        guard let decoded = BitchatMessage.fromBinaryPayload(encoded) else {
+        guard let decoded = DogechatMessage.fromBinaryPayload(encoded) else {
             XCTFail("Failed to decode channel message")
             return
         }
@@ -73,7 +73,7 @@ class BitchatMessageTests: XCTestCase {
     func testEncryptedRoomMessage() {
         let encryptedData = Data([1, 2, 3, 4, 5, 6, 7, 8]) // Mock encrypted content
         
-        let encryptedMessage = BitchatMessage(
+        let encryptedMessage = DogechatMessage(
             sender: "bob",
             content: "", // Empty for encrypted messages
             timestamp: Date(),
@@ -93,7 +93,7 @@ class BitchatMessageTests: XCTestCase {
             return
         }
         
-        guard let decoded = BitchatMessage.fromBinaryPayload(encoded) else {
+        guard let decoded = DogechatMessage.fromBinaryPayload(encoded) else {
             XCTFail("Failed to decode encrypted message")
             return
         }
@@ -105,7 +105,7 @@ class BitchatMessageTests: XCTestCase {
     }
     
     func testPrivateMessage() {
-        let privateMessage = BitchatMessage(
+        let privateMessage = DogechatMessage(
             sender: "alice",
             content: "This is private",
             timestamp: Date(),
@@ -121,7 +121,7 @@ class BitchatMessageTests: XCTestCase {
             return
         }
         
-        guard let decoded = BitchatMessage.fromBinaryPayload(encoded) else {
+        guard let decoded = DogechatMessage.fromBinaryPayload(encoded) else {
             XCTFail("Failed to decode private message")
             return
         }
@@ -131,7 +131,7 @@ class BitchatMessageTests: XCTestCase {
     }
     
     func testRelayMessage() {
-        let relayMessage = BitchatMessage(
+        let relayMessage = DogechatMessage(
             sender: "charlie",
             content: "Relayed message",
             timestamp: Date(),
@@ -145,7 +145,7 @@ class BitchatMessageTests: XCTestCase {
             return
         }
         
-        guard let decoded = BitchatMessage.fromBinaryPayload(encoded) else {
+        guard let decoded = DogechatMessage.fromBinaryPayload(encoded) else {
             XCTFail("Failed to decode relay message")
             return
         }
@@ -155,7 +155,7 @@ class BitchatMessageTests: XCTestCase {
     }
     
     func testEmptyContent() {
-        let emptyMessage = BitchatMessage(
+        let emptyMessage = DogechatMessage(
             sender: "user",
             content: "",
             timestamp: Date(),
@@ -168,7 +168,7 @@ class BitchatMessageTests: XCTestCase {
             return
         }
         
-        guard let decoded = BitchatMessage.fromBinaryPayload(encoded) else {
+        guard let decoded = DogechatMessage.fromBinaryPayload(encoded) else {
             XCTFail("Failed to decode empty message")
             return
         }
@@ -178,7 +178,7 @@ class BitchatMessageTests: XCTestCase {
     
     func testLongContent() {
         let longContent = String(repeating: "A", count: 1000)
-        let longMessage = BitchatMessage(
+        let longMessage = DogechatMessage(
             sender: "user",
             content: longContent,
             timestamp: Date(),
@@ -191,7 +191,7 @@ class BitchatMessageTests: XCTestCase {
             return
         }
         
-        guard let decoded = BitchatMessage.fromBinaryPayload(encoded) else {
+        guard let decoded = DogechatMessage.fromBinaryPayload(encoded) else {
             XCTFail("Failed to decode long message")
             return
         }
