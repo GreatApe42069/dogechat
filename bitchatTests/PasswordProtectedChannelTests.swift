@@ -156,7 +156,7 @@ class PasswordProtectedChannelTests: XCTestCase {
             let sealedBox = try AES.GCM.seal(messageData, using: key)
             let encryptedData = sealedBox.combined!
             
-            let encryptedMsg = BitchatMessage(
+            let encryptedMsg = DogechatMessage(
                 sender: "alice",
                 content: "[Encrypted message - password required]",
                 timestamp: Date(),
@@ -298,7 +298,7 @@ class PasswordProtectedChannelTests: XCTestCase {
         let _ = viewModel.joinChannel(channelName)
         
         // Simulate receiving encrypted message
-        let encryptedMessage = BitchatMessage(
+        let encryptedMessage = DogechatMessage(
             sender: "alice",
             content: "[Encrypted message - password required]",
             timestamp: Date(),
