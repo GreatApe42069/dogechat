@@ -1,6 +1,6 @@
 //
 // MessageRetentionService.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -25,7 +25,7 @@ class MessageRetentionService {
     
     private let documentsDirectory: URL
     private let messagesDirectory: URL
-    private let favoriteChannelsKey = "bitchat.favoriteChannels"
+    private let favoriteChannelsKey = "dogechat.favoriteChannels"
     private let retentionDays = 7 // Messages retained for 7 days
     private let encryptionKey: SymmetricKey
     
@@ -75,7 +75,7 @@ class MessageRetentionService {
     
     // MARK: - Message Storage
     
-    func saveMessage(_ message: BitchatMessage, forChannel channel: String?) {
+    func saveMessage(_ message: DogechatMessage, forChannel channel: String?) {
         // Only save messages for favorite channels
         guard let channel = channel ?? message.channel,
               getFavoriteChannels().contains(channel) else {
@@ -107,10 +107,10 @@ class MessageRetentionService {
         try? encryptedData.write(to: fileURL)
     }
     
-    func loadMessagesForChannel(_ channel: String) -> [BitchatMessage] {
+    func loadMessagesForChannel(_ channel: String) -> [DogechatMessage] {
         guard getFavoriteChannels().contains(channel) else { return [] }
         
-        var messages: [BitchatMessage] = []
+        var messages: [DogechatMessage] = []
         
         do {
             let files = try FileManager.default.contentsOfDirectory(at: messagesDirectory, includingPropertiesForKeys: nil)
@@ -121,7 +121,7 @@ class MessageRetentionService {
                    let decryptedData = decrypt(encryptedData),
                    let storedMessage = try? JSONDecoder().decode(StoredMessage.self, from: decryptedData) {
                     
-                    let message = BitchatMessage(
+                    let message = DogechatMessage(
                         sender: storedMessage.sender,
                         content: storedMessage.content,
                         timestamp: storedMessage.timestamp,
