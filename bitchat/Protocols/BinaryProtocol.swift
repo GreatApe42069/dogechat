@@ -1,6 +1,6 @@
 //
 // BinaryProtocol.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -45,8 +45,8 @@ struct BinaryProtocol {
         static let isCompressed: UInt8 = 0x04
     }
     
-    // Encode BitchatPacket to binary format
-    static func encode(_ packet: BitchatPacket) -> Data? {
+    // Encode DogechatPacket to binary format
+    static func encode(_ packet: DogechatPacket) -> Data? {
         var data = Data()
         
         // Try to compress payload if beneficial
@@ -123,8 +123,8 @@ struct BinaryProtocol {
         return data
     }
     
-    // Decode binary data to BitchatPacket
-    static func decode(_ data: Data) -> BitchatPacket? {
+    // Decode binary data to DogechatPacket
+    static func decode(_ data: Data) -> DogechatPacket? {
         guard data.count >= headerSize + senderIDSize else { return nil }
         
         var offset = 0
@@ -209,7 +209,7 @@ struct BinaryProtocol {
             signature = data[offset..<offset+signatureSize]
         }
         
-        return BitchatPacket(
+        return DogechatPacket(
             type: type,
             senderID: senderID,
             recipientID: recipientID,
@@ -221,8 +221,8 @@ struct BinaryProtocol {
     }
 }
 
-// Binary encoding for BitchatMessage
-extension BitchatMessage {
+// Binary encoding for DogechatMessage
+extension DogechatMessage {
     func toBinaryPayload() -> Data? {
         var data = Data()
         
@@ -332,10 +332,9 @@ extension BitchatMessage {
         return data
     }
     
-    static func fromBinaryPayload(_ data: Data) -> BitchatMessage? {
+    static func fromBinaryPayload(_ data: Data) -> DogechatMessage? {
         // Create an immutable copy to prevent threading issues
         let dataCopy = Data(data)
-        
         
         guard dataCopy.count >= 13 else { 
             return nil 
@@ -475,7 +474,7 @@ extension BitchatMessage {
             }
         }
         
-        let message = BitchatMessage(
+        let message = DogechatMessage(
             id: id,
             sender: sender,
             content: content,
