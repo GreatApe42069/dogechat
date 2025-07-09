@@ -1,4 +1,4 @@
-# WiFi Direct Integration Plan for BitChat
+# WiFi Direct Integration Plan for DogeChat
 
 ## Overview
 
@@ -127,7 +127,7 @@ class TransportManager {
 ## Proposed File Structure
 
 ```
-bitchat/
+dogechat/
 ├── Transports/
 │   ├── TransportProtocol.swift
 │   ├── TransportManager.swift
