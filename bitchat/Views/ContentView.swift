@@ -309,7 +309,7 @@ struct ContentView: View {
             } else {
                 // Public chat header
                 HStack(spacing: 4) {
-                    Text("bitchat*")
+                    Text("dogechat*")
                         .font(.system(size: 18, weight: .medium, design: .monospaced))
                         .foregroundColor(textColor)
                         .onTapGesture(count: 3) {
