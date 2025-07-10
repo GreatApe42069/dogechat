@@ -624,14 +624,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L3N5LHJD5Y;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = bitchat/Info.plist;
+				INFOPLIST_FILE = dogechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = chat.dogechat;
-				PRODUCT_NAME = bitchat;
+				PRODUCT_NAME = dogechat;
 				SDKROOT = iphoneos;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_VERSION = 5.0;
