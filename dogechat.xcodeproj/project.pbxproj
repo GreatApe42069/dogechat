@@ -353,23 +353,23 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					0576A29205865664C0937536 = {
-						DevelopmentTeam = L3N5LHJD5Y;
+						DevelopmentTeam = GR8AP3;
 						ProvisioningStyle = Automatic;
 					};
 					47FF23248747DD7CB666CB91 = {
-						DevelopmentTeam = L3N5LHJD5Y;
+						DevelopmentTeam = GR8AP3;
 						ProvisioningStyle = Automatic;
 					};
 					57CA17A36A2532A6CFF367BB = {
-						DevelopmentTeam = L3N5LHJD5Y;
+						DevelopmentTeam = GR8AP3;
 						ProvisioningStyle = Automatic;
 					};
 					6CB97DF2EA57234CB3E563B8 = {
-						DevelopmentTeam = L3N5LHJD5Y;
+						DevelopmentTeam = GR8AP3;
 						ProvisioningStyle = Automatic;
 					};
 					AF077EA0474EDEDE2C72716C = {
-						DevelopmentTeam = L3N5LHJD5Y;
+						DevelopmentTeam = GR8AP3;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -527,7 +527,7 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				INFOPLIST_FILE = dogechatTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -550,7 +550,7 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				INFOPLIST_FILE = dogechatTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -574,7 +574,7 @@
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				INFOPLIST_FILE = dogechatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -597,7 +597,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = dogechatShareExtension/dogechatShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				INFOPLIST_FILE = dogechatShareExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -622,7 +622,7 @@
 				CODE_SIGN_ENTITLEMENTS = dogechat/dogechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = dogechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -647,7 +647,7 @@
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				INFOPLIST_FILE = dogechatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -672,7 +672,7 @@
 				CODE_SIGN_ENTITLEMENTS = dogechat/dogechat.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = dogechat/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -699,7 +699,7 @@
 				CODE_SIGN_ENTITLEMENTS = dogechat/dogechat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = dogechat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -782,7 +782,7 @@
 				CODE_SIGN_ENTITLEMENTS = dogechat/dogechat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = dogechat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -870,7 +870,7 @@
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
 				CODE_SIGN_ENTITLEMENTS = dogechatShareExtension/dogechatShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = L3N5LHJD5Y;
+				DEVELOPMENT_TEAM = GR8AP3;
 				INFOPLIST_FILE = dogechatShareExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
