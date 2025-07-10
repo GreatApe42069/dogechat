@@ -154,7 +154,7 @@ dogechat/
 import MultipeerConnectivity
 
 class WiFiDirectTransport: NSObject, TransportProtocol {
-    private let serviceType = "bitchat-wifi"
+    private let serviceType = "dogechat-wifi"
     private var peerID: MCPeerID
     private var session: MCSession
     private var advertiser: MCNearbyServiceAdvertiser
