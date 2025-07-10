@@ -43,7 +43,7 @@ protocol TransportProtocol {
     
     func startDiscovery()
     func stopDiscovery()
-    func send(_ packet: BitchatPacket, to peer: PeerID?) 
+    func send(_ packet: DogechatPacket, to peer: PeerID?) 
     func setDelegate(_ delegate: TransportDelegate)
 }
 
@@ -59,7 +59,7 @@ class TransportManager {
     private var transports: [TransportProtocol] = []
     private var routingTable: [PeerID: TransportType] = [:]
     
-    func sendOptimal(_ packet: BitchatPacket, to peer: PeerID?) {
+    func sendOptimal(_ packet: DogechatPacket, to peer: PeerID?) {
         // Choose best transport based on:
         // 1. Message size
         // 2. Battery level

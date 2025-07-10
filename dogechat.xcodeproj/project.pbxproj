@@ -598,7 +598,7 @@
 				CODE_SIGN_ENTITLEMENTS = dogechatShareExtension/dogechatShareExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = L3N5LHJD5Y;
-				INFOPLIST_FILE = bitchatShareExtension/Info.plist;
+				INFOPLIST_FILE = dogechatShareExtension/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -648,7 +648,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = L3N5LHJD5Y;
-				INFOPLIST_FILE = bitchatTests/Info.plist;
+				INFOPLIST_FILE = dogechatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -790,7 +790,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 13.0;
-				PRODUCT_BUNDLE_IDENTIFIER = chat.bitchat;
+				PRODUCT_BUNDLE_IDENTIFIER = chat.dogechat;
 				PRODUCT_NAME = dogechat;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
