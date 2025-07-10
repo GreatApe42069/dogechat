@@ -1,4 +1,5 @@
-![175208603785543242597469995569](https://github.com/user-attachments/assets/661ac16c-c3e5-4c9b-afd1-3315e6e7c108)
+![17521092101375595455418821948058](https://github.com/user-attachments/assets/7abc4ece-f2e5-424f-b54d-6547c58df11e)
+
 
 # dogechat
 
