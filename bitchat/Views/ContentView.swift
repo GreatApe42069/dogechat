@@ -398,7 +398,7 @@ struct ContentView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 2) {
-                    let messages: [BitchatMessage] = {
+                    let messages: [DogechatMessage] = {
                         if let privatePeer = viewModel.selectedPrivateChatPeer {
                             let msgs = viewModel.getPrivateChatMessages(for: privatePeer)
                             // Log what we're showing
