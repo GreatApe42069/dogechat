@@ -80,7 +80,7 @@ final class NotificationService {
     }
 
     func sendNetworkAvailableNotification(peerCount: Int) {
-        let title = "👥 bitchatters nearby!"
+        let title = "👥 dogechatters nearby!"
         let body = peerCount == 1 ? "1 person around" : "\(peerCount) people around"
         let identifier = "network-available-\(Date().timeIntervalSince1970)"
         

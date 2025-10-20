@@ -31,7 +31,7 @@ This project is released into the public domain. See the [LICENSE](LICENSE) file
 - **Emergency Wipe**: Triple-tap to instantly clear all data
 - **Performance Optimizations**: LZ4 message compression, adaptive battery modes, and optimized networking
 
-## [Technical Architecture](https://deepwiki.com/permissionlesstech/bitchat)
+## [Technical Architecture](https://deepwiki.com/permissionlesstech/dogechat)
 
 Dogechat uses a **hybrid messaging architecture** with two complementary transport layers:
 

@@ -93,7 +93,7 @@ struct LocationNotesView: View {
     private var closeButton: some View {
         Button(action: { dismiss() }) {
             Image(systemName: "xmark")
-                .font(.bitchatSystem(size: 13, weight: .semibold, design: .monospaced))
+                .font(.dogechatSystem(size: 13, weight: .semibold, design: .monospaced))
                 .frame(width: 32, height: 32)
         }
         .buttonStyle(.plain)
@@ -105,26 +105,26 @@ struct LocationNotesView: View {
         return VStack(alignment: .leading, spacing: 8) {
             HStack(spacing: 12) {
                 Text(headerTitle(for: count))
-                    .font(.bitchatSystem(size: 18, design: .monospaced))
+                    .font(.dogechatSystem(size: 18, design: .monospaced))
                 Spacer()
                 closeButton
             }
             if let building = locationManager.locationNames[.building], !building.isEmpty {
                 Text(building)
-                    .font(.bitchatSystem(size: 12, design: .monospaced))
+                    .font(.dogechatSystem(size: 12, design: .monospaced))
                     .foregroundColor(accentGreen)
             } else if let block = locationManager.locationNames[.block], !block.isEmpty {
                 Text(block)
-                    .font(.bitchatSystem(size: 12, design: .monospaced))
+                    .font(.dogechatSystem(size: 12, design: .monospaced))
                     .foregroundColor(accentGreen)
             }
             Text(Strings.description)
-                .font(.bitchatSystem(size: 12, design: .monospaced))
+                .font(.dogechatSystem(size: 12, design: .monospaced))
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             if manager.state == .noRelays {
                 Text(Strings.relaysPaused)
-                    .font(.bitchatSystem(size: 11, design: .monospaced))
+                    .font(.dogechatSystem(size: 11, design: .monospaced))
                     .foregroundColor(.secondary)
             }
         }
@@ -170,16 +170,16 @@ struct LocationNotesView: View {
         return VStack(alignment: .leading, spacing: 2) {
             HStack(spacing: 6) {
                 Text(verbatim: "@\(baseName)")
-                    .font(.bitchatSystem(size: 12, weight: .semibold, design: .monospaced))
+                    .font(.dogechatSystem(size: 12, weight: .semibold, design: .monospaced))
                 if !ts.isEmpty {
                     Text(ts)
-                        .font(.bitchatSystem(size: 11, design: .monospaced))
+                        .font(.dogechatSystem(size: 11, design: .monospaced))
                         .foregroundColor(.secondary)
                 }
                 Spacer()
             }
             Text(note.content)
-                .font(.bitchatSystem(size: 14, design: .monospaced))
+                .font(.dogechatSystem(size: 14, design: .monospaced))
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(.vertical, 4)
@@ -188,12 +188,12 @@ struct LocationNotesView: View {
     private var noRelaysRow: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(Strings.noRelaysNearby)
-                .font(.bitchatSystem(size: 13, weight: .semibold, design: .monospaced))
+                .font(.dogechatSystem(size: 13, weight: .semibold, design: .monospaced))
             Text(Strings.relaysRetryHint)
-                .font(.bitchatSystem(size: 12, design: .monospaced))
+                .font(.dogechatSystem(size: 12, design: .monospaced))
                 .foregroundColor(.secondary)
             Button(Strings.retry) { manager.refresh() }
-                .font(.bitchatSystem(size: 12, design: .monospaced))
+                .font(.dogechatSystem(size: 12, design: .monospaced))
                 .buttonStyle(.plain)
         }
         .padding(.vertical, 6)
@@ -203,7 +203,7 @@ struct LocationNotesView: View {
         HStack(spacing: 10) {
             ProgressView()
             Text(Strings.loadingNotes)
-                .font(.bitchatSystem(size: 12, design: .monospaced))
+                .font(.dogechatSystem(size: 12, design: .monospaced))
                 .foregroundColor(.secondary)
             Spacer()
         }
@@ -213,9 +213,9 @@ struct LocationNotesView: View {
     private var emptyRow: some View {
         VStack(alignment: .leading, spacing: 4) {
             Text(Strings.emptyTitle)
-                .font(.bitchatSystem(size: 13, weight: .semibold, design: .monospaced))
+                .font(.dogechatSystem(size: 13, weight: .semibold, design: .monospaced))
             Text(Strings.emptySubtitle)
-                .font(.bitchatSystem(size: 12, design: .monospaced))
+                .font(.dogechatSystem(size: 12, design: .monospaced))
                 .foregroundColor(.secondary)
         }
         .padding(.vertical, 6)
@@ -225,13 +225,13 @@ struct LocationNotesView: View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 6) {
                 Image(systemName: "exclamationmark.triangle.fill")
-                    .font(.bitchatSystem(size: 12, design: .monospaced))
+                    .font(.dogechatSystem(size: 12, design: .monospaced))
                 Text(message)
-                    .font(.bitchatSystem(size: 12, design: .monospaced))
+                    .font(.dogechatSystem(size: 12, design: .monospaced))
                 Spacer()
             }
             Button(Strings.dismissError) { manager.clearError() }
-                .font(.bitchatSystem(size: 12, design: .monospaced))
+                .font(.dogechatSystem(size: 12, design: .monospaced))
                 .buttonStyle(.plain)
         }
         .padding(.vertical, 6)
@@ -241,12 +241,12 @@ struct LocationNotesView: View {
         HStack(alignment: .top, spacing: 10) {
             TextField(Strings.addPlaceholder, text: $draft, axis: .vertical)
                 .textFieldStyle(.plain)
-                .font(.bitchatSystem(size: 14, design: .monospaced))
+                .font(.dogechatSystem(size: 14, design: .monospaced))
                 .lineLimit(maxDraftLines, reservesSpace: true)
                 .padding(.vertical, 6)
             Button(action: send) {
                 Image(systemName: "arrow.up.circle.fill")
-                    .font(.bitchatSystem(size: 20))
+                    .font(.dogechatSystem(size: 20))
                     .foregroundColor(sendButtonEnabled ? accentGreen : .secondary)
             }
             .padding(.top, 2)

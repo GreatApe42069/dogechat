@@ -61,7 +61,7 @@ struct PaymentChipView: View {
             HStack(spacing: 6) {
                 Text(paymentType.emoji)
                 Text(paymentType.label)
-                    .font(.bitchatSystem(size: 12, weight: .semibold, design: .monospaced))
+                    .font(.dogechatSystem(size: 12, weight: .semibold, design: .monospaced))
             }
             .padding(.vertical, 6)
             .padding(.horizontal, 12)

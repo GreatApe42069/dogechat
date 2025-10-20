@@ -47,7 +47,7 @@ patch-for-macos: backup
 # Build the macOS app
 build: #check generate
     @echo "Building Dogechat for macOS..."
-    @xcodebuild -project dogechat.xcodeproj -scheme "bitchat_macOS" -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build
+    @xcodebuild -project dogechat.xcodeproj -scheme "dogechat_macOS" -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build
 
 # Run the macOS app
 run: build
@@ -70,7 +70,7 @@ clean: restore
 # Quick run without cleaning (for development)
 dev-run: check
     @echo "Quick development build..."
-    @xcodebuild -project dogechat.xcodeproj -scheme "bitchat_macOS" -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build
+    @xcodebuild -project dogechat.xcodeproj -scheme "dogechat_macOS" -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build
     @find ~/Library/Developer/Xcode/DerivedData -name "dogechat.app" -path "*/Debug/*" -not -path "*/Index.noindex/*" | head -1 | xargs -I {} open "{}"
 
 # Show app info

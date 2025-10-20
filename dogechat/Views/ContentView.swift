@@ -584,7 +584,7 @@ struct ContentView: View {
                         }) {
                             HStack {
                                 Text(suggestion)
-                                    .font(.bitchatSystem(size: 11, design: .monospaced))
+                                    .font(.dogechatSystem(size: 11, design: .monospaced))
                                     .foregroundColor(textColor)
                                     .fontWeight(.medium)
                                 Spacer()
@@ -642,14 +642,14 @@ struct ContentView: View {
                                 HStack {
                                     // Show all aliases together
                                     Text(info.commands.joined(separator: ", "))
-                                        .font(.bitchatSystem(size: 11, design: .monospaced))
+                                        .font(.dogechatSystem(size: 11, design: .monospaced))
                                         .foregroundColor(textColor)
                                         .fontWeight(.medium)
 
                                     // Show syntax if any
                                     if let syntax = info.syntax {
                                         Text(syntax)
-                                            .font(.bitchatSystem(size: 10, design: .monospaced))
+                                            .font(.dogechatSystem(size: 10, design: .monospaced))
                                             .foregroundColor(secondaryTextColor.opacity(0.8))
                                     }
 
@@ -657,7 +657,7 @@ struct ContentView: View {
 
                                     // Show description
                                     Text(info.description)
-                                        .font(.bitchatSystem(size: 10, design: .monospaced))
+                                        .font(.dogechatSystem(size: 10, design: .monospaced))
                                         .foregroundColor(secondaryTextColor)
                                 }
                                 .padding(.horizontal, 12)
@@ -692,7 +692,7 @@ struct ContentView: View {
                     .foregroundColor(secondaryTextColor.opacity(0.6))
                 )
                 .textFieldStyle(.plain)
-                .font(.bitchatSystem(size: 15, design: .monospaced))
+                .font(.dogechatSystem(size: 15, design: .monospaced))
                 .foregroundColor(textColor)
                 .focused($isTextFieldFocused)
                 .autocorrectionDisabled(true)
@@ -978,13 +978,13 @@ struct ContentView: View {
             VStack(alignment: .leading, spacing: 8) {
                 HStack(spacing: 12) {
                     Text(peopleSheetTitle)
-                        .font(.bitchatSystem(size: 18, design: .monospaced))
+                        .font(.dogechatSystem(size: 18, design: .monospaced))
                         .foregroundColor(textColor)
                     Spacer()
                     if case .mesh = locationManager.selectedChannel {
                         Button(action: { showVerifySheet = true }) {
                             Image(systemName: "qrcode")
-                                .font(.bitchatSystem(size: 14))
+                                .font(.dogechatSystem(size: 14))
                         }
                         .buttonStyle(.plain)
                         .help(
@@ -1000,7 +1000,7 @@ struct ContentView: View {
                         }
                     }) {
                         Image(systemName: "xmark")
-                            .font(.bitchatSystem(size: 12, weight: .semibold, design: .monospaced))
+                            .font(.dogechatSystem(size: 12, weight: .semibold, design: .monospaced))
                             .frame(width: 32, height: 32)
                     }
                     .buttonStyle(.plain)
@@ -1026,10 +1026,10 @@ struct ContentView: View {
                         Text(activeText)
                             .foregroundColor(.secondary)
                     }
-                    .font(.bitchatSystem(size: 12, design: .monospaced))
+                    .font(.dogechatSystem(size: 12, design: .monospaced))
                 } else {
                     Text(activeText)
-                        .font(.bitchatSystem(size: 12, design: .monospaced))
+                        .font(.dogechatSystem(size: 12, design: .monospaced))
                         .foregroundColor(.secondary)
                 }
             }
@@ -1087,7 +1087,7 @@ struct ContentView: View {
                         }
                     }) {
                         Image(systemName: "chevron.left")
-                            .font(.bitchatSystem(size: 12))
+                            .font(.dogechatSystem(size: 12))
                             .foregroundColor(textColor)
                             .frame(width: 44, height: 44)
                             .contentShape(Rectangle())
@@ -1108,7 +1108,7 @@ struct ContentView: View {
                                 viewModel.toggleFavorite(peerID: headerContext.headerPeerID)
                             }) {
                                 Image(systemName: isFavorite ? "star.fill" : "star")
-                                    .font(.bitchatSystem(size: 14))
+                                    .font(.dogechatSystem(size: 14))
                                     .foregroundColor(isFavorite ? Color.yellow : textColor)
                             }
                             .buttonStyle(.plain)
@@ -1130,7 +1130,7 @@ struct ContentView: View {
                         }
                     }) {
                         Image(systemName: "xmark")
-                            .font(.bitchatSystem(size: 12, weight: .semibold, design: .monospaced))
+                            .font(.dogechatSystem(size: 12, weight: .semibold, design: .monospaced))
                             .frame(width: 32, height: 32)
                     }
                 
@@ -1175,17 +1175,17 @@ struct ContentView: View {
                     switch connectionState {
                     case .bluetoothConnected:
                         Image(systemName: "dot.radiowaves.left.and.right")
-                            .font(.bitchatSystem(size: 14))
+                            .font(.dogechatSystem(size: 14))
                             .foregroundColor(textColor)
                             .accessibilityLabel(String(localized: "content.accessibility.connected_mesh", comment: "Accessibility label for mesh-connected peer indicator"))
                     case .meshReachable:
                         Image(systemName: "point.3.filled.connected.trianglepath.dotted")
-                            .font(.bitchatSystem(size: 14))
+                            .font(.dogechatSystem(size: 14))
                             .foregroundColor(textColor)
                             .accessibilityLabel(String(localized: "content.accessibility.reachable_mesh", comment: "Accessibility label for mesh-reachable peer indicator"))
                     case .nostrAvailable:
                         Image(systemName: "globe")
-                            .font(.bitchatSystem(size: 14))
+                            .font(.dogechatSystem(size: 14))
                             .foregroundColor(.purple)
                             .accessibilityLabel(String(localized: "content.accessibility.available_nostr", comment: "Accessibility label for Nostr-available peer indicator"))
                     case .offline:
@@ -1193,23 +1193,23 @@ struct ContentView: View {
                     }
                 } else if viewModel.meshService.isPeerReachable(context.headerPeerID) {
                     Image(systemName: "point.3.filled.connected.trianglepath.dotted")
-                        .font(.bitchatSystem(size: 14))
+                        .font(.dogechatSystem(size: 14))
                         .foregroundColor(textColor)
                         .accessibilityLabel(String(localized: "content.accessibility.reachable_mesh", comment: "Accessibility label for mesh-reachable peer indicator"))
                 } else if context.isNostrAvailable {
                     Image(systemName: "globe")
-                        .font(.bitchatSystem(size: 14))
+                        .font(.dogechatSystem(size: 14))
                         .foregroundColor(.purple)
                         .accessibilityLabel(String(localized: "content.accessibility.available_nostr", comment: "Accessibility label for Nostr-available peer indicator"))
                 } else if viewModel.meshService.isPeerConnected(context.headerPeerID) || viewModel.connectedPeers.contains(context.headerPeerID) {
                     Image(systemName: "dot.radiowaves.left.and.right")
-                        .font(.bitchatSystem(size: 14))
+                        .font(.dogechatSystem(size: 14))
                         .foregroundColor(textColor)
                         .accessibilityLabel(String(localized: "content.accessibility.connected_mesh", comment: "Accessibility label for mesh-connected peer indicator"))
                 }
 
                 Text(context.displayName)
-                    .font(.bitchatSystem(size: 16, weight: .medium, design: .monospaced))
+                    .font(.dogechatSystem(size: 16, weight: .medium, design: .monospaced))
                     .foregroundColor(textColor)
 
                 if !privatePeerID.isGeoDM {
@@ -1217,7 +1217,7 @@ struct ContentView: View {
                     let encryptionStatus = viewModel.getEncryptionStatus(for: statusPeerID)
                     if let icon = encryptionStatus.icon {
                         Image(systemName: icon)
-                            .font(.bitchatSystem(size: 14))
+                            .font(.dogechatSystem(size: 14))
                             .foregroundColor(encryptionStatus == .noiseVerified ? textColor :
                                              encryptionStatus == .noiseSecured ? textColor :
                                              Color.red)
@@ -1332,7 +1332,7 @@ struct ContentView: View {
     private var mainHeaderView: some View {
         HStack(spacing: 0) {
             Text(verbatim: "dogechat/")
-                .font(.bitchatSystem(size: 18, weight: .medium, design: .monospaced))
+                .font(.dogechatSystem(size: 18, weight: .medium, design: .monospaced))
                 .foregroundColor(textColor)
                 .onTapGesture(count: 3) {
                     // PANIC: Triple-tap to clear all data
@@ -1345,12 +1345,12 @@ struct ContentView: View {
             
             HStack(spacing: 0) {
                 Text(verbatim: "@")
-                    .font(.bitchatSystem(size: 14, design: .monospaced))
+                    .font(.dogechatSystem(size: 14, design: .monospaced))
                     .foregroundColor(secondaryTextColor)
                 
                 TextField("content.input.nickname_placeholder", text: $viewModel.nickname)
                     .textFieldStyle(.plain)
-                    .font(.bitchatSystem(size: 14, design: .monospaced))
+                    .font(.dogechatSystem(size: 14, design: .monospaced))
                     .frame(maxWidth: 80)
                     .foregroundColor(textColor)
                     .focused($isNicknameFieldFocused)
@@ -1389,7 +1389,7 @@ struct ContentView: View {
                 if viewModel.hasAnyUnreadMessages {
                     Button(action: { viewModel.openMostRelevantPrivateChat() }) {
                         Image(systemName: "envelope.fill")
-                            .font(.bitchatSystem(size: 12))
+                            .font(.dogechatSystem(size: 12))
                             .foregroundColor(Color.orange)
                     }
                     .buttonStyle(.plain)
@@ -1409,7 +1409,7 @@ struct ContentView: View {
                     }) {
                         HStack(alignment: .center, spacing: 4) {
                             Image(systemName: "note.text")
-                                .font(.bitchatSystem(size: 12))
+                                .font(.dogechatSystem(size: 12))
                                 .foregroundColor(Color.orange.opacity(0.8))
                                 .padding(.top, 1)
                         }
@@ -1425,7 +1425,7 @@ struct ContentView: View {
                 if case .location(let ch) = locationManager.selectedChannel {
                     Button(action: { GeohashBookmarksStore.shared.toggle(ch.geohash) }) {
                         Image(systemName: GeohashBookmarksStore.shared.isBookmarked(ch.geohash) ? "bookmark.fill" : "bookmark")
-                            .font(.bitchatSystem(size: 12))
+                            .font(.dogechatSystem(size: 12))
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel(
@@ -1454,7 +1454,7 @@ struct ContentView: View {
                         }
                     }()
                     Text(badgeText)
-                        .font(.bitchatSystem(size: 14, design: .monospaced))
+                        .font(.dogechatSystem(size: 14, design: .monospaced))
                         .foregroundColor(badgeColor)
                         .lineLimit(headerLineLimit)
                         .fixedSize(horizontal: true, vertical: false)
@@ -1518,11 +1518,11 @@ struct ContentView: View {
                     VStack(spacing: 12) {
                         HStack {
                             Text("content.notes.title")
-                                .font(.bitchatSystem(size: 16, weight: .bold, design: .monospaced))
+                                .font(.dogechatSystem(size: 16, weight: .bold, design: .monospaced))
                             Spacer()
                             Button(action: { showLocationNotes = false }) {
                                 Image(systemName: "xmark")
-                                    .font(.bitchatSystem(size: 13, weight: .semibold, design: .monospaced))
+                                    .font(.dogechatSystem(size: 13, weight: .semibold, design: .monospaced))
                                     .foregroundColor(textColor)
                                     .frame(width: 32, height: 32)
                             }
@@ -1533,7 +1533,7 @@ struct ContentView: View {
                         .padding(.horizontal, 12)
                         .background(backgroundColor.opacity(0.95))
                         Text("content.notes.location_unavailable")
-                            .font(.bitchatSystem(size: 14, design: .monospaced))
+                            .font(.dogechatSystem(size: 14, design: .monospaced))
                             .foregroundColor(secondaryTextColor)
                         Button("content.location.enable") {
                             LocationChannelManager.shared.enableLocationChannels()
@@ -1772,7 +1772,7 @@ private extension ContentView {
                     if isExpanded { expandedMessageIDs.remove(message.id) }
                     else { expandedMessageIDs.insert(message.id) }
                 }
-                .font(.bitchatSystem(size: 11, weight: .medium, design: .monospaced))
+                .font(.dogechatSystem(size: 11, weight: .medium, design: .monospaced))
                 .foregroundColor(Color.blue)
                 .padding(.top, 4)
             }
@@ -1832,15 +1832,15 @@ private extension ContentView {
         HStack(spacing: 12) {
             Image(systemName: "waveform.circle.fill")
                 .foregroundColor(.red)
-                .font(.bitchatSystem(size: 20))
+                .font(.dogechatSystem(size: 20))
             Text("recording \(formattedRecordingDuration())", comment: "Voice note recording duration indicator")
-                .font(.bitchatSystem(size: 13, design: .monospaced))
+                .font(.dogechatSystem(size: 13, design: .monospaced))
                 .foregroundColor(.red)
             Spacer()
             Button(action: cancelVoiceRecording) {
                 Label("Cancel", systemImage: "xmark.circle")
                     .labelStyle(.iconOnly)
-                    .font(.bitchatSystem(size: 18))
+                    .font(.dogechatSystem(size: 18))
                     .foregroundColor(.red)
             }
             .buttonStyle(.plain)
@@ -1887,7 +1887,7 @@ private extension ContentView {
     var attachmentButton: some View {
         #if os(iOS)
         Image(systemName: "camera.circle.fill")
-            .font(.bitchatSystem(size: 24))
+            .font(.dogechatSystem(size: 24))
             .foregroundColor(composerAccentColor)
             .frame(width: 36, height: 36)
             .contentShape(Circle())
@@ -1905,7 +1905,7 @@ private extension ContentView {
         #else
         Button(action: { showMacImagePicker = true }) {
             Image(systemName: "photo.circle.fill")
-                .font(.bitchatSystem(size: 24))
+                .font(.dogechatSystem(size: 24))
                 .foregroundColor(composerAccentColor)
                 .frame(width: 36, height: 36)
         }
@@ -1937,7 +1937,7 @@ private extension ContentView {
         let tint = (isRecordingVoiceNote || isPreparingVoiceNote) ? Color.red : composerAccentColor
 
         return Image(systemName: "mic.circle.fill")
-            .font(.bitchatSystem(size: 24))
+            .font(.dogechatSystem(size: 24))
             .foregroundColor(tint)
             .frame(width: 36, height: 36)
             .contentShape(Circle())
@@ -1957,7 +1957,7 @@ private extension ContentView {
         let activeColor = composerAccentColor
         return Button(action: sendMessage) {
             Image(systemName: "arrow.up.circle.fill")
-                .font(.bitchatSystem(size: 24))
+                .font(.dogechatSystem(size: 24))
                 .foregroundColor(enabled ? activeColor : Color.gray)
                 .frame(width: 36, height: 36)
         }
@@ -2153,7 +2153,7 @@ struct ImagePreviewView: View {
                 HStack {
                     Button(action: { dismiss() }) {
                         Text("close", comment: "Button to dismiss fullscreen media viewer")
-                            .font(.bitchatSystem(size: 15, weight: .semibold))
+                            .font(.dogechatSystem(size: 15, weight: .semibold))
                             .foregroundColor(.white)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)
@@ -2162,7 +2162,7 @@ struct ImagePreviewView: View {
                     Spacer()
                     Button(action: saveCopy) {
                         Text("save", comment: "Button to save media to device")
-                            .font(.bitchatSystem(size: 15, weight: .semibold))
+                            .font(.dogechatSystem(size: 15, weight: .semibold))
                             .foregroundColor(.white)
                             .padding(.horizontal, 16)
                             .padding(.vertical, 8)

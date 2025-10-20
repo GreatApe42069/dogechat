@@ -12589,7 +12589,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bitChat necesita permiso de Bluetooth para conectarse con dispositivos cercanos. Habilita el acceso en Ajustes."
+            "value" : "dogechat necesita permiso de Bluetooth para conectarse con dispositivos cercanos. Habilita el acceso en Ajustes."
           }
         },
         "fil" : {

@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "57CA17A36A2532A6CFF367BB"
-               BuildableName = "bitchatShareExtension.appex"
-               BlueprintName = "bitchatShareExtension"
+               BuildableName = "dogechatShareExtension.appex"
+               BlueprintName = "dogechatShareExtension"
                ReferencedContainer = "container:dogechat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -30,7 +30,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "AF077EA0474EDEDE2C72716C"
                BuildableName = "dogechat.app"
-               BlueprintName = "bitchat_iOS"
+               BlueprintName = "dogechat_iOS"
                ReferencedContainer = "container:dogechat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -48,7 +48,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AF077EA0474EDEDE2C72716C"
             BuildableName = "dogechat.app"
-            BlueprintName = "bitchat_iOS"
+            BlueprintName = "dogechat_iOS"
             ReferencedContainer = "container:dogechat.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -57,7 +57,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AF077EA0474EDEDE2C72716C"
             BuildableName = "dogechat.app"
-            BlueprintName = "bitchat_iOS"
+            BlueprintName = "dogechat_iOS"
             ReferencedContainer = "container:dogechat.xcodeproj">
          </BuildableReference>
       </CodeCoverageTargets>
@@ -69,8 +69,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6CB97DF2EA57234CB3E563B8"
-               BuildableName = "bitchatTests_iOS.xctest"
-               BlueprintName = "bitchatTests_iOS"
+               BuildableName = "dogechatTests_iOS.xctest"
+               BlueprintName = "dogechatTests_iOS"
                ReferencedContainer = "container:dogechat.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -92,13 +92,13 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AF077EA0474EDEDE2C72716C"
             BuildableName = "dogechat.app"
-            BlueprintName = "bitchat_iOS"
+            BlueprintName = "dogechat_iOS"
             ReferencedContainer = "container:dogechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "-DBITCHAT_DEV_ALLOW_CLEARNET"
+            key = "-DDOGECHAT_DEV_ALLOW_CLEARNET"
             value = ""
             isEnabled = "YES">
          </EnvironmentVariable>
@@ -116,7 +116,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AF077EA0474EDEDE2C72716C"
             BuildableName = "dogechat.app"
-            BlueprintName = "bitchat_iOS"
+            BlueprintName = "dogechat_iOS"
             ReferencedContainer = "container:dogechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

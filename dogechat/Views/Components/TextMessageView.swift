@@ -44,7 +44,7 @@ struct TextMessageView: View {
                     if isExpanded { expandedMessageIDs.remove(message.id) }
                     else { expandedMessageIDs.insert(message.id) }
                 }
-                .font(.bitchatSystem(size: 11, weight: .medium, design: .monospaced))
+                .font(.dogechatSystem(size: 11, weight: .medium, design: .monospaced))
                 .foregroundColor(Color.blue)
                 .padding(.top, 4)
             }

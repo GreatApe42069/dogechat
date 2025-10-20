@@ -41,9 +41,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "bitchatTests",
+            name: "dogechatTests",
             dependencies: ["dogechat"],
-            path: "bitchatTests",
+            path: "dogechatTests",
             exclude: [
                 "Info.plist",
                 "README.md"

@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "0576A29205865664C0937536"
                BuildableName = "dogechat.app"
-               BlueprintName = "bitchat_macOS"
+               BlueprintName = "dogechat_macOS"
                ReferencedContainer = "container:dogechat.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,7 +32,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0576A29205865664C0937536"
             BuildableName = "dogechat.app"
-            BlueprintName = "bitchat_macOS"
+            BlueprintName = "dogechat_macOS"
             ReferencedContainer = "container:dogechat.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -43,8 +43,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "47FF23248747DD7CB666CB91"
-               BuildableName = "bitchatTests_macOS.xctest"
-               BlueprintName = "bitchatTests_macOS"
+               BuildableName = "dogechatTests_macOS.xctest"
+               BlueprintName = "dogechatTests_macOS"
                ReferencedContainer = "container:dogechat.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -66,13 +66,13 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0576A29205865664C0937536"
             BuildableName = "dogechat.app"
-            BlueprintName = "bitchat_macOS"
+            BlueprintName = "dogechat_macOS"
             ReferencedContainer = "container:dogechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "BITCHAT_LOG_LEVEL"
+            key = "DOGECHAT_LOG_LEVEL"
             value = "debug"
             isEnabled = "YES">
          </EnvironmentVariable>
@@ -90,7 +90,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "0576A29205865664C0937536"
             BuildableName = "dogechat.app"
-            BlueprintName = "bitchat_macOS"
+            BlueprintName = "dogechat_macOS"
             ReferencedContainer = "container:dogechat.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

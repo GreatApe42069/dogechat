@@ -60,9 +60,9 @@ public final class TorManager: ObservableObject {
 
     // Whether the app must enforce Tor for all connections (fail-closed).
     // This is the default. For local development, you may compile with
-    // `-DBITCHAT_DEV_ALLOW_CLEARNET` to temporarily allow direct network.
+    // `-DDOGECHAT_DEV_ALLOW_CLEARNET` to temporarily allow direct network.
     public var torEnforced: Bool {
-        #if BITCHAT_DEV_ALLOW_CLEARNET
+        #if DOGECHAT_DEV_ALLOW_CLEARNET
         return false
         #else
         return true
@@ -192,7 +192,7 @@ public final class TorManager: ObservableObject {
         // Avoid fallback to prevent accidental second instances in-process.
         if startTorViaEmbedAPI() { return }
 
-        #if BITCHAT_DEV_ALLOW_CLEARNET
+        #if DOGECHAT_DEV_ALLOW_CLEARNET
         // Dev bypass: permit network immediately (no Tor). Use ONLY for local development.
         self.isReady = true
         self.isStarting = false

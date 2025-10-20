@@ -1,6 +1,6 @@
 //
 // TestNetworkHelper.swift
-// bitchatTests
+// dogechatTests
 //
 // Extracted shared, mutable integration state for nodes and noise sessions.
 // Keeps test containers nonmutating (Swift Testing-friendly).

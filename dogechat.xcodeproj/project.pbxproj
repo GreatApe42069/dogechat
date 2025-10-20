@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17901751FD8010AFC8E750F2 /* bitchatShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		17901751FD8010AFC8E750F2 /* dogechatShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 61F92EBA29C47C0FCC482F1F /* dogechatShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		3EE336D150427F736F32B56C /* P256K in Frameworks */ = {isa = PBXBuildFile; productRef = B1D9136AA0083366353BFA2F /* P256K */; };
 		885BBED78092484A5B069461 /* P256K in Frameworks */ = {isa = PBXBuildFile; productRef = 4EB6BA1B8464F1EA38F4E286 /* P256K */; };
 		A6E3E5702E77036A0032EA8A /* BitLogger in Frameworks */ = {isa = PBXBuildFile; productRef = A6E3E56F2E77036A0032EA8A /* BitLogger */; };
@@ -25,21 +25,21 @@
 			containerPortal = 475D96681D0EA0AE57A4E06E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = AF077EA0474EDEDE2C72716C;
-			remoteInfo = bitchat_iOS;
+			remoteInfo = dogechat_iOS;
 		};
 		E35E7AF9854A2E72452DD34F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 475D96681D0EA0AE57A4E06E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 57CA17A36A2532A6CFF367BB;
-			remoteInfo = bitchatShareExtension;
+			remoteInfo = dogechatShareExtension;
 		};
 		FF470234EF8C6BB8865B80B5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 475D96681D0EA0AE57A4E06E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0576A29205865664C0937536;
-			remoteInfo = bitchat_macOS;
+			remoteInfo = dogechat_macOS;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -49,51 +49,51 @@
 			dstPath = "";
 			dstSubfolder = PlugIns;
 			files = (
-				17901751FD8010AFC8E750F2 /* bitchatShareExtension.appex in Embed Foundation Extensions */,
+				17901751FD8010AFC8E750F2 /* dogechatShareExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		03C57F452B55FD0FD8F51421 /* bitchatTests_macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bitchatTests_macOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = bitchatShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		03C57F452B55FD0FD8F51421 /* dogechatTests_macOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dogechatTests_macOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		61F92EBA29C47C0FCC482F1F /* dogechatShareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = dogechatShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F3A7C058C2C8E1A06C8CF8B /* dogechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dogechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96D0D41CA19EE5A772AA8434 /* dogechat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = dogechat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A6F183FC2E948783006A9046 /* tor-nolzma.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = "tor-nolzma.xcframework"; path = "localPackages/Tor/Frameworks/tor-nolzma.xcframework"; sourceTree = "<group>"; };
-		C0DB1DE27F0AAB5092663E8E /* bitchatTests_iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bitchatTests_iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0DB1DE27F0AAB5092663E8E /* dogechatTests_iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = dogechatTests_iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0A1B2C3D4E5F6012345678A /* relays/online_relays_gps.csv */ = {isa = PBXFileReference; lastKnownFileType = text; path = relays/online_relays_gps.csv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A6E32D1B2E762EA70032EA8A /* Exceptions for "dogechat" folder in "bitchatShareExtension" target */ = {
+		A6E32D1B2E762EA70032EA8A /* Exceptions for "dogechat" folder in "dogechatShareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Services/TransportConfig.swift,
 			);
-			target = 57CA17A36A2532A6CFF367BB /* bitchatShareExtension */;
+			target = 57CA17A36A2532A6CFF367BB /* dogechatShareExtension */;
 		};
-		A6E32D1C2E762EA70032EA8A /* Exceptions for "dogechat" folder in "bitchat_iOS" target */ = {
+		A6E32D1C2E762EA70032EA8A /* Exceptions for "dogechat" folder in "dogechat_iOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = AF077EA0474EDEDE2C72716C /* bitchat_iOS */;
+			target = AF077EA0474EDEDE2C72716C /* dogechat_iOS */;
 		};
-		A6E32D1D2E762EA70032EA8A /* Exceptions for "dogechat" folder in "bitchat_macOS" target */ = {
+		A6E32D1D2E762EA70032EA8A /* Exceptions for "dogechat" folder in "dogechat_macOS" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 				LaunchScreen.storyboard,
 			);
-			target = 0576A29205865664C0937536 /* bitchat_macOS */;
+			target = 0576A29205865664C0937536 /* dogechat_macOS */;
 		};
-		A6E32D232E762EAB0032EA8A /* Exceptions for "bitchatShareExtension" folder in "bitchatShareExtension" target */ = {
+		A6E32D232E762EAB0032EA8A /* Exceptions for "dogechatShareExtension" folder in "dogechatShareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				ShareViewController.swift,
 			);
-			target = 57CA17A36A2532A6CFF367BB /* bitchatShareExtension */;
+			target = 57CA17A36A2532A6CFF367BB /* dogechatShareExtension */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -101,24 +101,24 @@
 		A6E32C972E762EA70032EA8A /* dogechat */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A6E32D1B2E762EA70032EA8A /* Exceptions for "dogechat" folder in "bitchatShareExtension" target */,
-				A6E32D1C2E762EA70032EA8A /* Exceptions for "dogechat" folder in "bitchat_iOS" target */,
-				A6E32D1D2E762EA70032EA8A /* Exceptions for "dogechat" folder in "bitchat_macOS" target */,
+				A6E32D1B2E762EA70032EA8A /* Exceptions for "dogechat" folder in "dogechatShareExtension" target */,
+				A6E32D1C2E762EA70032EA8A /* Exceptions for "dogechat" folder in "dogechat_iOS" target */,
+				A6E32D1D2E762EA70032EA8A /* Exceptions for "dogechat" folder in "dogechat_macOS" target */,
 			);
 			path = dogechat;
 			sourceTree = "<group>";
 		};
-		A6E32D212E762EAB0032EA8A /* bitchatShareExtension */ = {
+		A6E32D212E762EAB0032EA8A /* dogechatShareExtension */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A6E32D232E762EAB0032EA8A /* Exceptions for "bitchatShareExtension" folder in "bitchatShareExtension" target */,
+				A6E32D232E762EAB0032EA8A /* Exceptions for "dogechatShareExtension" folder in "dogechatShareExtension" target */,
 			);
-			path = bitchatShareExtension;
+			path = dogechatShareExtension;
 			sourceTree = "<group>";
 		};
-		A6E32D412E762EAE0032EA8A /* bitchatTests */ = {
+		A6E32D412E762EAE0032EA8A /* dogechatTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = bitchatTests;
+			path = dogechatTests;
 			sourceTree = "<group>";
 		};
 		A6E367C92E76469E0032EA8A /* Configs */ = {
@@ -154,8 +154,8 @@
 			children = (
 				A6E32C972E762EA70032EA8A /* dogechat */,
 				E0A1B2C3D4E5F6012345678A /* relays/online_relays_gps.csv */,
-				A6E32D212E762EAB0032EA8A /* bitchatShareExtension */,
-				A6E32D412E762EAE0032EA8A /* bitchatTests */,
+				A6E32D212E762EAB0032EA8A /* dogechatShareExtension */,
+				A6E32D412E762EAE0032EA8A /* dogechatTests */,
 				A6E367C92E76469E0032EA8A /* Configs */,
 				9F37F9F2C353B58AC809E93B /* Products */,
 				A6F183FB2E948783006A9046 /* Frameworks */,
@@ -167,9 +167,9 @@
 			children = (
 				96D0D41CA19EE5A772AA8434 /* dogechat.app */,
 				8F3A7C058C2C8E1A06C8CF8B /* dogechat.app */,
-				61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */,
-				C0DB1DE27F0AAB5092663E8E /* bitchatTests_iOS.xctest */,
-				03C57F452B55FD0FD8F51421 /* bitchatTests_macOS.xctest */,
+				61F92EBA29C47C0FCC482F1F /* dogechatShareExtension.appex */,
+				C0DB1DE27F0AAB5092663E8E /* dogechatTests_iOS.xctest */,
+				03C57F452B55FD0FD8F51421 /* dogechatTests_macOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -185,9 +185,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0576A29205865664C0937536 /* bitchat_macOS */ = {
+		0576A29205865664C0937536 /* dogechat_macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "bitchat_macOS" */;
+			buildConfigurationList = DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "dogechat_macOS" */;
 			buildPhases = (
 				137ABE739BF20ACDDF8CC605 /* Sources */,
 				0214973A876129753D39EB47 /* Resources */,
@@ -198,19 +198,19 @@
 			fileSystemSynchronizedGroups = (
 				A6E32C972E762EA70032EA8A /* dogechat */,
 			);
-			name = bitchat_macOS;
+			name = dogechat_macOS;
 			packageProductDependencies = (
 				B1D9136AA0083366353BFA2F /* P256K */,
 				A6E3E5712E7703760032EA8A /* BitLogger */,
 				A6E3EA802E7706A80032EA8A /* Tor */,
 			);
-			productName = bitchat_macOS;
+			productName = dogechat_macOS;
 			productReference = 8F3A7C058C2C8E1A06C8CF8B /* dogechat.app */;
 			productType = "com.apple.product-type.application";
 		};
-		47FF23248747DD7CB666CB91 /* bitchatTests_macOS */ = {
+		47FF23248747DD7CB666CB91 /* dogechatTests_macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "bitchatTests_macOS" */;
+			buildConfigurationList = 1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "dogechatTests_macOS" */;
 			buildPhases = (
 				5C22AA7B9ACC5A861445C769 /* Sources */,
 			);
@@ -220,29 +220,29 @@
 				4AA8605DCAA64A45657EF0CA /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				A6E32D412E762EAE0032EA8A /* bitchatTests */,
+				A6E32D412E762EAE0032EA8A /* dogechatTests */,
 			);
-			name = bitchatTests_macOS;
-			productName = bitchatTests_macOS;
-			productReference = 03C57F452B55FD0FD8F51421 /* bitchatTests_macOS.xctest */;
+			name = dogechatTests_macOS;
+			productName = dogechatTests_macOS;
+			productReference = 03C57F452B55FD0FD8F51421 /* dogechatTests_macOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		57CA17A36A2532A6CFF367BB /* bitchatShareExtension */ = {
+		57CA17A36A2532A6CFF367BB /* dogechatShareExtension */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "bitchatShareExtension" */;
+			buildConfigurationList = E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "dogechatShareExtension" */;
 			buildPhases = (
 				0A08E70F08F55FD5BA8C7EF3 /* Sources */,
 			);
 			buildRules = (
 			);
-			name = bitchatShareExtension;
-			productName = bitchatShareExtension;
-			productReference = 61F92EBA29C47C0FCC482F1F /* bitchatShareExtension.appex */;
+			name = dogechatShareExtension;
+			productName = dogechatShareExtension;
+			productReference = 61F92EBA29C47C0FCC482F1F /* dogechatShareExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
-		6CB97DF2EA57234CB3E563B8 /* bitchatTests_iOS */ = {
+		6CB97DF2EA57234CB3E563B8 /* dogechatTests_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "bitchatTests_iOS" */;
+			buildConfigurationList = 38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "dogechatTests_iOS" */;
 			buildPhases = (
 				865C8403EF02C089369A9FCB /* Sources */,
 			);
@@ -252,16 +252,16 @@
 				D8C09F21DB7DC06E8E672C21 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				A6E32D412E762EAE0032EA8A /* bitchatTests */,
+				A6E32D412E762EAE0032EA8A /* dogechatTests */,
 			);
-			name = bitchatTests_iOS;
-			productName = bitchatTests_iOS;
-			productReference = C0DB1DE27F0AAB5092663E8E /* bitchatTests_iOS.xctest */;
+			name = dogechatTests_iOS;
+			productName = dogechatTests_iOS;
+			productReference = C0DB1DE27F0AAB5092663E8E /* dogechatTests_iOS.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		AF077EA0474EDEDE2C72716C /* bitchat_iOS */ = {
+		AF077EA0474EDEDE2C72716C /* dogechat_iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "bitchat_iOS" */;
+			buildConfigurationList = 53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "dogechat_iOS" */;
 			buildPhases = (
 				4E49E34F00154C051AE90FED /* Sources */,
 				CD6E8F32BC38357473954F97 /* Resources */,
@@ -276,13 +276,13 @@
 			fileSystemSynchronizedGroups = (
 				A6E32C972E762EA70032EA8A /* dogechat */,
 			);
-			name = bitchat_iOS;
+			name = dogechat_iOS;
 			packageProductDependencies = (
 				4EB6BA1B8464F1EA38F4E286 /* P256K */,
 				A6E3E56F2E77036A0032EA8A /* BitLogger */,
 				A6E3EA7E2E7706720032EA8A /* Tor */,
 			);
-			productName = bitchat_iOS;
+			productName = dogechat_iOS;
 			productReference = 96D0D41CA19EE5A772AA8434 /* dogechat.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -327,11 +327,11 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				57CA17A36A2532A6CFF367BB /* bitchatShareExtension */,
-				6CB97DF2EA57234CB3E563B8 /* bitchatTests_iOS */,
-				47FF23248747DD7CB666CB91 /* bitchatTests_macOS */,
-				AF077EA0474EDEDE2C72716C /* bitchat_iOS */,
-				0576A29205865664C0937536 /* bitchat_macOS */,
+				57CA17A36A2532A6CFF367BB /* dogechatShareExtension */,
+				6CB97DF2EA57234CB3E563B8 /* dogechatTests_iOS */,
+				47FF23248747DD7CB666CB91 /* dogechatTests_macOS */,
+				AF077EA0474EDEDE2C72716C /* dogechat_iOS */,
+				0576A29205865664C0937536 /* dogechat_macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -382,23 +382,23 @@
 /* Begin PBXTargetDependency section */
 		4AA8605DCAA64A45657EF0CA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0576A29205865664C0937536 /* bitchat_macOS */;
+			target = 0576A29205865664C0937536 /* dogechat_macOS */;
 			targetProxy = FF470234EF8C6BB8865B80B5 /* PBXContainerItemProxy */;
 		};
 		6EB655BA5DB11909C1DEC460 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 57CA17A36A2532A6CFF367BB /* bitchatShareExtension */;
+			target = 57CA17A36A2532A6CFF367BB /* dogechatShareExtension */;
 			targetProxy = E35E7AF9854A2E72452DD34F /* PBXContainerItemProxy */;
 		};
 		D8C09F21DB7DC06E8E672C21 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = AF077EA0474EDEDE2C72716C /* bitchat_iOS */;
+			target = AF077EA0474EDEDE2C72716C /* dogechat_iOS */;
 			targetProxy = 96415D4F989854F908EAD303 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "bitchatTests_iOS" */ = {
+		077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "dogechatTests_iOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Debug.xcconfig;
@@ -408,7 +408,7 @@
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
-				INFOPLIST_FILE = bitchatTests/Info.plist;
+				INFOPLIST_FILE = dogechatTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -423,7 +423,7 @@
 			};
 			name = Debug;
 		};
-		0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "bitchatTests_iOS" */ = {
+		0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "dogechatTests_iOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -433,7 +433,7 @@
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
-				INFOPLIST_FILE = bitchatTests/Info.plist;
+				INFOPLIST_FILE = dogechatTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -448,7 +448,7 @@
 			};
 			name = Release;
 		};
-		147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "bitchatTests_macOS" */ = {
+		147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "dogechatTests_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -460,7 +460,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
-				INFOPLIST_FILE = bitchatTests/Info.plist;
+				INFOPLIST_FILE = dogechatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -474,7 +474,7 @@
 			};
 			name = Release;
 		};
-		3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "bitchatShareExtension" */ = {
+		3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "dogechatShareExtension" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -482,10 +482,10 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
-				CODE_SIGN_ENTITLEMENTS = bitchatShareExtension/bitchatShareExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = dogechatShareExtension/dogechatShareExtension.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
-				INFOPLIST_FILE = bitchatShareExtension/Info.plist;
+				INFOPLIST_FILE = dogechatShareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = dogechat;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -505,7 +505,7 @@
 			};
 			name = Release;
 		};
-		702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "bitchat_iOS" */ = {
+		702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "dogechat_iOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Debug.xcconfig;
@@ -539,7 +539,7 @@
 			};
 			name = Debug;
 		};
-		7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "bitchatTests_macOS" */ = {
+		7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "dogechatTests_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Debug.xcconfig;
@@ -551,7 +551,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
-				INFOPLIST_FILE = bitchatTests/Info.plist;
+				INFOPLIST_FILE = dogechatTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -565,7 +565,7 @@
 			};
 			name = Debug;
 		};
-		B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "bitchat_iOS" */ = {
+		B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "dogechat_iOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -599,7 +599,7 @@
 			};
 			name = Release;
 		};
-		BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "bitchat_macOS" */ = {
+		BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "dogechat_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Release.xcconfig;
@@ -691,7 +691,7 @@
 			};
 			name = Release;
 		};
-		CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "bitchat_macOS" */ = {
+		CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "dogechat_macOS" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Debug.xcconfig;
@@ -790,7 +790,7 @@
 			};
 			name = Debug;
 		};
-		DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "bitchatShareExtension" */ = {
+		DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "dogechatShareExtension" */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReferenceAnchor = A6E367C92E76469E0032EA8A /* Configs */;
 			baseConfigurationReferenceRelativePath = Debug.xcconfig;
@@ -798,10 +798,10 @@
 				CODE_SIGNING_ALLOWED = YES;
 				CODE_SIGNING_REQUIRED = YES;
 				CODE_SIGN_ALLOW_ENTITLEMENTS_MODIFICATION = YES;
-				CODE_SIGN_ENTITLEMENTS = bitchatShareExtension/bitchatShareExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = dogechatShareExtension/dogechatShareExtension.entitlements;
 				CODE_SIGN_STYLE = "$(CODE_SIGN_STYLE)";
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM)";
-				INFOPLIST_FILE = bitchatShareExtension/Info.plist;
+				INFOPLIST_FILE = dogechatShareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = dogechat;
 				IPHONEOS_DEPLOYMENT_TARGET = "$(IPHONEOS_DEPLOYMENT_TARGET)";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -824,19 +824,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "bitchatTests_macOS" */ = {
+		1C27B5BA3DB46DDF0DBFEF62 /* Build configuration list for PBXNativeTarget "dogechatTests_macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "bitchatTests_macOS" */,
-				147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "bitchatTests_macOS" */,
+				7FA2BADBF3B325125030CAB1 /* Debug configuration for PBXNativeTarget "dogechatTests_macOS" */,
+				147FDAE548082D5B921C6F0B /* Release configuration for PBXNativeTarget "dogechatTests_macOS" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "bitchatTests_iOS" */ = {
+		38C4AF6313E5037F25CEF30B /* Build configuration list for PBXNativeTarget "dogechatTests_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "bitchatTests_iOS" */,
-				0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "bitchatTests_iOS" */,
+				077A5203074247CF8F766E2F /* Debug configuration for PBXNativeTarget "dogechatTests_iOS" */,
+				0DACAA261446D178EDD30ECA /* Release configuration for PBXNativeTarget "dogechatTests_iOS" */,
 			);
 			defaultConfigurationName = Debug;
 		};
@@ -848,27 +848,27 @@
 			);
 			defaultConfigurationName = Debug;
 		};
-		53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "bitchat_iOS" */ = {
+		53EADEF7546F94DDF82271B9 /* Build configuration list for PBXNativeTarget "dogechat_iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "bitchat_iOS" */,
-				B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "bitchat_iOS" */,
+				702E7395723CADA4B830F4A9 /* Debug configuration for PBXNativeTarget "dogechat_iOS" */,
+				B36671AEACCBF92BE10852E9 /* Release configuration for PBXNativeTarget "dogechat_iOS" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "bitchat_macOS" */ = {
+		DA5644925338B8189B035657 /* Build configuration list for PBXNativeTarget "dogechat_macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "bitchat_macOS" */,
-				BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "bitchat_macOS" */,
+				CC79F65842D42034ACEE79B7 /* Debug configuration for PBXNativeTarget "dogechat_macOS" */,
+				BB044400A0F06B93F22D0D55 /* Release configuration for PBXNativeTarget "dogechat_macOS" */,
 			);
 			defaultConfigurationName = Debug;
 		};
-		E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "bitchatShareExtension" */ = {
+		E4EA6DC648DF55FF84032EB5 /* Build configuration list for PBXNativeTarget "dogechatShareExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "bitchatShareExtension" */,
-				3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "bitchatShareExtension" */,
+				DAC5E82049F8A97360BE63D6 /* Debug configuration for PBXNativeTarget "dogechatShareExtension" */,
+				3DCF45111852FB2AEBE05E31 /* Release configuration for PBXNativeTarget "dogechatShareExtension" */,
 			);
 			defaultConfigurationName = Debug;
 		};
