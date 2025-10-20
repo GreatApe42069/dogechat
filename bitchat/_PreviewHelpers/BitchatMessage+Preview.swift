@@ -1,6 +1,6 @@
 //
-// BitchatMessage+Preview.swift
-// bitchat
+// DogechatMessage+Preview.swift
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -8,9 +8,9 @@
 
 import Foundation
 
-extension BitchatMessage {
-    static var preview: BitchatMessage {
-        BitchatMessage(
+extension DogechatMessage {
+    static var preview: DogechatMessage {
+        DogechatMessage(
             id: UUID().uuidString,
             sender: "John Doe",
             content: "Hello",

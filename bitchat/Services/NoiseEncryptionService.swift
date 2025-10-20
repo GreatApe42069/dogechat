@@ -1,6 +1,6 @@
 //
 // NoiseEncryptionService.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -10,7 +10,7 @@
 /// # NoiseEncryptionService
 ///
 /// High-level encryption service that manages Noise Protocol sessions for secure
-/// peer-to-peer communication in BitChat. Acts as the bridge between the transport
+/// peer-to-peer communication in Dogechat. Acts as the bridge between the transport
 /// layer (BLEService) and the cryptographic layer (NoiseProtocol).
 ///
 /// ## Overview
@@ -145,7 +145,7 @@ enum EncryptionStatus: Equatable {
 
 // MARK: - Noise Encryption Service
 
-/// Manages end-to-end encryption for BitChat using the Noise Protocol Framework.
+/// Manages end-to-end encryption for Dogechat using the Noise Protocol Framework.
 /// Provides a high-level API for establishing secure channels between peers,
 /// handling all cryptographic operations transparently.
 /// - Important: This service maintains the device's cryptographic identity
@@ -166,7 +166,7 @@ final class NoiseEncryptionService {
     private var fingerprintToPeerID: [String: PeerID] = [:]
     
     // Thread safety
-    private let serviceQueue = DispatchQueue(label: "chat.bitchat.noise.service", attributes: .concurrent)
+    private let serviceQueue = DispatchQueue(label: "chat.dogechat.noise.service", attributes: .concurrent)
     
     // Security components
     private let rateLimiter = NoiseRateLimiter()
@@ -338,7 +338,7 @@ final class NoiseEncryptionService {
     private func canonicalAnnounceBytes(peerID: Data, noiseKey: Data, ed25519Key: Data, nickname: String, timestampMs: UInt64) -> Data {
         var out = Data()
         // context
-        let context = "bitchat-announce-v1".data(using: .utf8) ?? Data()
+        let context = "dogechat-announce-v1".data(using: .utf8) ?? Data()
         out.append(UInt8(min(context.count, 255)))
         out.append(context.prefix(255))
         // peerID (expect 8 bytes; pad/truncate to 8 for canonicalization)
@@ -365,8 +365,8 @@ final class NoiseEncryptionService {
     
     // MARK: - Packet Signing/Verification
     
-    /// Sign a BitchatPacket using the noise private key
-    func signPacket(_ packet: BitchatPacket) -> BitchatPacket? {
+    /// Sign a DogechatPacket using the noise private key
+    func signPacket(_ packet: DogechatPacket) -> DogechatPacket? {
         // Create canonical packet bytes for signing
         guard let packetData = packet.toBinaryDataForSigning() else {
             return nil
@@ -383,8 +383,8 @@ final class NoiseEncryptionService {
         return signedPacket
     }
     
-    /// Verify a BitchatPacket signature using the provided public key
-    func verifyPacketSignature(_ packet: BitchatPacket, publicKey: Data) -> Bool {
+    /// Verify a DogechatPacket signature using the provided public key
+    func verifyPacketSignature(_ packet: DogechatPacket, publicKey: Data) -> Bool {
         guard let signature = packet.signature else {
             return false
         }
@@ -590,7 +590,7 @@ final class NoiseEncryptionService {
 // MARK: - Protocol Message Types for Noise
 
 /// Message types for the Noise encryption protocol layer.
-/// These types wrap the underlying BitChat protocol messages with encryption metadata.
+/// These types wrap the underlying Dogechat protocol messages with encryption metadata.
 enum NoiseMessageType: UInt8 {
     case handshakeInitiation = 0x10
     case handshakeResponse = 0x11

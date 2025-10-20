@@ -1,6 +1,6 @@
 //
 // BinaryProtocol.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -9,7 +9,7 @@
 ///
 /// # BinaryProtocol
 ///
-/// Low-level binary encoding and decoding for BitChat protocol messages.
+/// Low-level binary encoding and decoding for Dogechat protocol messages.
 /// Optimized for Bluetooth LE's limited bandwidth and MTU constraints.
 ///
 /// ## Overview
@@ -101,8 +101,8 @@ extension Data {
     }
 }
 
-/// Implements binary encoding and decoding for BitChat protocol messages.
-/// Provides static methods for converting between BitchatPacket objects and
+/// Implements binary encoding and decoding for Dogechat protocol messages.
+/// Provides static methods for converting between DogechatPacket objects and
 /// their binary wire format representation.
 /// - Note: All multi-byte values use network byte order (big-endian)
 struct BinaryProtocol {
@@ -139,8 +139,8 @@ struct BinaryProtocol {
         static let isCompressed: UInt8 = 0x04
     }
     
-    // Encode BitchatPacket to binary format
-    static func encode(_ packet: BitchatPacket, padding: Bool = true) -> Data? {
+    // Encode DogechatPacket to binary format
+    static func encode(_ packet: DogechatPacket, padding: Bool = true) -> Data? {
         let version = packet.version
         guard version == 1 || version == 2 else { return nil }
 
@@ -237,8 +237,8 @@ struct BinaryProtocol {
         return data
     }
     
-    // Decode binary data to BitchatPacket
-    static func decode(_ data: Data) -> BitchatPacket? {
+    // Decode binary data to DogechatPacket
+    static func decode(_ data: Data) -> DogechatPacket? {
         // Try decode as-is first (robust when padding wasn't applied)
         if let pkt = decodeCore(data) { return pkt }
         // If that fails, try after removing padding
@@ -248,10 +248,10 @@ struct BinaryProtocol {
     }
 
     // Core decoding implementation used by decode(_:) with and without padding removal
-    private static func decodeCore(_ raw: Data) -> BitchatPacket? {
+    private static func decodeCore(_ raw: Data) -> DogechatPacket? {
         guard raw.count >= v1HeaderSize + senderIDSize else { return nil }
 
-        return raw.withUnsafeBytes { (buf: UnsafeRawBufferPointer) -> BitchatPacket? in
+        return raw.withUnsafeBytes { (buf: UnsafeRawBufferPointer) -> DogechatPacket? in
             guard let base = buf.baseAddress else { return nil }
             var offset = 0
             func require(_ n: Int) -> Bool { offset + n <= buf.count }
@@ -364,7 +364,7 @@ struct BinaryProtocol {
 
             guard offset <= buf.count else { return nil }
 
-            return BitchatPacket(
+            return DogechatPacket(
                 type: type,
                 senderID: senderID,
                 recipientID: recipientID,

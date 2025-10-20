@@ -8,7 +8,7 @@
 import Testing
 import CryptoKit
 import Foundation
-@testable import bitchat
+@testable import dogechat
 
 struct NostrProtocolTests {
     
@@ -129,7 +129,7 @@ struct NostrProtocolTests {
         let senderPeerID = PeerID(str: "0123456789abcdef") // 8-byte hex peer ID
 
         let embedded = try #require(
-            NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID),
+            NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID),
             "Failed to embed delivered ack"
         )
 
@@ -152,11 +152,11 @@ struct NostrProtocolTests {
         // Verify sender is correct
         #expect(senderPubkey == sender.publicKeyHex)
 
-        // Parse BitChat payload
-        #expect(content.hasPrefix("bitchat1:"))
-        let base64url = String(content.dropFirst("bitchat1:".count))
+        // Parse Dogechat payload
+        #expect(content.hasPrefix("dogechat1:"))
+        let base64url = String(content.dropFirst("dogechat1:".count))
         let packetData = try #require(Self.base64URLDecode(base64url))
-        let packet = try #require(BitchatPacket.from(packetData), "Failed to decode bitchat packet")
+        let packet = try #require(DogechatPacket.from(packetData), "Failed to decode dogechat packet")
         
         #expect(packet.type == MessageType.noiseEncrypted.rawValue)
         let payload = try #require(NoisePayload.decode(packet.payload), "Failed to decode NoisePayload")
@@ -178,7 +178,7 @@ struct NostrProtocolTests {
         let messageID = "TEST-MSG-READ-1"
         let senderPeerID = PeerID(str: "fedcba9876543210") // 8-byte hex peer ID
         let embedded = try #require(
-            NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID),
+            NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID),
             "Failed to embed read ack"
         )
 
@@ -196,10 +196,10 @@ struct NostrProtocolTests {
         )
         #expect(senderPubkey == sender.publicKeyHex)
 
-        #expect(content.hasPrefix("bitchat1:"))
-        let base64url = String(content.dropFirst("bitchat1:".count))
+        #expect(content.hasPrefix("dogechat1:"))
+        let base64url = String(content.dropFirst("dogechat1:".count))
         let packetData = try #require(Self.base64URLDecode(base64url))
-        let packet = try #require(BitchatPacket.from(packetData), "Failed to decode bitchat packet")
+        let packet = try #require(DogechatPacket.from(packetData), "Failed to decode dogechat packet")
         
         #expect(packet.type == MessageType.noiseEncrypted.rawValue)
         let payload = try #require(NoisePayload.decode(packet.payload), "Failed to decode NoisePayload")

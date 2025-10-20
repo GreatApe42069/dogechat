@@ -1,13 +1,13 @@
 //
 // MockIdentityManager.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
 //
 
 import Foundation
-@testable import bitchat
+@testable import dogechat
 
 final class MockIdentityManager: SecureIdentityStateManagerProtocol {
     private let keychain: KeychainManagerProtocol

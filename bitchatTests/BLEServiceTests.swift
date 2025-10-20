@@ -8,7 +8,7 @@
 
 import Testing
 import CoreBluetooth
-@testable import bitchat
+@testable import dogechat
 
 struct BLEServiceTests {
     private let service: MockBLEService
@@ -63,7 +63,7 @@ struct BLEServiceTests {
     
     @Test func sendPublicMessage() async throws {
         try await confirmation { receivedPublicMessage in
-            let delegate = MockBitchatDelegate { message in
+            let delegate = MockDogechatDelegate { message in
                 #expect(message.content == "Hello, world!")
                 #expect(message.sender == "TestUser")
                 #expect(!message.isPrivate)
@@ -80,7 +80,7 @@ struct BLEServiceTests {
     
     @Test func sendPrivateMessage() async throws {
         try await confirmation { receivedPrivateMessage in
-            let delegate = MockBitchatDelegate { message in
+            let delegate = MockDogechatDelegate { message in
                 #expect(message.content == "Secret message")
                 #expect(message.sender == "TestUser")
                 #expect(message.senderPeerID == PeerID(str: myUUID.uuidString))
@@ -104,7 +104,7 @@ struct BLEServiceTests {
     
     @Test func sendMessageWithMentions() async throws {
         try await confirmation { receivedMessageWithMentions in
-            let delegate = MockBitchatDelegate { message in
+            let delegate = MockDogechatDelegate { message in
                 #expect(message.content == "@alice @bob check this out")
                 #expect(message.mentions == ["alice", "bob"])
                 receivedMessageWithMentions()
@@ -123,7 +123,7 @@ struct BLEServiceTests {
         try await confirmation { receiveMessage in
             let peerID = PeerID(str: UUID().uuidString)
             
-            let delegate = MockBitchatDelegate { message in
+            let delegate = MockDogechatDelegate { message in
                 #expect(message.content == "Incoming message")
                 #expect(message.sender == "RemoteUser")
                 #expect(message.senderPeerID == peerID)
@@ -131,7 +131,7 @@ struct BLEServiceTests {
             }
             service.delegate = delegate
             
-            let incomingMessage = BitchatMessage(
+            let incomingMessage = DogechatMessage(
                 id: "MSG456",
                 sender: "RemoteUser",
                 content: "Incoming message",
@@ -154,14 +154,14 @@ struct BLEServiceTests {
         try await confirmation { processPacket in
             let peerID = PeerID(str: UUID().uuidString)
             
-            let delegate = MockBitchatDelegate { message in
+            let delegate = MockDogechatDelegate { message in
                 #expect(message.content == "Packet message")
                 #expect(message.senderPeerID == peerID)
                 processPacket()
             }
             service.delegate = delegate
             
-            let message = BitchatMessage(
+            let message = DogechatMessage(
                 id: "MSG789",
                 sender: "PacketSender",
                 content: "Packet message",
@@ -176,7 +176,7 @@ struct BLEServiceTests {
             
             let payload = try #require(message.toBinaryPayload(), "Failed to create binary payload")
             
-            let packet = BitchatPacket(
+            let packet = DogechatPacket(
                 type: 0x01,
                 senderID: peerID.id.data(using: .utf8)!,
                 recipientID: nil,
@@ -223,7 +223,7 @@ struct BLEServiceTests {
     @Test func messageDeliveryHandler() async throws {
         try await confirmation { deliveryHandler in
             service.packetDeliveryHandler = { packet in
-                if let msg = BitchatMessage(packet.payload) {
+                if let msg = DogechatMessage(packet.payload) {
                     #expect(msg.content == "Test delivery")
                     deliveryHandler()
                 }
@@ -245,7 +245,7 @@ struct BLEServiceTests {
                 packetHandler()
             }
             
-            let message = BitchatMessage(
+            let message = DogechatMessage(
                 id: "PKT123",
                 sender: "TestSender",
                 content: "Test packet",
@@ -260,7 +260,7 @@ struct BLEServiceTests {
             
             let payload = try #require(message.toBinaryPayload(), "Failed to create payload")
             
-            let packet = BitchatPacket(
+            let packet = DogechatPacket(
                 type: 0x01,
                 senderID: peerID.id.data(using: .utf8)!,
                 recipientID: nil,
@@ -280,14 +280,14 @@ struct BLEServiceTests {
 
 // MARK: - Mock Delegate Helper
 
-private final class MockBitchatDelegate: BitchatDelegate {
-    private let messageHandler: (BitchatMessage) -> Void
+private final class MockDogechatDelegate: DogechatDelegate {
+    private let messageHandler: (DogechatMessage) -> Void
     
-    init(_ handler: @escaping (BitchatMessage) -> Void) {
+    init(_ handler: @escaping (DogechatMessage) -> Void) {
         self.messageHandler = handler
     }
     
-    func didReceiveMessage(_ message: BitchatMessage) {
+    func didReceiveMessage(_ message: DogechatMessage) {
         messageHandler(message)
     }
     

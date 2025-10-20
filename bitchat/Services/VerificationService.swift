@@ -19,7 +19,7 @@ final class VerificationService {
         let nonceB64: String
         var sigHex: String
 
-        static let context = "bitchat-verify-v1"
+        static let context = "dogechat-verify-v1"
 
         /// Canonical bytes used for signature (deterministic ordering)
         func canonicalBytes() -> Data {
@@ -42,7 +42,7 @@ final class VerificationService {
 
         func toURLString() -> String {
             var comps = URLComponents()
-            comps.scheme = "bitchat"
+            comps.scheme = "dogechat"
             comps.host = "verify"
             comps.queryItems = [
                 URLQueryItem(name: "v", value: String(v)),
@@ -57,7 +57,7 @@ final class VerificationService {
         }
 
         static func fromURL(_ url: URL) -> VerificationQR? {
-            guard url.scheme == "bitchat", url.host == "verify",
+            guard url.scheme == "dogechat", url.host == "verify",
                   let items = URLComponents(url: url, resolvingAgainstBaseURL: false)?.queryItems else { return nil }
             func val(_ name: String) -> String? { items.first(where: { $0.name == name })?.value }
             guard let vStr = val("v"), let v = Int(vStr),
@@ -129,7 +129,7 @@ final class VerificationService {
 
     func buildVerifyResponse(noiseKeyHex: String, nonceA: Data) -> Data? {
         // Sign context: verify-response | noiseKeyHex | nonceA
-        var msg = Data("bitchat-verify-resp-v1".utf8)
+        var msg = Data("dogechat-verify-resp-v1".utf8)
         let nk = noiseKeyHex.data(using: .utf8) ?? Data()
         msg.append(UInt8(min(nk.count, 255))); msg.append(nk.prefix(255))
         msg.append(nonceA)
@@ -174,7 +174,7 @@ final class VerificationService {
     }
 
     func verifyResponseSignature(noiseKeyHex: String, nonceA: Data, signature: Data, signerPublicKeyHex: String) -> Bool {
-        var msg = Data("bitchat-verify-resp-v1".utf8)
+        var msg = Data("dogechat-verify-resp-v1".utf8)
         let nk = noiseKeyHex.data(using: .utf8) ?? Data()
         msg.append(UInt8(min(nk.count, 255))); msg.append(nk.prefix(255))
         msg.append(nonceA)

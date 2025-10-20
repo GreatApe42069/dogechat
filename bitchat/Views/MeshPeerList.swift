@@ -19,7 +19,7 @@ struct MeshPeerList: View {
 
     var body: some View {
         let myPeerID = viewModel.meshService.myPeerID
-        let mapped: [(peer: BitchatPeer, isMe: Bool, hasUnread: Bool, enc: EncryptionStatus)] = viewModel.allPeers.map { peer in
+        let mapped: [(peer: DogechatPeer, isMe: Bool, hasUnread: Bool, enc: EncryptionStatus)] = viewModel.allPeers.map { peer in
             let isMe = peer.peerID == myPeerID
             let hasUnread = viewModel.hasUnreadMessages(for: peer.peerID)
             let enc = viewModel.getEncryptionStatus(for: peer.peerID)
@@ -28,7 +28,7 @@ struct MeshPeerList: View {
         // Stable visual order without mutating state here
         let currentIDs = mapped.map { $0.peer.peerID.id }
         let displayIDs = orderedIDs.filter { currentIDs.contains($0) } + currentIDs.filter { !orderedIDs.contains($0) }
-        let peers: [(peer: BitchatPeer, isMe: Bool, hasUnread: Bool, enc: EncryptionStatus)] = displayIDs.compactMap { id in
+        let peers: [(peer: DogechatPeer, isMe: Bool, hasUnread: Bool, enc: EncryptionStatus)] = displayIDs.compactMap { id in
             mapped.first(where: { $0.peer.peerID.id == id })
         }
         

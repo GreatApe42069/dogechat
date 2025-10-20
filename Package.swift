@@ -3,7 +3,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "bitchat",
+    name: "dogechat",
     defaultLocalization: "en",
     platforms: [
         .iOS(.v16),
@@ -11,8 +11,8 @@ let package = Package(
     ],
     products: [
         .executable(
-            name: "bitchat",
-            targets: ["bitchat"]
+            name: "dogechat",
+            targets: ["dogechat"]
         ),
     ],
     dependencies:[
@@ -22,18 +22,18 @@ let package = Package(
     ],
     targets: [
         .executableTarget(
-            name: "bitchat",
+            name: "dogechat",
             dependencies: [
                 .product(name: "P256K", package: "swift-secp256k1"),
                 .product(name: "BitLogger", package: "BitLogger"),
                 .product(name: "Tor", package: "Tor")
             ],
-            path: "bitchat",
+            path: "dogechat",
             exclude: [
                 "Info.plist",
                 "Assets.xcassets",
-                "bitchat.entitlements",
-                "bitchat-macOS.entitlements",
+                "dogechat.entitlements",
+                "dogechat-macOS.entitlements",
                 "LaunchScreen.storyboard"
             ],
             resources: [
@@ -42,7 +42,7 @@ let package = Package(
         ),
         .testTarget(
             name: "bitchatTests",
-            dependencies: ["bitchat"],
+            dependencies: ["dogechat"],
             path: "bitchatTests",
             exclude: [
                 "Info.plist",

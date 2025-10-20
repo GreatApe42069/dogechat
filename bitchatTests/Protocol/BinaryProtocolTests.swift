@@ -8,7 +8,7 @@
 
 import Testing
 import Foundation
-@testable import bitchat
+@testable import dogechat
 
 struct BinaryProtocolTests {
     
@@ -154,7 +154,7 @@ struct BinaryProtocolTests {
         
         let payload = try #require(message.toBinaryPayload(), "Failed to encode message to binary")
         
-        let decodedMessage = try #require(BitchatMessage(payload), "Failed to decode message from binary")
+        let decodedMessage = try #require(DogechatMessage(payload), "Failed to decode message from binary")
         
         #expect(decodedMessage.content == message.content)
         #expect(decodedMessage.sender == message.sender)
@@ -173,7 +173,7 @@ struct BinaryProtocolTests {
         )
         
         let payload = try #require(message.toBinaryPayload(), "Failed to encode private message")
-        let decodedMessage = try #require(BitchatMessage(payload), "Failed to decode private message")
+        let decodedMessage = try #require(DogechatMessage(payload), "Failed to decode private message")
         
         #expect(decodedMessage.isPrivate)
         #expect(decodedMessage.recipientNickname == TestConstants.testNickname2)
@@ -183,12 +183,12 @@ struct BinaryProtocolTests {
         let mentions = [TestConstants.testNickname2, TestConstants.testNickname3]
         let message = TestHelpers.createTestMessage(mentions: mentions)
         let payload = try #require(message.toBinaryPayload(), "Failed to encode message with mentions")
-        let decodedMessage = try #require(BitchatMessage(payload), "Failed to decode message with mentions")
+        let decodedMessage = try #require(DogechatMessage(payload), "Failed to decode message with mentions")
         #expect(decodedMessage.mentions == mentions)
     }
     
     @Test func relayMessageEncoding() throws {
-        let message = BitchatMessage(
+        let message = DogechatMessage(
             id: UUID().uuidString,
             sender: TestConstants.testNickname1,
             content: TestConstants.testMessage1,
@@ -200,7 +200,7 @@ struct BinaryProtocolTests {
             mentions: nil
         )
         let payload = try #require(message.toBinaryPayload(), "Failed to encode relay message")
-        let decodedMessage = try #require(BitchatMessage(payload), "Failed to decode relay message")
+        let decodedMessage = try #require(DogechatMessage(payload), "Failed to decode relay message")
         #expect(decodedMessage.isRelay)
         #expect(decodedMessage.originalSender == TestConstants.testNickname3)
     }
@@ -230,7 +230,7 @@ struct BinaryProtocolTests {
         let largeContent = String(repeating: "X", count: 65535) // Max uint16
         let message = TestHelpers.createTestMessage(content: largeContent)
         let payload = try #require(message.toBinaryPayload(), "Failed to handle large message")
-        let decodedMessage = try #require(BitchatMessage(payload), "Failed to handle large message")
+        let decodedMessage = try #require(DogechatMessage(payload), "Failed to handle large message")
         #expect(decodedMessage.content == largeContent)
     }
     
@@ -238,7 +238,7 @@ struct BinaryProtocolTests {
     func emptyFieldsHandling() throws {
         let emptyMessage = TestHelpers.createTestMessage(content: "")
         let payload = try #require(emptyMessage.toBinaryPayload(), "Failed to handle empty message")
-        let decodedMessage = try #require(BitchatMessage(payload), "Failed to handle empty message")
+        let decodedMessage = try #require(DogechatMessage(payload), "Failed to handle empty message")
         #expect(decodedMessage.content.isEmpty)
     }
     

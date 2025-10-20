@@ -1,6 +1,6 @@
 //
 // SecureIdentityStateManager.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -139,7 +139,7 @@ protocol SecureIdentityStateManagerProtocol {
 /// All identity data is stored encrypted in the device Keychain for security.
 final class SecureIdentityStateManager: SecureIdentityStateManagerProtocol {
     private let keychain: KeychainManagerProtocol
-    private let cacheKey = "bitchat.identityCache.v2"
+    private let cacheKey = "dogechat.identityCache.v2"
     private let encryptionKeyName = "identityCacheEncryptionKey"
     
     // In-memory state
@@ -148,7 +148,7 @@ final class SecureIdentityStateManager: SecureIdentityStateManagerProtocol {
     private var cache: IdentityCache = IdentityCache()
     
     // Thread safety
-    private let queue = DispatchQueue(label: "bitchat.identity.state", attributes: .concurrent)
+    private let queue = DispatchQueue(label: "dogechat.identity.state", attributes: .concurrent)
     
     // Debouncing for keychain saves
     private var saveTimer: Timer?

@@ -8,7 +8,7 @@
 
 import Foundation
 import CryptoKit
-@testable import bitchat
+@testable import dogechat
 
 final class TestHelpers {
     
@@ -34,8 +34,8 @@ final class TestHelpers {
         isPrivate: Bool = false,
         recipientNickname: String? = nil,
         mentions: [String]? = nil
-    ) -> BitchatMessage {
-        return BitchatMessage(
+    ) -> DogechatMessage {
+        return DogechatMessage(
             id: UUID().uuidString,
             sender: sender,
             content: content,
@@ -56,8 +56,8 @@ final class TestHelpers {
         payload: Data = "test payload".data(using: .utf8)!,
         signature: Data? = nil,
         ttl: UInt8 = 3
-    ) -> BitchatPacket {
-        return BitchatPacket(
+    ) -> DogechatPacket {
+        return DogechatPacket(
             type: type,
             senderID: senderID.id.data(using: .utf8)!,
             recipientID: recipientID?.id.data(using: .utf8),

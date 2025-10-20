@@ -1,8 +1,8 @@
 import SwiftUI
 import XCTest
-@testable import bitchat
+@testable import dogechat
 
-final class FontBitchatTests: XCTestCase {
+final class FontDogechatTests: XCTestCase {
 //    func testMonospacedMapping() {
 //        XCTAssertEqual(Font.bitchatSystem(size: 10, design: .monospaced), Font.system(.caption2, design: .monospaced))
 //        XCTAssertEqual(Font.bitchatSystem(size: 14, design: .monospaced), Font.system(.body, design: .monospaced))

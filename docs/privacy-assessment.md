@@ -1,4 +1,4 @@
-BitChat Privacy Assessment
+Dogechat Privacy Assessment
 ==========================
 
 Scope
@@ -17,7 +17,7 @@ Summary
 BLE Privacy Considerations
 - Announce content: Unchanged — nickname + Noise public key only.
 - Local Name: Not used (explicitly disabled). Avoids leaking device/OS identity.
-- Address: iOS uses BLE MAC randomization; BitChat does not attempt to set static addresses.
+- Address: iOS uses BLE MAC randomization; Dogechat does not attempt to set static addresses.
 - Announce jitter: Each announce is delayed by a small random jitter to avoid synchronization-based correlation.
 - Scanning: Foreground scanning uses “allow duplicates” briefly to improve discovery latency; background uses standard scanning parameters.
 - RSSI gating: The acceptance threshold adapts to nearby density (approx. -95 to -80 dBm) to reduce long-distance observations in dense areas and improve connectivity in sparse ones.
@@ -30,10 +30,10 @@ Mesh Routing and Multi-hop Limits
 
 Nostr Private Messaging Fallback
 - Usage criteria: Only attempted for mutual favorites or where a Nostr key has been exchanged (stored in favorites).
-- Payload confidentiality: Messages embed a BitChat Noise-encrypted packet inside a NIP-17 gift wrap; relays see only random-looking ciphertext.
+- Payload confidentiality: Messages embed a Dogechat Noise-encrypted packet inside a NIP-17 gift wrap; relays see only random-looking ciphertext.
 - Timestamp handling: Gift wraps add small randomized offsets to reduce exact timing correlation.
 - Read/delivery acks: Also encapsulated in gift wraps, preserving content secrecy and minimizing metadata.
-- Relay policy variance: Some relays apply “web-of-trust” policies and may reject events; BitChat tolerates partial delivery and still prefers mesh when available.
+- Relay policy variance: Some relays apply “web-of-trust” policies and may reject events; Dogechat tolerates partial delivery and still prefers mesh when available.
 
 Read Receipts and Delivery Acks
 - Routing policy: Prefer mesh if Noise session established; otherwise use Nostr when mapping exists.
@@ -50,7 +50,7 @@ Logging and Telemetry
 - Centralized `SecureLogger` filters potential secrets and uses OSLog privacy markers.
 - Default level: `info`; release builds suppress debug. Developers can set `BITCHAT_LOG_LEVEL=debug|info|warning|error|fault`.
 - Transport routing, ACK sends, subscribe/connect noise were downgraded from info→debug.
-- OS/system errors (e.g., transient WebSocket disconnects) may still appear in system logs; BitChat avoids re-logging those unless actionable.
+- OS/system errors (e.g., transient WebSocket disconnects) may still appear in system logs; Dogechat avoids re-logging those unless actionable.
 
 Residual Risks and Mitigations
 - RF fingerprinting: BLE presence is observable at the RF layer; mitigated by minimal announce content and platform MAC randomization.

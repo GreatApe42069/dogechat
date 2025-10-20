@@ -1,6 +1,6 @@
 //
 // IdentityModels.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -9,11 +9,11 @@
 ///
 /// # IdentityModels
 ///
-/// Defines BitChat's innovative three-layer identity model that balances
+/// Defines Dogechat's innovative three-layer identity model that balances
 /// privacy, security, and usability in a decentralized mesh network.
 ///
 /// ## Overview
-/// BitChat's identity system separates concerns across three distinct layers:
+/// Dogechat's identity system separates concerns across three distinct layers:
 /// 1. **Ephemeral Identity**: Short-lived, rotatable peer IDs for privacy
 /// 2. **Cryptographic Identity**: Long-term Noise static keys for security
 /// 3. **Social Identity**: User-assigned names and trust relationships

@@ -1,6 +1,6 @@
 //
-// BitchatPacket.swift
-// bitchat
+// DogechatPacket.swift
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -8,11 +8,11 @@
 
 import Foundation
 
-/// The core packet structure for all BitChat protocol messages.
+/// The core packet structure for all Dogechat protocol messages.
 /// Encapsulates all data needed for routing through the mesh network,
 /// including TTL for hop limiting and optional encryption.
 /// - Note: Packets larger than BLE MTU (512 bytes) are automatically fragmented
-struct BitchatPacket: Codable {
+struct DogechatPacket: Codable {
     let version: UInt8
     let type: UInt8
     let senderID: Data
@@ -73,7 +73,7 @@ struct BitchatPacket: Codable {
     func toBinaryDataForSigning() -> Data? {
         // Create a copy without signature and with fixed TTL for signing
         // TTL must be excluded because it changes during relay
-        let unsignedPacket = BitchatPacket(
+        let unsignedPacket = DogechatPacket(
             type: type,
             senderID: senderID,
             recipientID: recipientID,
@@ -86,7 +86,7 @@ struct BitchatPacket: Codable {
         return BinaryProtocol.encode(unsignedPacket)
     }
     
-    static func from(_ data: Data) -> BitchatPacket? {
+    static func from(_ data: Data) -> DogechatPacket? {
         BinaryProtocol.decode(data)
     }
 }

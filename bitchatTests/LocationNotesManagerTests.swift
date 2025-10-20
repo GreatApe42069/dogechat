@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import bitchat
+@testable import dogechat
 
 @MainActor
 struct LocationNotesManagerTests {

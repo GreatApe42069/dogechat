@@ -142,7 +142,7 @@ public final class TorManager: ObservableObject {
                 appropriateFor: nil,
                 create: true
             )
-            let dir = base.appendingPathComponent("bitchat/tor", isDirectory: true)
+            let dir = base.appendingPathComponent("dogechat/tor", isDirectory: true)
             return dir
         } catch {
             return nil

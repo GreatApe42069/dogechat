@@ -1,4 +1,4 @@
-**BitChat Tor Build Notes**
+**Dogechat Tor Build Notes**
 
 - Date: See repo history for the commit you pulled
 - Output: `tor-nolzma.xcframework` (static, C-only)
@@ -43,7 +43,7 @@
 
 Note: Sizes vary slightly by Xcode/SDK versions and environment.
 
-**Integrating in BitChat**
+**Integrating in Dogechat**
 - Add `tor-nolzma.xcframework` to your app target(s). Xcode will select the correct slice for device/simulator/macOS.
 - Link `libz.tbd` (Tor depends on zlib).
 - Keep app link-time stripping enabled for best results:

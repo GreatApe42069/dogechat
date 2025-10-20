@@ -1,6 +1,6 @@
 //
 // NoiseSessionManager.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -14,7 +14,7 @@ final class NoiseSessionManager {
     private var sessions: [PeerID: NoiseSession] = [:]
     private let localStaticKey: Curve25519.KeyAgreement.PrivateKey
     private let keychain: KeychainManagerProtocol
-    private let managerQueue = DispatchQueue(label: "chat.bitchat.noise.manager", attributes: .concurrent)
+    private let managerQueue = DispatchQueue(label: "chat.dogechat.noise.manager", attributes: .concurrent)
     
     // Callbacks
     var onSessionEstablished: ((PeerID, Curve25519.KeyAgreement.PublicKey) -> Void)?

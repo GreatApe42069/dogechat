@@ -8,7 +8,7 @@
 
 import Foundation
 import CryptoKit
-@testable import bitchat
+@testable import dogechat
 
 final class TestNetworkHelper {
     // Public, read-only views for tests; mutation only through methods
@@ -71,10 +71,10 @@ final class TestNetworkHelper {
             guard let self else { return }
             guard packet.ttl > 1 else { return }
             
-            if let message = BitchatMessage(packet.payload) {
+            if let message = DogechatMessage(packet.payload) {
                 guard message.senderPeerID != node.peerID else { return }
                 
-                let relayMessage = BitchatMessage(
+                let relayMessage = DogechatMessage(
                     id: message.id,
                     sender: message.sender,
                     content: message.content,
@@ -88,7 +88,7 @@ final class TestNetworkHelper {
                 )
                 
                 if let relayPayload = relayMessage.toBinaryPayload() {
-                    let relayPacket = BitchatPacket(
+                    let relayPacket = DogechatPacket(
                         type: packet.type,
                         senderID: packet.senderID,
                         recipientID: packet.recipientID,

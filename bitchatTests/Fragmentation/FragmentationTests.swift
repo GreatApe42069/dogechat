@@ -9,7 +9,7 @@
 import Testing
 import Foundation
 import CoreBluetooth
-@testable import bitchat
+@testable import dogechat
 
 struct FragmentationTests {
     
@@ -105,7 +105,7 @@ struct FragmentationTests {
 
         let remoteID = PeerID(str: "CAFEBABECAFEBABE")
         let fileContent = Data(repeating: 0x42, count: FileTransferLimits.maxPayloadBytes)
-        let filePacket = BitchatFilePacket(
+        let filePacket = DogechatFilePacket(
             fileName: "limit.bin",
             fileSize: UInt64(fileContent.count),
             mimeType: "application/octet-stream",
@@ -113,7 +113,7 @@ struct FragmentationTests {
         )
         let encoded = try #require(filePacket.encode(), "File packet encoding failed")
 
-        let packet = BitchatPacket(
+        let packet = DogechatPacket(
             type: MessageType.fileTransfer.rawValue,
             senderID: Data(hexString: remoteID.id) ?? Data(),
             recipientID: nil,
@@ -167,7 +167,7 @@ struct FragmentationTests {
         var corrupted = fragments
         if !corrupted.isEmpty {
             var p = corrupted[0]
-            p = BitchatPacket(
+            p = DogechatPacket(
                 type: p.type,
                 senderID: p.senderID,
                 recipientID: p.recipientID,
@@ -196,10 +196,10 @@ struct FragmentationTests {
 }
 
 extension FragmentationTests {
-    private final class CaptureDelegate: BitchatDelegate {
+    private final class CaptureDelegate: DogechatDelegate {
         var publicMessages: [(peerID: PeerID, nickname: String, content: String)] = []
-        var receivedMessages: [BitchatMessage] = []
-        func didReceiveMessage(_ message: BitchatMessage) {
+        var receivedMessages: [DogechatMessage] = []
+        func didReceiveMessage(_ message: DogechatMessage) {
             receivedMessages.append(message)
         }
         func didConnectToPeer(_ peerID: PeerID) {}
@@ -216,10 +216,10 @@ extension FragmentationTests {
     }
 
     // Helper: build a large message packet (unencrypted public message)
-    private func makeLargePublicPacket(senderShortHex: PeerID, size: Int) -> BitchatPacket {
+    private func makeLargePublicPacket(senderShortHex: PeerID, size: Int) -> DogechatPacket {
         let content = String(repeating: "A", count: size)
         let payload = Data(content.utf8)
-        let pkt = BitchatPacket(
+        let pkt = DogechatPacket(
             type: MessageType.message.rawValue,
             senderID: Data(hexString: senderShortHex.id) ?? Data(),
             recipientID: nil,
@@ -232,14 +232,14 @@ extension FragmentationTests {
     }
 
     // Helper: fragment a packet using the same header format BLEService expects
-    private func fragmentPacket(_ packet: BitchatPacket, fragmentSize: Int, fragmentID: Data? = nil, pad: Bool = true) -> [BitchatPacket] {
+    private func fragmentPacket(_ packet: DogechatPacket, fragmentSize: Int, fragmentID: Data? = nil, pad: Bool = true) -> [DogechatPacket] {
         guard let fullData = packet.toBinaryData(padding: pad) else { return [] }
         let fid = fragmentID ?? Data((0..<8).map { _ in UInt8.random(in: 0...255) })
         let chunks: [Data] = stride(from: 0, to: fullData.count, by: fragmentSize).map { off in
             Data(fullData[off..<min(off + fragmentSize, fullData.count)])
         }
         let total = UInt16(chunks.count)
-        var packets: [BitchatPacket] = []
+        var packets: [DogechatPacket] = []
         for (i, chunk) in chunks.enumerated() {
             var payload = Data()
             payload.append(fid)
@@ -249,7 +249,7 @@ extension FragmentationTests {
             withUnsafeBytes(of: &totBE) { payload.append(contentsOf: $0) }
             payload.append(packet.type)
             payload.append(chunk)
-            let fpkt = BitchatPacket(
+            let fpkt = DogechatPacket(
                 type: MessageType.fragment.rawValue,
                 senderID: packet.senderID,
                 recipientID: packet.recipientID,

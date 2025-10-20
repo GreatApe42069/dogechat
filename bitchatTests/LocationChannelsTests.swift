@@ -1,6 +1,6 @@
 import Testing
 import Foundation
-@testable import bitchat
+@testable import dogechat
 
 struct LocationChannelsTests {
     @Test func geohashEncoderPrecisionMapping() {

@@ -267,7 +267,7 @@ final class GeoRelayDirectory {
                 appropriateFor: nil,
                 create: true
             )
-            let dir = base.appendingPathComponent("bitchat", isDirectory: true)
+            let dir = base.appendingPathComponent("dogechat", isDirectory: true)
             try? FileManager.default.createDirectory(at: dir, withIntermediateDirectories: true)
             return dir.appendingPathComponent(cacheFileName)
         } catch {

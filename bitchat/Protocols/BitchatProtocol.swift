@@ -1,19 +1,19 @@
 //
-// BitchatProtocol.swift
-// bitchat
+// DogechatProtocol.swift
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
 //
 
 ///
-/// # BitchatProtocol
+/// # DogechatProtocol
 ///
-/// Defines the application-layer protocol for BitChat mesh networking, including
+/// Defines the application-layer protocol for Dogechat mesh networking, including
 /// message types, packet structures, and encoding/decoding logic.
 ///
 /// ## Overview
-/// BitchatProtocol implements a binary protocol optimized for Bluetooth LE's
+/// DogechatProtocol implements a binary protocol optimized for Bluetooth LE's
 /// constrained bandwidth and MTU limitations. It provides:
 /// - Efficient binary message encoding
 /// - Message fragmentation for large payloads
@@ -63,7 +63,7 @@ import CoreBluetooth
 
 // MARK: - Message Types
 
-/// Simplified BitChat protocol message types.
+/// Simplified Dogechat protocol message types.
 /// Reduced from 24 types to just 6 essential ones.
 /// All private communication metadata (receipts, status) is embedded in noiseEncrypted payloads.
 enum MessageType: UInt8 {
@@ -162,8 +162,8 @@ enum DeliveryStatus: Codable, Equatable, Hashable {
 
 // MARK: - Delegate Protocol
 
-protocol BitchatDelegate: AnyObject {
-    func didReceiveMessage(_ message: BitchatMessage)
+protocol DogechatDelegate: AnyObject {
+    func didReceiveMessage(_ message: DogechatMessage)
     func didConnectToPeer(_ peerID: PeerID)
     func didDisconnectFromPeer(_ peerID: PeerID)
     func didUpdatePeerList(_ peers: [PeerID])
@@ -182,7 +182,7 @@ protocol BitchatDelegate: AnyObject {
 }
 
 // Provide default implementation to make it effectively optional
-extension BitchatDelegate {
+extension DogechatDelegate {
     func isFavorite(fingerprint: String) -> Bool {
         return false
     }

@@ -8,7 +8,7 @@
 
 import Testing
 import Foundation
-@testable import bitchat
+@testable import dogechat
 
 // MARK: - MimeType Mapping and Signature Tests
 

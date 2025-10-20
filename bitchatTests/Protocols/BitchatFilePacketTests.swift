@@ -1,11 +1,11 @@
 import XCTest
-@testable import bitchat
+@testable import dogechat
 
-final class BitchatFilePacketTests: XCTestCase {
+final class DogechatFilePacketTests: XCTestCase {
 
     func testRoundTripPreservesFields() throws {
         let content = Data((0..<4096).map { UInt8($0 % 251) })
-        let packet = BitchatFilePacket(
+        let packet = DogechatFilePacket(
             fileName: "sample.jpg",
             fileSize: UInt64(content.count),
             mimeType: "image/jpeg",
@@ -15,7 +15,7 @@ final class BitchatFilePacketTests: XCTestCase {
         guard let encoded = packet.encode() else {
             return XCTFail("Failed to encode file packet")
         }
-        guard let decoded = BitchatFilePacket.decode(encoded) else {
+        guard let decoded = DogechatFilePacket.decode(encoded) else {
             return XCTFail("Failed to decode file packet")
         }
 
@@ -27,7 +27,7 @@ final class BitchatFilePacketTests: XCTestCase {
 
     func testDecodeFallsBackToContentSizeWhenFileSizeMissing() throws {
         let content = Data(repeating: 0x7F, count: 1024)
-        let packet = BitchatFilePacket(
+        let packet = DogechatFilePacket(
             fileName: nil,
             fileSize: nil,
             mimeType: nil,
@@ -37,7 +37,7 @@ final class BitchatFilePacketTests: XCTestCase {
         guard let encoded = packet.encode() else {
             return XCTFail("Failed to encode file packet")
         }
-        guard let decoded = BitchatFilePacket.decode(encoded) else {
+        guard let decoded = DogechatFilePacket.decode(encoded) else {
             return XCTFail("Failed to decode file packet")
         }
 

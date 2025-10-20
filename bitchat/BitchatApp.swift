@@ -1,6 +1,6 @@
 //
-// BitchatApp.swift
-// bitchat
+// DogechatApp.swift
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -11,8 +11,8 @@ import SwiftUI
 import UserNotifications
 
 @main
-struct BitchatApp: App {
-    static let bundleID = Bundle.main.bundleIdentifier ?? "chat.bitchat"
+struct DogechatApp: App {
+    static let bundleID = Bundle.main.bundleIdentifier ?? "chat.dogechat"
     static let groupID = "group.\(bundleID)"
     
     @StateObject private var chatViewModel: ChatViewModel
@@ -134,7 +134,7 @@ struct BitchatApp: App {
     }
     
     private func handleURL(_ url: URL) {
-        if url.scheme == "bitchat" && url.host == "share" {
+        if url.scheme == "dogechat" && url.host == "share" {
             // Handle shared content
             checkForSharedContent()
         }
@@ -142,7 +142,7 @@ struct BitchatApp: App {
     
     private func checkForSharedContent() {
         // Check app group for shared content from extension
-        guard let userDefaults = UserDefaults(suiteName: BitchatApp.groupID) else {
+        guard let userDefaults = UserDefaults(suiteName: DogechatApp.groupID) else {
             return
         }
         

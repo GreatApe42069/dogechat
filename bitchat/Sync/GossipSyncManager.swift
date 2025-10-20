@@ -3,9 +3,9 @@ import Foundation
 // Gossip-based sync manager using on-demand GCS filters
 final class GossipSyncManager {
     protocol Delegate: AnyObject {
-        func sendPacket(_ packet: BitchatPacket)
-        func sendPacket(to peerID: PeerID, packet: BitchatPacket)
-        func signPacketForBroadcast(_ packet: BitchatPacket) -> BitchatPacket
+        func sendPacket(_ packet: DogechatPacket)
+        func sendPacket(to peerID: PeerID, packet: DogechatPacket)
+        func signPacketForBroadcast(_ packet: DogechatPacket) -> DogechatPacket
     }
 
     struct Config {
@@ -23,9 +23,9 @@ final class GossipSyncManager {
     weak var delegate: Delegate?
 
     // Storage: broadcast messages (ordered by insert), and latest announce per sender
-    private var messages: [String: BitchatPacket] = [:] // idHex -> packet
+    private var messages: [String: DogechatPacket] = [:] // idHex -> packet
     private var messageOrder: [String] = []
-    private var latestAnnouncementByPeer: [PeerID: (id: String, packet: BitchatPacket)] = [:]
+    private var latestAnnouncementByPeer: [PeerID: (id: String, packet: DogechatPacket)] = [:]
 
     // Timer
     private var periodicTimer: DispatchSourceTimer?
@@ -59,14 +59,14 @@ final class GossipSyncManager {
         }
     }
 
-    func onPublicPacketSeen(_ packet: BitchatPacket) {
+    func onPublicPacketSeen(_ packet: DogechatPacket) {
         queue.async { [weak self] in
             self?._onPublicPacketSeen(packet)
         }
     }
 
     // Helper to check if a packet is within the age threshold
-    private func isPacketFresh(_ packet: BitchatPacket) -> Bool {
+    private func isPacketFresh(_ packet: DogechatPacket) -> Bool {
         let nowMs = UInt64(Date().timeIntervalSince1970 * 1000)
         let ageThresholdMs = UInt64(config.maxMessageAgeSeconds * 1000)
 
@@ -77,7 +77,7 @@ final class GossipSyncManager {
         return packet.timestamp >= cutoffMs
     }
 
-    private func isAnnouncementFresh(_ packet: BitchatPacket) -> Bool {
+    private func isAnnouncementFresh(_ packet: DogechatPacket) -> Bool {
         guard config.stalePeerTimeoutSeconds > 0 else { return true }
         let nowMs = UInt64(Date().timeIntervalSince1970 * 1000)
         let timeoutMs = UInt64(config.stalePeerTimeoutSeconds * 1000)
@@ -86,7 +86,7 @@ final class GossipSyncManager {
         return packet.timestamp >= cutoffMs
     }
 
-    private func _onPublicPacketSeen(_ packet: BitchatPacket) {
+    private func _onPublicPacketSeen(_ packet: DogechatPacket) {
         let mt = MessageType(rawValue: packet.type)
         let isBroadcastRecipient: Bool = {
             guard let r = packet.recipientID else { return true }
@@ -128,7 +128,7 @@ final class GossipSyncManager {
 
     private func sendRequestSync() {
         let payload = buildGcsPayload()
-        let pkt = BitchatPacket(
+        let pkt = DogechatPacket(
             type: MessageType.requestSync.rawValue,
             senderID: Data(hexString: myPeerID.id) ?? Data(),
             recipientID: nil, // broadcast
@@ -150,7 +150,7 @@ final class GossipSyncManager {
             if let b = UInt8(hexByte, radix: 16) { recipient.append(b) }
             temp = String(temp.dropFirst(2))
         }
-        let pkt = BitchatPacket(
+        let pkt = DogechatPacket(
             type: MessageType.requestSync.rawValue,
             senderID: Data(hexString: myPeerID.id) ?? Data(),
             recipientID: recipient,
@@ -205,7 +205,7 @@ final class GossipSyncManager {
     // Build REQUEST_SYNC payload using current candidates and GCS params
     private func buildGcsPayload() -> Data {
         // Collect candidates: latest announce per peer + broadcast messages (only fresh)
-        var candidates: [BitchatPacket] = []
+        var candidates: [DogechatPacket] = []
         candidates.reserveCapacity(latestAnnouncementByPeer.count + messageOrder.count)
         for (_, pair) in latestAnnouncementByPeer {
             if isPacketFresh(pair.packet) {

@@ -1,6 +1,6 @@
 //
 // TextMessageView.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -12,7 +12,7 @@ struct TextMessageView: View {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @EnvironmentObject private var viewModel: ChatViewModel
     
-    let message: BitchatMessage
+    let message: DogechatMessage
     @Binding var expandedMessageIDs: Set<String>
     
     var body: some View {

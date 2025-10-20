@@ -31,7 +31,7 @@ This project is released into the public domain. See the [LICENSE](LICENSE) file
 - **Emergency Wipe**: Triple-tap to instantly clear all data
 - **Performance Optimizations**: LZ4 message compression, adaptive battery modes, and optimized networking
 
-## [Technical Architecture](https://deepwiki.com/permissionlesstech/bitchat)
+## [Technical Architecture](https://deepwiki.com/permissionlesstech/dogechat)
 
 Dogechat uses a **hybrid messaging architecture** with two complementary transport layers:
 
@@ -107,7 +107,7 @@ For detailed protocol documentation, see the [Technical Whitepaper](WHITEPAPER.m
    To run on a device there're a few steps to prepare the code:
    - Clone the local configs: `cp Configs/Local.xcconfig.example Configs/Local.xcconfig`
    - Add your Developer Team ID into the newly created `Configs/Local.xcconfig`
-      - Bundle ID would be set to `chat.bitchat.<team_id>` (unless you set to something else)
+      - Bundle ID would be set to `chat.dogechat.<team_id>` (unless you set to something else)
    - Entitlements need to be updated manually (TODO: Automate):
       - Search and replace `group.chat.dogechat` with `group.<your_bundle_id>` (e.g. `group.chat.dogechat.ABC123`)
 
@@ -125,4 +125,4 @@ Run `just clean` afterwards to restore things to original state for mobile app b
 - Base app resources live under `dogechat/Localization/Base.lproj/`. Add new copy to `Localizable.strings` and plural rules to `Localizable.stringsdict`.
 - Share extension strings are separate in `dogechatShareExtension/Localization/Base.lproj/Localizable.strings`.
 - Prefer keys that describe intent (`app_info.features.offline.title`) and reuse existing ones where possible.
-- Run `xcodebuild -project bitchat.xcodeproj -scheme "bitchat (macOS)" -configuration Debug CODE_SIGNING_ALLOWED=NO build` to compile-check any localization updates.
+- Run `xcodebuild -project dogechat.xcodeproj -scheme "dogechat (macOS)" -configuration Debug CODE_SIGNING_ALLOWED=NO build` to compile-check any localization updates.

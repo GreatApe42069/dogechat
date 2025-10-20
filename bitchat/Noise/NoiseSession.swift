@@ -1,6 +1,6 @@
 //
 // NoiseSession.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -28,7 +28,7 @@ class NoiseSession {
     private var handshakeHash: Data?
     
     // Thread safety
-    private let sessionQueue = DispatchQueue(label: "chat.bitchat.noise.session", attributes: .concurrent)
+    private let sessionQueue = DispatchQueue(label: "chat.dogechat.noise.session", attributes: .concurrent)
     
     init(
         peerID: PeerID,

@@ -1,6 +1,6 @@
 //
 // ChatViewModel.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -9,12 +9,12 @@
 ///
 /// # ChatViewModel
 ///
-/// The central business logic and state management component for BitChat.
+/// The central business logic and state management component for Dogechat.
 /// Coordinates between the UI layer and the networking/encryption services.
 ///
 /// ## Overview
 /// ChatViewModel implements the MVVM pattern, serving as the binding layer between
-/// SwiftUI views and the underlying BitChat services. It manages:
+/// SwiftUI views and the underlying Dogechat services. It manages:
 /// - Message state and delivery
 /// - Peer connections and presence
 /// - Private chat sessions
@@ -23,7 +23,7 @@
 ///
 /// ## Architecture
 /// The ViewModel acts as:
-/// - **BitchatDelegate**: Receives messages and events from BLEService
+/// - **DogechatDelegate**: Receives messages and events from BLEService
 /// - **State Manager**: Maintains all UI-relevant state with @Published properties
 /// - **Command Processor**: Handles IRC-style commands (/msg, /who, etc.)
 /// - **Message Router**: Directs messages to appropriate chats (public/private)
@@ -89,10 +89,10 @@ import UIKit
 #endif
 import UniformTypeIdentifiers
 
-/// Manages the application state and business logic for BitChat.
+/// Manages the application state and business logic for Dogechat.
 /// Acts as the primary coordinator between UI components and backend services,
-/// implementing the BitchatDelegate protocol to handle network events.
-final class ChatViewModel: ObservableObject, BitchatDelegate {
+/// implementing the DogechatDelegate protocol to handle network events.
+final class ChatViewModel: ObservableObject, DogechatDelegate {
     // Precompiled regexes and detectors reused across formatting
     private enum Regexes {
         static let hashtag: NSRegularExpression = {
@@ -166,7 +166,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     private let contentBucketRefill: Double = TransportConfig.uiContentRateBucketRefillPerSec // tokens per second
 
     @MainActor
-    private func normalizedSenderKey(for message: BitchatMessage) -> String {
+    private func normalizedSenderKey(for message: DogechatMessage) -> String {
         if let spid = message.senderPeerID {
             if spid.isGeoChat || spid.isGeoDM {
                 let full = (nostrKeyMapping[spid] ?? spid.bare).lowercased()
@@ -244,7 +244,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
     // MARK: - Published Properties
     
-    @Published var messages: [BitchatMessage] = []
+    @Published var messages: [DogechatMessage] = []
     @Published var currentColorScheme: ColorScheme = .light
     private let maxMessages = TransportConfig.meshTimelineCap // Maximum messages before oldest are removed
     @Published var isConnected = false
@@ -278,8 +278,8 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     // Computed properties for compatibility
     @MainActor
     var connectedPeers: Set<PeerID> { unifiedPeerService.connectedPeerIDs }
-    @Published var allPeers: [BitchatPeer] = []
-    var privateChats: [PeerID: [BitchatMessage]] {
+    @Published var allPeers: [DogechatPeer] = []
+    var privateChats: [PeerID: [DogechatMessage]] {
         get { privateChatManager.privateChats }
         set { privateChatManager.privateChats = newValue }
     }
@@ -358,7 +358,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         }
         return fullNoiseKeyHex
     }
-    private var peerIndex: [PeerID: BitchatPeer] = [:]
+    private var peerIndex: [PeerID: DogechatPeer] = [:]
     
     // MARK: - Autocomplete Properties
     
@@ -384,7 +384,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     private let maxProcessedNostrEvents = TransportConfig.uiProcessedNostrEventsCap
     private let userDefaults = UserDefaults.standard
     private let keychain: KeychainManagerProtocol
-    private let nicknameKey = "bitchat.nickname"
+    private let nicknameKey = "dogechat.nickname"
     // Location channel state (macOS supports manual geohash selection)
     @Published private var activeChannel: ChannelID = .mesh
     private var geoSubscriptionID: String? = nil
@@ -435,10 +435,10 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     // Messages are naturally ephemeral - no persistent storage
     // Persist mesh public timeline across channel switches
-    private var meshTimeline: [BitchatMessage] = []
+    private var meshTimeline: [DogechatMessage] = []
     private let meshTimelineCap = TransportConfig.meshTimelineCap
     // Persist per-geohash public timelines across switches
-    private var geoTimelines: [String: [BitchatMessage]] = [:] // geohash -> messages
+    private var geoTimelines: [String: [DogechatMessage]] = [:] // geohash -> messages
     private let geoTimelineCap = TransportConfig.geoTimelineCap
     // Channel activity tracking for background nudges
     private var lastPublicActivityAt: [String: Date] = [:]   // channelKey -> last activity time
@@ -480,7 +480,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
 
     // MARK: - Public message batching (UI perf)
     // Buffer incoming public messages and flush in small batches to reduce UI invalidations
-    private var publicBuffer: [BitchatMessage] = []
+    private var publicBuffer: [DogechatMessage] = []
     private var publicBufferTimer: Timer? = nil
     private let basePublicFlushInterval: TimeInterval = TransportConfig.basePublicFlushInterval
     private var dynamicPublicFlushInterval: TimeInterval = TransportConfig.basePublicFlushInterval
@@ -626,7 +626,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                 self.allPeers = peers
                 // Update peer index for O(1) lookups
                 // Deduplicate peers by ID to prevent crash from duplicate keys
-                var uniquePeers: [PeerID: BitchatPeer] = [:]
+                var uniquePeers: [PeerID: DogechatPeer] = [:]
                 for peer in peers {
                     // Keep the first occurrence of each peer ID
                     if uniquePeers[peer.peerID] == nil {
@@ -1051,7 +1051,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         let rawTs = Date(timeIntervalSince1970: TimeInterval(event.created_at))
         let timestamp = min(rawTs, Date())
         let mentions = parseMentions(from: content)
-        let msg = BitchatMessage(
+        let msg = DogechatMessage(
             id: event.id,
             sender: senderName,
             content: content,
@@ -1072,9 +1072,9 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         recordProcessedEvent(giftWrap.id)
         
         guard let (content, senderPubkey, rumorTs) = try? NostrProtocol.decryptPrivateMessage(giftWrap: giftWrap, recipientIdentity: id),
-              content.hasPrefix("bitchat1:"),
-              let packetData = Self.base64URLDecode(String(content.dropFirst("bitchat1:".count))),
-              let packet = BitchatPacket.from(packetData),
+              content.hasPrefix("dogechat1:"),
+              let packetData = Self.base64URLDecode(String(content.dropFirst("dogechat1:".count))),
+              let packet = DogechatPacket.from(packetData),
               packet.type == MessageType.noiseEncrypted.rawValue,
               let noisePayload = NoisePayload.decode(packet.payload)
         else {
@@ -1120,7 +1120,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         for (_, arr) in privateChats { if arr.contains(where: { $0.id == messageId }) { return } }
         let senderName = displayNameForNostrPubkey(senderPubkey)
         
-        let msg = BitchatMessage(
+        let msg = DogechatMessage(
             id: messageId,
             sender: senderName,
             content: pm.content,
@@ -1426,7 +1426,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     // MARK: - Message Sending
     
-    /// Sends a message through the BitChat network.
+    /// Sends a message through the Dogechat network.
     /// - Parameter content: The message content to send
     /// - Note: Automatically handles command processing if content starts with '/'
     ///         Routes to private chat if one is selected, otherwise broadcasts
@@ -1494,7 +1494,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             }
         }
 
-        let message = BitchatMessage(
+        let message = DogechatMessage(
             id: messageID,
             sender: displaySender,
             content: trimmed,
@@ -1740,7 +1740,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         // Clamp future timestamps
         let rawTs = Date(timeIntervalSince1970: TimeInterval(event.created_at))
         let mentions = parseMentions(from: content)
-        let msg = BitchatMessage(
+        let msg = DogechatMessage(
             id: event.id,
             sender: senderName,
             content: content,
@@ -1788,9 +1788,9 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         
         SecureLogger.debug("GeoDM: decrypted gift-wrap id=\(giftWrap.id.prefix(16))... from=\(senderPubkey.prefix(8))...", category: .session)
         
-        guard content.hasPrefix("bitchat1:"),
-              let packetData = Self.base64URLDecode(String(content.dropFirst("bitchat1:".count))),
-              let packet = BitchatPacket.from(packetData),
+        guard content.hasPrefix("dogechat1:"),
+              let packetData = Self.base64URLDecode(String(content.dropFirst("dogechat1:".count))),
+              let packet = DogechatPacket.from(packetData),
               packet.type == MessageType.noiseEncrypted.rawValue,
               let payload = NoisePayload.decode(packet.payload)
         else {
@@ -1838,7 +1838,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         }
         
         let senderName = displayNameForNostrPubkey(senderPubkey)
-        let msg = BitchatMessage(
+        let msg = DogechatMessage(
             id: messageId,
             sender: senderName,
             content: pm.content,
@@ -2186,7 +2186,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             let rawTs = Date(timeIntervalSince1970: TimeInterval(event.created_at))
             let ts = min(rawTs, Date())
             let mentions = self.parseMentions(from: content)
-            let msg = BitchatMessage(
+            let msg = DogechatMessage(
                 id: event.id,
                 sender: senderName,
                 content: content,
@@ -2303,7 +2303,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         let messageID = UUID().uuidString
         
         // Create the message object
-        let message = BitchatMessage(
+        let message = DogechatMessage(
             id: messageID,
             sender: nickname,
             content: content,
@@ -2361,7 +2361,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         let messageID = UUID().uuidString
         
         // Local echo in the DM thread
-        let message = BitchatMessage(
+        let message = DogechatMessage(
             id: messageID,
             sender: nickname,
             content: content,
@@ -2470,7 +2470,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                 }
 
                 let data = try Data(contentsOf: url)
-                let packet = BitchatFilePacket(
+                let packet = DogechatFilePacket(
                     fileName: url.lastPathComponent,
                     fileSize: UInt64(data.count),
                     mimeType: "audio/mp4",
@@ -2520,7 +2520,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                     try? FileManager.default.removeItem(at: outputURL)
                     return
                 }
-                let packet = BitchatFilePacket(
+                let packet = DogechatFilePacket(
                     fileName: outputURL.lastPathComponent,
                     fileSize: UInt64(data.count),
                     mimeType: "image/jpeg",
@@ -2570,12 +2570,12 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
 
     @MainActor
-    private func enqueueMediaMessage(content: String, targetPeer: PeerID?) -> BitchatMessage {
+    private func enqueueMediaMessage(content: String, targetPeer: PeerID?) -> DogechatMessage {
         let timestamp = Date()
-        let message: BitchatMessage
+        let message: DogechatMessage
 
         if let peerID = targetPeer {
-            message = BitchatMessage(
+            message = DogechatMessage(
                 sender: nickname,
                 content: content,
                 timestamp: timestamp,
@@ -2592,7 +2592,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             trimMessagesIfNeeded()
         } else {
             let (displayName, senderPeerID) = currentPublicSender()
-            message = BitchatMessage(
+            message = DogechatMessage(
                 sender: displayName,
                 content: content,
                 timestamp: timestamp,
@@ -2704,7 +2704,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         }
     }
 
-    private func cleanupLocalFile(forMessage message: BitchatMessage) {
+    private func cleanupLocalFile(forMessage message: DogechatMessage) {
         // Check both outgoing and incoming directories for thorough cleanup
         let prefixes = ["[voice] ", "[image] ", "[file] "]
         let subdirs = ["voicenotes/outgoing", "voicenotes/incoming",
@@ -2746,7 +2746,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
 
     @MainActor
     private func removeMessage(withID messageID: String, cleanupFile: Bool = false) {
-        var removedMessage: BitchatMessage?
+        var removedMessage: DogechatMessage?
 
         if let idx = messages.firstIndex(where: { $0.id == messageID }) {
             removedMessage = messages.remove(at: idx)
@@ -2818,7 +2818,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     /// Add a local system message to a private chat (no network send)
     @MainActor
     func addLocalPrivateSystemMessage(_ content: String, to peerID: PeerID) {
-        let systemMessage = BitchatMessage(
+        let systemMessage = DogechatMessage(
             sender: "system",
             content: content,
             timestamp: Date(),
@@ -2926,7 +2926,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                         if !existingMessageIds.contains(message.id) {
                             // Create updated message with correct senderPeerID
                             // This is crucial for read receipts to work correctly
-                            let updatedMessage = BitchatMessage(
+                            let updatedMessage = DogechatMessage(
                                 id: message.id,
                                 sender: message.sender,
                                 content: message.content,
@@ -3014,7 +3014,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                     for message in tempMessages {
                         if !existingMessageIds.contains(message.id) {
                             // Create a new message with the updated sender peer ID
-                            let updatedMessage = BitchatMessage(
+                            let updatedMessage = DogechatMessage(
                                 id: message.id,
                                 sender: message.sender,
                                 content: message.content,
@@ -3101,7 +3101,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     @MainActor
     @objc private func handleNostrMessage(_ notification: Notification) {
-        guard let message = notification.userInfo?["message"] as? BitchatMessage else { return }
+        guard let message = notification.userInfo?["message"] as? DogechatMessage else { return }
         
         // Store the Nostr pubkey if provided (for messages from unknown senders)
         if let nostrPubkey = notification.userInfo?["nostrPubkey"] as? String,
@@ -3237,7 +3237,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                 }
                 
                 // Create system message
-                let systemMessage = BitchatMessage(
+                let systemMessage = DogechatMessage(
                     id: UUID().uuidString,
                 sender: "System",
                 content: "\(peerNickname) \(action) you",
@@ -3314,7 +3314,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             }
             
             // Show local notification immediately as system message (only in chat)
-            let localNotification = BitchatMessage(
+            let localNotification = DogechatMessage(
                 sender: "system",
                 content: "you took a screenshot",
                 timestamp: Date(),
@@ -3366,7 +3366,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             
 
             // Show local notification immediately as system message (only in chat)
-            let localNotification = BitchatMessage(
+            let localNotification = DogechatMessage(
                 sender: "system",
                 content: "you took a screenshot",
                 timestamp: Date(),
@@ -3499,8 +3499,8 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
     
     @MainActor
-    func getPrivateChatMessages(for peerID: PeerID) -> [BitchatMessage] {
-        var combined: [BitchatMessage] = []
+    func getPrivateChatMessages(for peerID: PeerID) -> [DogechatMessage] {
+        var combined: [DogechatMessage] = []
 
         // Gather messages under the ephemeral peer ID
         if let ephemeralMessages = privateChats[peerID] {
@@ -3530,7 +3530,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             }
         }
 
-        var bestByID: [String: BitchatMessage] = [:]
+        var bestByID: [String: DogechatMessage] = [:]
         for msg in combined {
             if let existing = bestByID[msg.id] {
                 let lhs = statusRank(existing.deliveryStatus)
@@ -3594,8 +3594,8 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         _ = keychain.deleteAllKeychainData()
         
         // Clear UserDefaults identity data
-        userDefaults.removeObject(forKey: "bitchat.noiseIdentityKey")
-        userDefaults.removeObject(forKey: "bitchat.messageRetentionKey")
+        userDefaults.removeObject(forKey: "dogechat.noiseIdentityKey")
+        userDefaults.removeObject(forKey: "dogechat.messageRetentionKey")
         
         // Clear verified fingerprints
         verifiedFingerprints.removeAll()
@@ -3753,7 +3753,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     // MARK: - Message Formatting
     
     @MainActor
-    func formatMessageAsText(_ message: BitchatMessage, colorScheme: ColorScheme) -> AttributedString {
+    func formatMessageAsText(_ message: DogechatMessage, colorScheme: ColorScheme) -> AttributedString {
         // Determine if this message was sent by self (mesh, geo, or DM)
         let isSelf: Bool = {
             if let spid = message.senderPeerID {
@@ -3802,7 +3802,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             let fontWeight: Font.Weight = isSelf ? .bold : .medium
             senderStyle.font = .bitchatSystem(size: 14, weight: fontWeight, design: .monospaced)
             // Make sender clickable: encode senderPeerID into a custom URL
-            if let spid = message.senderPeerID, let url = URL(string: "bitchat://user/\(spid.toPercentEncoded())") {
+            if let spid = message.senderPeerID, let url = URL(string: "dogechat://user/\(spid.toPercentEncoded())") {
                 senderStyle.link = url
             }
 
@@ -3980,7 +3980,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                     } else {
                         // Style non-mention matches
                         if type == "hashtag" {
-                            // If the hashtag is a valid geohash, make it tappable (bitchat://geohash/<gh>)
+                            // If the hashtag is a valid geohash, make it tappable (dogechat://geohash/<gh>)
                             let token = String(matchText.dropFirst()).lowercased()
                             let allowed = Set("0123456789bcdefghjkmnpqrstuvwxyz")
                             let isGeohash = (2...12).contains(token.count) && token.allSatisfy { allowed.contains($0) }
@@ -4011,7 +4011,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                                 ? .bitchatSystem(size: 14, weight: .bold, design: .monospaced)
                                 : .bitchatSystem(size: 14, design: .monospaced)
                             tagStyle.foregroundColor = baseColor
-                            if isGeohash && !attachedToMention && standalone, let url = URL(string: "bitchat://geohash/\(token)") {
+                            if isGeohash && !attachedToMention && standalone, let url = URL(string: "dogechat://geohash/\(token)") {
                                 tagStyle.link = url
                                 tagStyle.underlineStyle = .single
                             }
@@ -4098,7 +4098,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
 
     @MainActor
-    func formatMessageHeader(_ message: BitchatMessage, colorScheme: ColorScheme) -> AttributedString {
+    func formatMessageHeader(_ message: DogechatMessage, colorScheme: ColorScheme) -> AttributedString {
         let isSelf: Bool = {
             if let spid = message.senderPeerID {
                 if case .location(let ch) = activeChannel, spid.id.hasPrefix("nostr:") {
@@ -4129,7 +4129,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         senderStyle.foregroundColor = baseColor
         senderStyle.font = .bitchatSystem(size: 14, weight: isSelf ? .bold : .medium, design: .monospaced)
         if let spid = message.senderPeerID,
-           let url = URL(string: "bitchat://user/\(spid.id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? spid.id)") {
+           let url = URL(string: "dogechat://user/\(spid.id.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? spid.id)") {
             senderStyle.link = url
         }
 
@@ -4144,7 +4144,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         return result
     }
     
-    func formatMessage(_ message: BitchatMessage, colorScheme: ColorScheme) -> AttributedString {
+    func formatMessage(_ message: DogechatMessage, colorScheme: ColorScheme) -> AttributedString {
         var result = AttributedString()
         
         let isDark = colorScheme == .dark
@@ -4348,7 +4348,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
 
     @MainActor
-    private func peerColor(for message: BitchatMessage, isDark: Bool) -> Color {
+    private func peerColor(for message: DogechatMessage, isDark: Bool) -> Color {
         if let spid = message.senderPeerID {
             if spid.isGeoChat || spid.isGeoDM {
                 let full = nostrKeyMapping[spid]?.lowercased() ?? spid.bare.lowercased()
@@ -4692,7 +4692,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     // MARK: - Message Management
     
-    private func addMessage(_ message: BitchatMessage) {
+    private func addMessage(_ message: DogechatMessage) {
         // Check for duplicates
         guard !messages.contains(where: { $0.id == message.id }) else { return }
         messages.append(message)
@@ -4726,7 +4726,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     // MARK: - Peer Lookup Helpers
     
-    func getPeer(byID peerID: PeerID) -> BitchatPeer? {
+    func getPeer(byID peerID: PeerID) -> DogechatPeer? {
         return peerIndex[peerID]
     }
     
@@ -4894,7 +4894,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         }
     }
     
-    // MARK: - BitchatDelegate Methods
+    // MARK: - DogechatDelegate Methods
     
     // MARK: - Command Handling
     
@@ -4920,7 +4920,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     // MARK: - Message Reception
     
-    func didReceiveMessage(_ message: BitchatMessage) {
+    func didReceiveMessage(_ message: DogechatMessage) {
         Task { @MainActor in
             // Early validation
             guard !isMessageBlocked(message) else { return }
@@ -4947,7 +4947,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                 guard let pm = PrivateMessagePacket.decode(from: payload) else { return }
                 let senderName = unifiedPeerService.getPeer(by: peerID)?.nickname ?? "Unknown"
             let pmMentions = parseMentions(from: pm.content)
-            let msg = BitchatMessage(
+            let msg = DogechatMessage(
                 id: pm.messageID,
                 sender: senderName,
                 content: pm.content,
@@ -5054,7 +5054,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         Task { @MainActor in
             let normalized = content.trimmingCharacters(in: .whitespacesAndNewlines)
             let publicMentions = parseMentions(from: normalized)
-            let msg = BitchatMessage(
+            let msg = DogechatMessage(
                 id: UUID().uuidString,
                 sender: nickname,
                 content: normalized,
@@ -5160,7 +5160,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                 if privateChats[stableKeyHex] == nil { privateChats[stableKeyHex] = [] }
                 let existing = Set(privateChats[stableKeyHex]!.map { $0.id })
                 for msg in messages where !existing.contains(msg.id) {
-                    let updated = BitchatMessage(
+                    let updated = DogechatMessage(
                         id: msg.id,
                         sender: msg.sender,
                         content: msg.content,
@@ -5415,7 +5415,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
             let currentStatus = chatMessages[index].deliveryStatus
             guard !shouldSkipUpdate(currentStatus: currentStatus, newStatus: status) else { continue }
             
-            // Update delivery status directly (BitchatMessage is a class/reference type)
+            // Update delivery status directly (DogechatMessage is a class/reference type)
             privateChats[peerID]?[index].deliveryStatus = status
         }
         
@@ -5428,7 +5428,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     // MARK: - Helper for System Messages
     private func addSystemMessage(_ content: String, timestamp: Date = Date()) {
-        let systemMessage = BitchatMessage(
+        let systemMessage = DogechatMessage(
             sender: "system",
             content: content,
             timestamp: timestamp,
@@ -5441,7 +5441,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     /// If mesh is currently active, also append to the visible `messages`.
     @MainActor
     private func addMeshOnlySystemMessage(_ content: String) {
-        let systemMessage = BitchatMessage(
+        let systemMessage = DogechatMessage(
             sender: "system",
             content: content,
             timestamp: Date(),
@@ -5461,7 +5461,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     /// Also persists the message into the active channel's backing store so it survives timeline rebinds.
     @MainActor
     func addPublicSystemMessage(_ content: String) {
-        let systemMessage = BitchatMessage(
+        let systemMessage = DogechatMessage(
             sender: "system",
             content: content,
             timestamp: Date(),
@@ -5574,15 +5574,15 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
                 recipientIdentity: currentIdentity
             )
             
-            // Expect embedded BitChat packet content
-            guard content.hasPrefix("bitchat1:") else {
+            // Expect embedded Dogechat packet content
+            guard content.hasPrefix("dogechat1:") else {
                 SecureLogger.debug("Ignoring non-embedded Nostr DM content", category: .session)
                 return
             }
 
-            guard let packetData = Self.base64URLDecode(String(content.dropFirst("bitchat1:".count))),
-                  let packet = BitchatPacket.from(packetData) else {
-                SecureLogger.error("Failed to decode embedded BitChat packet from Nostr DM", category: .session)
+            guard let packetData = Self.base64URLDecode(String(content.dropFirst("dogechat1:".count))),
+                  let packet = DogechatPacket.from(packetData) else {
+                SecureLogger.error("Failed to decode embedded Dogechat packet from Nostr DM", category: .session)
                 return
             }
 
@@ -5690,7 +5690,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         let isRecentMessage = Date().timeIntervalSince(messageTimestamp) < 30
         let shouldMarkAsUnread = !wasReadBefore && !isViewingThisChat && (isRecentMessage || !isStartupPhase)
 
-        let message = BitchatMessage(
+        let message = DogechatMessage(
             id: messageId,
             sender: senderNickname,
             content: messageContent,
@@ -5745,7 +5745,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         return false
     }
     
-    private func addMessageToPrivateChatsIfNeeded(_ message: BitchatMessage, targetPeerID: PeerID) {
+    private func addMessageToPrivateChatsIfNeeded(_ message: DogechatMessage, targetPeerID: PeerID) {
         if privateChats[targetPeerID] == nil {
             privateChats[targetPeerID] = []
         }
@@ -5759,7 +5759,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
     
     @MainActor
-    private func mirrorToEphemeralIfNeeded(_ message: BitchatMessage, targetPeerID: PeerID, key: Data?) {
+    private func mirrorToEphemeralIfNeeded(_ message: DogechatMessage, targetPeerID: PeerID, key: Data?) {
         guard let key,
               let ephemeralPeerID = unifiedPeerService.peers.first(where: { $0.noisePublicKey == key })?.peerID,
               ephemeralPeerID != targetPeerID
@@ -5779,7 +5779,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
     
     @MainActor
-    private func sendDeliveryAckViaNostrEmbedded(_ message: BitchatMessage, wasReadBefore: Bool, senderPubkey: String, key: Data?) {
+    private func sendDeliveryAckViaNostrEmbedded(_ message: DogechatMessage, wasReadBefore: Bool, senderPubkey: String, key: Data?) {
         guard !wasReadBefore else { return }
         
         if let key {
@@ -5795,7 +5795,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
     
     @MainActor
-    private func handleViewingThisChat(_ message: BitchatMessage, targetPeerID: PeerID, key: Data?, senderPubkey: String) {
+    private func handleViewingThisChat(_ message: DogechatMessage, targetPeerID: PeerID, key: Data?, senderPubkey: String) {
         unreadPrivateMessages.remove(targetPeerID)
         if let key,
            let ephemeralPeerID = unifiedPeerService.peers.first(where: { $0.noisePublicKey == key })?.peerID {
@@ -5991,7 +5991,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     /// Check if a message should be blocked based on sender
     @MainActor
-    private func isMessageBlocked(_ message: BitchatMessage) -> Bool {
+    private func isMessageBlocked(_ message: DogechatMessage) -> Bool {
         if let peerID = message.senderPeerID ?? getPeerIDForNickname(message.sender) {
             // Check mesh/known peers first
             if isPeerBlocked(peerID) { return true }
@@ -6017,13 +6017,13 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     }
     
     /// Process action messages (hugs, slaps) into system messages
-    private func processActionMessage(_ message: BitchatMessage) -> BitchatMessage {
+    private func processActionMessage(_ message: DogechatMessage) -> DogechatMessage {
         let isActionMessage = message.content.hasPrefix("* ") && message.content.hasSuffix(" *") &&
                               (message.content.contains("🫂") || message.content.contains("🐟") || 
                                message.content.contains("took a screenshot"))
         
         if isActionMessage {
-            return BitchatMessage(
+            return DogechatMessage(
                 id: message.id,
                 sender: "system",
                 content: String(message.content.dropFirst(2).dropLast(2)), // Remove * * wrapper
@@ -6046,7 +6046,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
         let currentFingerprint = getFingerprint(for: peerID)
         
         if privateChats[peerID] == nil || privateChats[peerID]?.isEmpty == true {
-            var migratedMessages: [BitchatMessage] = []
+            var migratedMessages: [DogechatMessage] = []
             var oldPeerIDsToRemove: [PeerID] = []
             
             // Only migrate messages from the last 24 hours to prevent old messages from flooding
@@ -6138,7 +6138,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     /// Handle incoming private message
     @MainActor
-    private func handlePrivateMessage(_ message: BitchatMessage) {
+    private func handlePrivateMessage(_ message: DogechatMessage) {
         SecureLogger.debug("📥 handlePrivateMessage called for message from \(message.sender)", category: .session)
         let senderPeerID = message.senderPeerID ?? getPeerIDForNickname(message.sender)
         
@@ -6275,7 +6275,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     /// Handle incoming public message
     @MainActor
-    private func handlePublicMessage(_ message: BitchatMessage) {
+    private func handlePublicMessage(_ message: DogechatMessage) {
         let finalMessage = processActionMessage(message)
 
         // Drop if sender is blocked (covers geohash via Nostr pubkey mapping)
@@ -6343,7 +6343,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
 
     // MARK: - Public message batching helpers
     @MainActor
-    private func enqueuePublic(_ message: BitchatMessage) {
+    private func enqueuePublic(_ message: DogechatMessage) {
         publicBuffer.append(message)
         schedulePublicFlush()
     }
@@ -6366,7 +6366,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
 
         // Dedup against existing by id and near-duplicate messages by content (within ~1s), across senders
         var seenIDs = Set(messages.map { $0.id })
-        var added: [BitchatMessage] = []
+        var added: [DogechatMessage] = []
         var batchContentLatest: [String: Date] = [:]
         for m in publicBuffer {
             if seenIDs.contains(m.id) { continue }
@@ -6446,7 +6446,7 @@ final class ChatViewModel: ObservableObject, BitchatDelegate {
     
     /// Check for mentions and send notifications
     
-private func checkForMentions(_ message: BitchatMessage) {
+private func checkForMentions(_ message: DogechatMessage) {
     // Determine our acceptable mention token. If any connected peer shares our nickname,
     // require the disambiguated form '<nickname>#<peerIDprefix>' to trigger.
     var myTokens: Set<String> = [nickname]
@@ -6465,7 +6465,7 @@ private func checkForMentions(_ message: BitchatMessage) {
 }
 
 /// Send haptic feedback for special messages (iOS only)
-    private func sendHapticFeedback(for message: BitchatMessage) {
+    private func sendHapticFeedback(for message: DogechatMessage) {
         #if os(iOS)
         guard UIApplication.shared.applicationState == .active else { return }
         

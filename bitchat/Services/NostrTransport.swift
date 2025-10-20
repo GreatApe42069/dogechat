@@ -4,7 +4,7 @@ import Combine
 
 // Minimal Nostr transport conforming to Transport for offline sending
 final class NostrTransport: Transport {
-    // Provide BLE short peer ID for BitChat embedding
+    // Provide BLE short peer ID for Dogechat embedding
     var senderPeerID = PeerID(str: "")
 
     // Throttle READ receipts to avoid relay rate limits
@@ -25,7 +25,7 @@ final class NostrTransport: Transport {
 
     // MARK: - Transport Protocol Conformance
 
-    weak var delegate: BitchatDelegate?
+    weak var delegate: DogechatDelegate?
     weak var peerEventsDelegate: TransportPeerEventsDelegate?
 
     var peerSnapshotPublisher: AnyPublisher<[TransportPeerSnapshot], Never> {
@@ -82,7 +82,7 @@ final class NostrTransport: Transport {
                 SecureLogger.error("NostrTransport: failed to decode npub -> hex: \(error)", category: .session)
                 return
             }
-            guard let embedded = NostrEmbeddedBitChat.encodePMForNostr(content: content, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
+            guard let embedded = NostrEmbeddedDogechat.encodePMForNostr(content: content, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed PM packet", category: .session)
                 return
             }
@@ -114,7 +114,7 @@ final class NostrTransport: Transport {
                 guard hrp == "npub" else { return }
                 recipientHex = data.hexEncodedString()
             } catch { return }
-            guard let embedded = NostrEmbeddedBitChat.encodePMForNostr(content: content, messageID: UUID().uuidString, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
+            guard let embedded = NostrEmbeddedDogechat.encodePMForNostr(content: content, messageID: UUID().uuidString, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed favorite notification", category: .session)
                 return
             }
@@ -139,7 +139,7 @@ final class NostrTransport: Transport {
                 guard hrp == "npub" else { return }
                 recipientHex = data.hexEncodedString()
             } catch { return }
-            guard let ack = NostrEmbeddedBitChat.encodeAckForNostr(type: .delivered, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
+            guard let ack = NostrEmbeddedDogechat.encodeAckForNostr(type: .delivered, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed DELIVERED ack", category: .session)
                 return
             }
@@ -161,7 +161,7 @@ extension NostrTransport {
     func sendDeliveryAckGeohash(for messageID: String, toRecipientHex recipientHex: String, from identity: NostrIdentity) {
         Task { @MainActor in
             SecureLogger.debug("GeoDM: send DELIVERED -> recip=\(recipientHex.prefix(8))… mid=\(messageID.prefix(8))… from=\(identity.publicKeyHex.prefix(8))…", category: .session)
-            guard let embedded = NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID) else { return }
+            guard let embedded = NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID) else { return }
             guard let event = try? NostrProtocol.createPrivateMessage(content: embedded, recipientPubkey: recipientHex, senderIdentity: identity) else { return }
             NostrRelayManager.registerPendingGiftWrap(id: event.id)
             NostrRelayManager.shared.sendEvent(event)
@@ -171,7 +171,7 @@ extension NostrTransport {
     func sendReadReceiptGeohash(_ messageID: String, toRecipientHex recipientHex: String, from identity: NostrIdentity) {
         Task { @MainActor in
             SecureLogger.debug("GeoDM: send READ -> recip=\(recipientHex.prefix(8))… mid=\(messageID.prefix(8))… from=\(identity.publicKeyHex.prefix(8))…", category: .session)
-            guard let embedded = NostrEmbeddedBitChat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID) else { return }
+            guard let embedded = NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID) else { return }
             guard let event = try? NostrProtocol.createPrivateMessage(content: embedded, recipientPubkey: recipientHex, senderIdentity: identity) else { return }
             NostrRelayManager.registerPendingGiftWrap(id: event.id)
             NostrRelayManager.shared.sendEvent(event)
@@ -183,8 +183,8 @@ extension NostrTransport {
         Task { @MainActor in
             guard !recipientHex.isEmpty else { return }
             SecureLogger.debug("GeoDM: send PM -> recip=\(recipientHex.prefix(8))… mid=\(messageID.prefix(8))… from=\(identity.publicKeyHex.prefix(8))…", category: .session)
-            // Build embedded BitChat packet without recipient peer ID
-            guard let embedded = NostrEmbeddedBitChat.encodePMForNostrNoRecipient(content: content, messageID: messageID, senderPeerID: senderPeerID) else {
+            // Build embedded Dogechat packet without recipient peer ID
+            guard let embedded = NostrEmbeddedDogechat.encodePMForNostrNoRecipient(content: content, messageID: messageID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed geohash PM packet", category: .session)
                 return
             }
@@ -223,7 +223,7 @@ extension NostrTransport {
                 guard hrp == "npub" else { scheduleNextReadAck(); return }
                 recipientHex = data.hexEncodedString()
             } catch { scheduleNextReadAck(); return }
-            guard let ack = NostrEmbeddedBitChat.encodeAckForNostr(type: .readReceipt, messageID: item.receipt.originalMessageID, recipientPeerID: item.peerID, senderPeerID: senderPeerID) else {
+            guard let ack = NostrEmbeddedDogechat.encodeAckForNostr(type: .readReceipt, messageID: item.receipt.originalMessageID, recipientPeerID: item.peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed READ ack", category: .session)
                 scheduleNextReadAck(); return
             }

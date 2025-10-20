@@ -1,6 +1,6 @@
 //
 // BinaryEncodingUtils.swift
-// bitchat
+// dogechat
 //
 // Binary encoding utilities for efficient protocol messages
 //

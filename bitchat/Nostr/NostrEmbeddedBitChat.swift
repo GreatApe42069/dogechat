@@ -1,9 +1,9 @@
 import Foundation
 
-// MARK: - BitChat-over-Nostr Adapter
+// MARK: - Dogechat-over-Nostr Adapter
 
-struct NostrEmbeddedBitChat {
-    /// Build a `bitchat1:` base64url-encoded BitChat packet carrying a private message for Nostr DMs.
+struct NostrEmbeddedDogechat {
+    /// Build a `dogechat1:` base64url-encoded Dogechat packet carrying a private message for Nostr DMs.
     static func encodePMForNostr(content: String, messageID: String, recipientPeerID: PeerID, senderPeerID: PeerID) -> String? {
         // TLV-encode the private message
         let pm = PrivateMessagePacket(messageID: messageID, content: content)
@@ -16,7 +16,7 @@ struct NostrEmbeddedBitChat {
         // Determine 8-byte recipient ID to embed
         let recipientID = normalizeRecipientPeerID(recipientPeerID)
 
-        let packet = BitchatPacket(
+        let packet = DogechatPacket(
             type: MessageType.noiseEncrypted.rawValue,
             senderID: Data(hexString: senderPeerID.id) ?? Data(),
             recipientID: Data(hexString: recipientID.id),
@@ -27,10 +27,10 @@ struct NostrEmbeddedBitChat {
         )
 
         guard let data = packet.toBinaryData() else { return nil }
-        return "bitchat1:" + base64URLEncode(data)
+        return "dogechat1:" + base64URLEncode(data)
     }
 
-    /// Build a `bitchat1:` base64url-encoded BitChat packet carrying a delivery/read ack for Nostr DMs.
+    /// Build a `dogechat1:` base64url-encoded Dogechat packet carrying a delivery/read ack for Nostr DMs.
     static func encodeAckForNostr(type: NoisePayloadType, messageID: String, recipientPeerID: PeerID, senderPeerID: PeerID) -> String? {
         guard type == .delivered || type == .readReceipt else { return nil }
 
@@ -39,7 +39,7 @@ struct NostrEmbeddedBitChat {
 
         let recipientID = normalizeRecipientPeerID(recipientPeerID)
 
-        let packet = BitchatPacket(
+        let packet = DogechatPacket(
             type: MessageType.noiseEncrypted.rawValue,
             senderID: Data(hexString: senderPeerID.id) ?? Data(),
             recipientID: Data(hexString: recipientID.id),
@@ -50,17 +50,17 @@ struct NostrEmbeddedBitChat {
         )
 
         guard let data = packet.toBinaryData() else { return nil }
-        return "bitchat1:" + base64URLEncode(data)
+        return "dogechat1:" + base64URLEncode(data)
     }
 
-    /// Build a `bitchat1:` ACK (delivered/read) without an embedded recipient peer ID (geohash DMs).
+    /// Build a `dogechat1:` ACK (delivered/read) without an embedded recipient peer ID (geohash DMs).
     static func encodeAckForNostrNoRecipient(type: NoisePayloadType, messageID: String, senderPeerID: PeerID) -> String? {
         guard type == .delivered || type == .readReceipt else { return nil }
 
         var payload = Data([type.rawValue])
         payload.append(Data(messageID.utf8))
 
-        let packet = BitchatPacket(
+        let packet = DogechatPacket(
             type: MessageType.noiseEncrypted.rawValue,
             senderID: Data(hexString: senderPeerID.id) ?? Data(),
             recipientID: nil,
@@ -71,10 +71,10 @@ struct NostrEmbeddedBitChat {
         )
 
         guard let data = packet.toBinaryData() else { return nil }
-        return "bitchat1:" + base64URLEncode(data)
+        return "dogechat1:" + base64URLEncode(data)
     }
 
-    /// Build a `bitchat1:` payload without an embedded recipient peer ID (used for geohash DMs).
+    /// Build a `dogechat1:` payload without an embedded recipient peer ID (used for geohash DMs).
     static func encodePMForNostrNoRecipient(content: String, messageID: String, senderPeerID: PeerID) -> String? {
         let pm = PrivateMessagePacket(messageID: messageID, content: content)
         guard let tlv = pm.encode() else { return nil }
@@ -82,7 +82,7 @@ struct NostrEmbeddedBitChat {
         var payload = Data([NoisePayloadType.privateMessage.rawValue])
         payload.append(tlv)
 
-        let packet = BitchatPacket(
+        let packet = DogechatPacket(
             type: MessageType.noiseEncrypted.rawValue,
             senderID: Data(hexString: senderPeerID.id) ?? Data(),
             recipientID: nil,
@@ -93,7 +93,7 @@ struct NostrEmbeddedBitChat {
         )
 
         guard let data = packet.toBinaryData() else { return nil }
-        return "bitchat1:" + base64URLEncode(data)
+        return "dogechat1:" + base64URLEncode(data)
     }
 
     private static func normalizeRecipientPeerID(_ recipientPeerID: PeerID) -> PeerID {

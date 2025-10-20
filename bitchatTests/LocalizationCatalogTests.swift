@@ -1,6 +1,6 @@
 //import Foundation
 //import XCTest
-//@testable import bitchat
+//@testable import dogechat
 //
 //private let localizationTestsDirectoryURL = URL(fileURLWithPath: #filePath).deletingLastPathComponent()
 //private let testsRootURL = localizationTestsDirectoryURL.deletingLastPathComponent()
@@ -9,19 +9,19 @@
 //final class LocalizationCatalogTests: XCTestCase {
 //  // Ensures every app locale includes exactly the same keys as Base.
 //  func testAppCatalogLocaleParity() throws {
-//    let context = try loadContext(relativePath: "bitchat/Localizable.xcstrings")
+//    let context = try loadContext(relativePath: "dogechat/Localizable.xcstrings")
 //    assertLocaleParity(context: context, catalogName: "App")
 //  }
 //
 //  // Verifies format placeholders stay consistent across app locales.
 //  func testAppCatalogPlaceholderConsistency() throws {
-//    let context = try loadContext(relativePath: "bitchat/Localizable.xcstrings")
+//    let context = try loadContext(relativePath: "dogechat/Localizable.xcstrings")
 //    assertPlaceholderConsistency(context: context, catalogName: "App")
 //  }
 //
 //  // Guards a core set of app strings from going empty per locale.
 //  func testAppPrimaryKeysNonEmpty() throws {
-//    let context = try loadContext(relativePath: "bitchat/Localizable.xcstrings")
+//    let context = try loadContext(relativePath: "dogechat/Localizable.xcstrings")
 //    let primaryKeys = try loadPrimaryKeys().app
 //    assertPrimaryKeysPresent(context: context, keys: primaryKeys, catalogName: "App")
 //  }
@@ -47,7 +47,7 @@
 //
 //  // Validates that configured locales contain expected string values.
 //  func testLocalizationExpectedValues() throws {
-//    let appContext = try loadContext(relativePath: "bitchat/Localizable.xcstrings")
+//    let appContext = try loadContext(relativePath: "dogechat/Localizable.xcstrings")
 //    let shareContext = try loadContext(relativePath: "bitchatShareExtension/Localization/Localizable.xcstrings")
 //    let config = try loadPrimaryKeys()
 //    
@@ -81,7 +81,7 @@
 //
 //  // Ensures configured test locales are present and complete.
 //  func testConfiguredLocalesCompleteness() throws {
-//    let appContext = try loadContext(relativePath: "bitchat/Localizable.xcstrings")
+//    let appContext = try loadContext(relativePath: "dogechat/Localizable.xcstrings")
 //    let shareContext = try loadContext(relativePath: "bitchatShareExtension/Localization/Localizable.xcstrings")
 //    let config = try loadPrimaryKeys()
 //    

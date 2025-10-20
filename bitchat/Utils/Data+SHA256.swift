@@ -1,6 +1,6 @@
 //
 //  Data+SHA256.swift
-//  bitchat
+//  dogechat
 //
 //  Created by Islam on 26/09/2025.
 //

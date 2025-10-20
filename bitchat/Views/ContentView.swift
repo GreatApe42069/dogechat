@@ -1,6 +1,6 @@
 //
 // ContentView.swift
-// bitchat
+// dogechat
 //
 // This is free and unencumbered software released into the public domain.
 // For more information, see <https://unlicense.org>
@@ -24,7 +24,7 @@ import BitLogger
 
 private struct MessageDisplayItem: Identifiable {
     let id: String
-    let message: BitchatMessage
+    let message: DogechatMessage
 }
 
 // MARK: - Main Content View
@@ -125,7 +125,7 @@ struct ContentView: View {
     
     private struct PrivateHeaderContext {
         let headerPeerID: PeerID
-        let peer: BitchatPeer?
+        let peer: DogechatPeer?
         let displayName: String
         let isNostrAvailable: Bool
     }
@@ -345,7 +345,7 @@ struct ContentView: View {
     // MARK: - Message List View
     
     private func messagesView(privatePeer: PeerID?, isAtBottom: Binding<Bool>) -> some View {
-        let messages: [BitchatMessage] = {
+        let messages: [DogechatMessage] = {
             if let peerID = privatePeer {
                 return viewModel.getPrivateChatMessages(for: peerID)
             }
@@ -359,7 +359,7 @@ struct ContentView: View {
             return windowCountPublic
         }()
 
-        let windowedMessages: [BitchatMessage] = Array(messages.suffix(currentWindowCount))
+        let windowedMessages: [DogechatMessage] = Array(messages.suffix(currentWindowCount))
 
         let contextKey: String = {
             if let peer = privatePeer { return "dm:\(peer)" }
@@ -789,7 +789,7 @@ struct ContentView: View {
     }
 
     private func handleOpenURL(_ url: URL) {
-        guard url.scheme == "bitchat" else { return }
+        guard url.scheme == "dogechat" else { return }
         switch url.host {
         case "user":
             let id = url.path.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
@@ -1331,7 +1331,7 @@ struct ContentView: View {
     
     private var mainHeaderView: some View {
         HStack(spacing: 0) {
-            Text(verbatim: "bitchat/")
+            Text(verbatim: "dogechat/")
                 .font(.bitchatSystem(size: 18, weight: .medium, design: .monospaced))
                 .foregroundColor(textColor)
                 .onTapGesture(count: 3) {
@@ -1617,7 +1617,7 @@ private enum MessageMedia {
 }
 
 private extension ContentView {
-    func mediaAttachment(for message: BitchatMessage) -> MessageMedia? {
+    func mediaAttachment(for message: DogechatMessage) -> MessageMedia? {
         guard let baseDirectory = applicationFilesDirectory() else { return nil }
 
         // Extract filename from message content
@@ -1651,7 +1651,7 @@ private extension ContentView {
         return nil
     }
 
-    func mediaSendState(for message: BitchatMessage, mediaURL: URL) -> (isSending: Bool, progress: Double?, canCancel: Bool) {
+    func mediaSendState(for message: DogechatMessage, mediaURL: URL) -> (isSending: Bool, progress: Double?, canCancel: Bool) {
         var isSending = false
         var progress: Double?
         if let status = message.deliveryStatus {
@@ -1675,7 +1675,7 @@ private extension ContentView {
     }
 
     @ViewBuilder
-    private func messageRow(for message: BitchatMessage) -> some View {
+    private func messageRow(for message: DogechatMessage) -> some View {
         if message.sender == "system" {
             systemMessageRow(message)
         } else if let media = mediaAttachment(for: message) {
@@ -1686,14 +1686,14 @@ private extension ContentView {
     }
 
     @ViewBuilder
-    private func systemMessageRow(_ message: BitchatMessage) -> some View {
+    private func systemMessageRow(_ message: DogechatMessage) -> some View {
         Text(viewModel.formatMessageAsText(message, colorScheme: colorScheme))
             .fixedSize(horizontal: false, vertical: true)
             .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     @ViewBuilder
-    private func mediaMessageRow(message: BitchatMessage, media: MessageMedia) -> some View {
+    private func mediaMessageRow(message: DogechatMessage, media: MessageMedia) -> some View {
         let mediaURL = media.url
         let state = mediaSendState(for: message, mediaURL: mediaURL)
         let isOutgoing = mediaURL.path.contains("/outgoing/")
@@ -1746,7 +1746,7 @@ private extension ContentView {
     }
 
     @ViewBuilder
-    private func textMessageRow(_ message: BitchatMessage) -> some View {
+    private func textMessageRow(_ message: DogechatMessage) -> some View {
         let cashuTokens = message.content.extractCashuLinks()
         let lightningLinks = message.content.extractLightningLinks()
         let isLong = (message.content.count > TransportConfig.uiLongMessageLengthThreshold || message.content.hasVeryLongToken(threshold: TransportConfig.uiVeryLongTokenThreshold)) && cashuTokens.isEmpty
@@ -1795,8 +1795,8 @@ private extension ContentView {
         }
     }
 
-    private func expandWindow(ifNeededFor message: BitchatMessage,
-                              allMessages: [BitchatMessage],
+    private func expandWindow(ifNeededFor message: DogechatMessage,
+                              allMessages: [DogechatMessage],
                               privatePeer: PeerID?,
                               proxy: ScrollViewProxy) {
         let step = TransportConfig.uiWindowStepCount

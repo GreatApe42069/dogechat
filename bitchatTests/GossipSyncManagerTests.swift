@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import bitchat
+@testable import dogechat
 
 struct GossipSyncManagerTests {
 
@@ -20,7 +20,7 @@ struct GossipSyncManagerTests {
             let senderID = try #require(Data(hexString: "1122334455667788"))
             
             for i in 0..<iterations {
-                let packet = BitchatPacket(
+                let packet = DogechatPacket(
                     type: MessageType.message.rawValue,
                     senderID: senderID,
                     recipientID: nil,
@@ -52,7 +52,7 @@ struct GossipSyncManagerTests {
         let senderData = try #require(Data(hexString: peerHex))
         let initialTimestampMs = UInt64(Date().timeIntervalSince1970 * 1000)
 
-        let announcePacket = BitchatPacket(
+        let announcePacket = DogechatPacket(
             type: MessageType.announce.rawValue,
             senderID: senderData,
             recipientID: nil,
@@ -62,7 +62,7 @@ struct GossipSyncManagerTests {
             ttl: 1
         )
 
-        let messagePacket = BitchatPacket(
+        let messagePacket = DogechatPacket(
             type: MessageType.message.rawValue,
             senderID: senderData,
             recipientID: nil,
@@ -97,7 +97,7 @@ struct GossipSyncManagerTests {
         let senderData = try #require(Data(hexString: peerHex))
         let staleTimestampMs = UInt64(Date().addingTimeInterval(-(config.stalePeerTimeoutSeconds + 1)).timeIntervalSince1970 * 1000)
 
-        let freshMessage = BitchatPacket(
+        let freshMessage = DogechatPacket(
             type: MessageType.message.rawValue,
             senderID: senderData,
             recipientID: nil,
@@ -108,7 +108,7 @@ struct GossipSyncManagerTests {
         )
         manager.onPublicPacketSeen(freshMessage)
 
-        let announcePacket = BitchatPacket(
+        let announcePacket = DogechatPacket(
             type: MessageType.announce.rawValue,
             senderID: senderData,
             recipientID: nil,
@@ -129,21 +129,21 @@ struct GossipSyncManagerTests {
 
 private final class RecordingDelegate: GossipSyncManager.Delegate {
     var onSend: (() -> Void)?
-    private(set) var lastPacket: BitchatPacket?
+    private(set) var lastPacket: DogechatPacket?
     private let lock = NSLock()
 
-    func sendPacket(_ packet: BitchatPacket) {
+    func sendPacket(_ packet: DogechatPacket) {
         lock.lock()
         lastPacket = packet
         lock.unlock()
         onSend?()
     }
 
-    func sendPacket(to peerID: PeerID, packet: BitchatPacket) {
+    func sendPacket(to peerID: PeerID, packet: DogechatPacket) {
         sendPacket(packet)
     }
 
-    func signPacketForBroadcast(_ packet: BitchatPacket) -> BitchatPacket {
+    func signPacketForBroadcast(_ packet: DogechatPacket) -> DogechatPacket {
         packet
     }
 }

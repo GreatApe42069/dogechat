@@ -1,11 +1,11 @@
 import Testing
 import Foundation
-@testable import bitchat
+@testable import dogechat
 
 struct NotificationStreamAssemblerTests {
-    private func makePacket(timestamp: UInt64 = 0x0102030405) -> BitchatPacket {
+    private func makePacket(timestamp: UInt64 = 0x0102030405) -> DogechatPacket {
         let sender = Data([0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77])
-        return BitchatPacket(
+        return DogechatPacket(
             type: MessageType.message.rawValue,
             senderID: sender,
             recipientID: nil,
@@ -101,7 +101,7 @@ struct NotificationStreamAssemblerTests {
 
         // Keep the fixture below FileTransferLimits.maxPayloadBytes so encoding succeeds while still exercising compression.
         let largeContent = Data(repeating: 0x41, count: 600_000)
-        let filePacket = BitchatFilePacket(
+        let filePacket = DogechatFilePacket(
             fileName: "large.bin",
             fileSize: UInt64(largeContent.count),
             mimeType: "application/octet-stream",
@@ -110,7 +110,7 @@ struct NotificationStreamAssemblerTests {
         let tlvPayload = try #require(filePacket.encode(), "Failed to encode file packet")
 
         let senderID = Data(repeating: 0xAA, count: BinaryProtocol.senderIDSize)
-        let packet = BitchatPacket(
+        let packet = DogechatPacket(
             type: MessageType.fileTransfer.rawValue,
             senderID: senderID,
             recipientID: nil,
@@ -142,7 +142,7 @@ struct NotificationStreamAssemblerTests {
         let decodedPacket = try #require(BinaryProtocol.decode(assembled), "Failed to decode compressed frame")
         #expect(decodedPacket.payload.count == tlvPayload.count)
 
-        let decodedFile = try #require(BitchatFilePacket.decode(decodedPacket.payload), "Failed to decode TLV payload")
+        let decodedFile = try #require(DogechatFilePacket.decode(decodedPacket.payload), "Failed to decode TLV payload")
         #expect(decodedFile.fileName == filePacket.fileName)
         #expect(decodedFile.mimeType == filePacket.mimeType)
         #expect(decodedFile.content.count == largeContent.count)
