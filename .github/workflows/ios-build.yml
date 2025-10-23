@@ -41,32 +41,28 @@ jobs:
             -configuration "${{ env.BUILD_CONFIGURATION }}" \
             -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
             CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            DEVELOPMENT_TEAM=PLACEHOLDER
 
-      - name: Export .ipa
+      - name: Package unsigned .app as .ipa
         run: |
-          # Create the ExportOptions.plist for a development build
-          cat <<EOF > ExportOptions.plist
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>method</key>
-            <string>development</string>
-            <key>signingStyle</key>
-            <string>manual</string>
-          </dict>
-          </plist>
-          EOF
-
-          xcodebuild -exportArchive \
-            -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
-            -exportPath ./build \
-            -exportOptionsPlist ExportOptions.plist
+          # For unsigned builds, we manually package the .app as an .ipa
+          # This is a temporary solution until a proper Apple Developer account is set up
+          
+          # Create Payload directory structure
+          mkdir -p ./build/Payload
+          
+          # Copy the .app bundle to Payload
+          cp -r "./build/${{ env.SCHEME_NAME }}.xcarchive/Products/Applications/dogechat.app" ./build/Payload/
+          
+          # Create the .ipa (which is just a zip file with the Payload directory)
+          cd ./build
+          zip -r "dogechat-unsigned.ipa" Payload
+          cd ..
 
       - name: Upload .ipa Artifact
         uses: actions/upload-artifact@v4
         with:
           name: dogechat-ios-app
-          path: "./build/${{ env.SCHEME_NAME }}.ipa"
+          path: "./build/dogechat-unsigned.ipa"
           retention-days: 7
