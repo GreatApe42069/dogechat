@@ -72,6 +72,7 @@ jobs:
             -configuration "${{ env.BUILD_CONFIGURATION }}" \
             -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
             -allowProvisioningUpdates \
+            -allowProvisioningDeviceRegistration \
             CODE_SIGN_IDENTITY="Apple Development" \
             CODE_SIGNING_ALLOWED=YES \
             DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID || 'NOTSET' }}" \
@@ -102,7 +103,8 @@ jobs:
             -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
             -exportPath ./build \
             -exportOptionsPlist ExportOptions.plist \
-            -allowProvisioningUpdates
+            -allowProvisioningUpdates \
+            -allowProvisioningDeviceRegistration
 
       - name: Upload .ipa Artifact
         uses: actions/upload-artifact@v4
