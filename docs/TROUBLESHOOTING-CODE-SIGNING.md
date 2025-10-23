@@ -89,6 +89,8 @@ DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}"
 3. **Xcode Preferences** (GUI)
    - Xcode > Settings > Accounts
 
+**Note on conflicts:** If DEVELOPMENT_TEAM is set in multiple places, Xcode uses the highest precedence source. Command-line parameters always override xcconfig files, which in turn override Xcode preferences. This ensures CI/CD builds can always override local development settings.
+
 ### For Different Environments
 
 #### CI/CD (GitHub Actions)
@@ -158,6 +160,8 @@ Ensure DEVELOPMENT_TEAM is properly set at the project level (via xcconfig, comm
 2. For paid accounts: Create profiles at developer.apple.com
 3. Ensure bundle ID matches your team's registered IDs
 
+**⚠️ Warning:** `-allowProvisioningUpdates` may automatically create new provisioning profiles. If using a shared Apple Developer account, this could affect other team members' development environments. For team environments, consider manually managing profiles at developer.apple.com instead.
+
 ### Issue: SPM packages fail to sign
 
 **Cause:** DEVELOPMENT_TEAM not propagating to packages
@@ -181,7 +185,8 @@ Ensure DEVELOPMENT_TEAM is properly set at the project level (via xcconfig, comm
 ### Test Locally
 
 ```bash
-cd /path/to/dogechat
+# Navigate to the project root directory
+cd ~/path/to/your/clone/of/dogechat
 
 # Test with your Team ID
 xcodebuild archive \
