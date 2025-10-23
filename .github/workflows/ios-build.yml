@@ -1,6 +1,10 @@
 # FREE APPLE DEVELOPER ACCOUNT BUILD
 # This workflow builds a code-signed iOS app using a free Apple Developer account.
 # 
+# AUTOMATIC RE-SIGNING:
+# This workflow runs automatically every 6 days to re-sign the app before the 7-day
+# free account expiration. This ensures a fresh signed IPA is always available.
+#
 # SETUP REQUIRED:
 # 1. Sign up for a free Apple Developer account at developer.apple.com (no $99 fee required)
 # 2. Get your personal Team ID (10 character string, format: XXXXXXXXXX)
@@ -13,7 +17,8 @@
 #
 # This produces a SIGNED IPA that:
 # ✅ Can be installed on physical iOS devices (via Xcode or Apple Configurator)
-# ✅ Valid for 7 days before needing to be re-signed (free account limitation)
+# ✅ Automatically re-signed every 6 days (before 7-day expiration)
+# ✅ Always up to date with the latest code changes
 # ❌ Cannot be distributed via App Store (requires paid $99/year account)
 # ❌ Cannot be distributed via TestFlight (requires paid account)
 
@@ -21,6 +26,10 @@ name: Build iOS App
 
 on:
   workflow_dispatch:
+  schedule:
+    # Run every 6 days at 00:00 UTC to re-sign the app before the 7-day expiration
+    # This ensures the app is always available with a fresh signature for free accounts
+    - cron: '0 0 */6 * *'
 
 env:
   PROJECT_NAME: "dogechat.xcodeproj"

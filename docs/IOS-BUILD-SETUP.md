@@ -10,13 +10,15 @@ The iOS build workflow (`.github/workflows/ios-build.yml`) is configured to buil
 2. **Uses your Team ID**: References `APPLE_TEAM_ID` from GitHub secrets
 3. **Proper IPA export**: Uses `xcodebuild -exportArchive` with development distribution method
 4. **Produces signed IPA**: The output `dogechat.ipa` is code-signed and can be installed on physical devices
+5. **Automatic re-signing**: Runs every 6 days to re-sign the app before the 7-day expiration
 
 ### Current Capabilities
 
 - ✅ Can be installed on physical iOS devices (via Xcode, Apple Configurator, or other installation methods)
 - ✅ Properly code-signed with your free Apple Developer account
 - ✅ Works for development and testing on your own devices
-- ⚠️ Apps expire after 7 days and need to be re-signed (free account limitation)
+- ✅ Automatically re-signs every 6 days (no manual intervention needed)
+- ✅ Always up to date with the latest code changes
 - ❌ Cannot be distributed via App Store (requires paid account)
 - ❌ Cannot be distributed via TestFlight (requires paid account)
 
@@ -53,14 +55,24 @@ The iOS build workflow (`.github/workflows/ios-build.yml`) is configured to buil
 
 ### Step 4: Run the Build
 
+**Option A: Automatic (Recommended)**
+The workflow runs automatically every 6 days at 00:00 UTC to re-sign the app before the 7-day expiration. Just set up the `APPLE_TEAM_ID` secret and the workflow will handle the rest.
+
+**Option B: Manual**
 1. Go to the **Actions** tab in your GitHub repository
 2. Select **"Build iOS App"** workflow
 3. Click **"Run workflow"** button
 4. Select the branch and click **"Run workflow"**
 5. Wait for the build to complete
-6. Download the `dogechat-ios-app` artifact containing `dogechat.ipa`
 
-### Step 5: Install on Your Device
+### Step 5: Download the IPA
+
+1. Go to the **Actions** tab in your GitHub repository
+2. Click on the latest successful workflow run
+3. Scroll down to the **Artifacts** section
+4. Download the `dogechat-ios-app` artifact containing `dogechat.ipa`
+
+### Step 6: Install on Your Device
 
 **Option A: Using Xcode**
 1. Connect your iOS device to your Mac
@@ -144,8 +156,18 @@ Make sure you've added the `APPLE_TEAM_ID` secret to your repository:
 
 ### "App expires after 7 days"
 
-This is a limitation of free Apple Developer accounts. Apps need to be re-signed every 7 days. Options:
-1. Re-run the build workflow weekly
+This limitation is **automatically handled** by the workflow! The build runs every 6 days automatically, ensuring a fresh signed IPA is always available before expiration.
+
+**What happens:**
+1. The workflow runs automatically every 6 days via GitHub Actions scheduled trigger
+2. A new signed IPA is built and uploaded as an artifact
+3. Download the latest artifact from the Actions tab to get the fresh signature
+4. The 7-day timer resets with each new build
+
+**Manual options if needed:**
+1. The workflow already runs automatically every 6 days (no action needed)
+2. You can also manually trigger the workflow anytime from the Actions tab
+3. Upgrade to a paid account ($99/year) for apps that don't expire
 2. Upgrade to a paid account ($99/year) for apps that don't expire
 3. Use tools like [AltStore](https://altstore.io/) for automatic re-signing on your device
 
