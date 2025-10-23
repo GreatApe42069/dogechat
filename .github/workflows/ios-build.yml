@@ -1,5 +1,13 @@
-# DIAGNOSTIC WORKFLOW
-# This workflow adds a step to list the available schemes to debug the build issue.
+# TEMPORARY PLACEHOLDER BUILD
+# This workflow builds an unsigned iOS app without requiring an Apple Developer account.
+# The DEVELOPMENT_TEAM is set to "PLACEHOLDER" and the archive is manually packaged into an IPA.
+# 
+# IMPORTANT: This produces an UNSIGNED IPA that cannot be distributed via App Store or TestFlight.
+# Once you have an Apple Developer account, update the following:
+# 1. Replace DEVELOPMENT_TEAM=PLACEHOLDER with your actual Team ID
+# 2. Remove CODE_SIGNING_ALLOWED=NO and CODE_SIGN_IDENTITY=""
+# 3. Add proper provisioning profiles
+# 4. Use xcodebuild -exportArchive with appropriate ExportOptions.plist
 
 name: Build iOS App
 
