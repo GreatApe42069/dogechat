@@ -1,0 +1,102 @@
+# This workflow builds a debug version of the iOS app, packages it into an .ipa file,
+# and uploads it as a downloadable artifact.
+#
+# This allows you to get a build that can be installed on a real device without
+# needing a Mac for the build process itself.
+
+name: Build iOS App
+
+on:
+  # This workflow can be triggered manually from the Actions tab in your GitHub repository.
+  workflow_dispatch:
+
+# Environment variables available to all jobs and steps in this workflow.
+env:
+  # The name of your Xcode project file (e.g., YourApp.xcodeproj).
+  PROJECT_NAME: "dogechat.xcodeproj"
+  # The name of the scheme to build. This should be the scheme for your iOS app target.
+  SCHEME_NAME: "dogechat"
+  # The build configuration to use (e.g., Debug or Release).
+  # For this workflow, we are creating a debug build.
+  BUILD_CONFIGURATION: "Debug"
+
+jobs:
+  build-ios:
+    name: Build and Package iOS App
+    # This job will run on the latest version of macOS available on GitHub Actions.
+    runs-on: macos-latest
+
+    steps:
+      # Step 1: Check out your repository's code
+      # This downloads your source code into the runner environment.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Step 2: Select the Xcode version to use
+      # This ensures a consistent build environment. Xcode 15.4 is a recent, stable version.
+      # You can change this to another version if your project requires it.
+      - name: Select Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.4'
+
+      # Step 3: Build and archive the app
+      # This step uses the `xcodebuild` command to compile and archive the app.
+      # - The `archive` action creates an .xcarchive bundle, which is a necessary
+      #   intermediate step before creating an .ipa file.
+      # - `CODE_SIGN_IDENTITY=""` and `CODE_SIGNING_ALLOWED="NO"` tell Xcode to create
+      #   an unsigned build, which is sufficient for a debug build that will be
+      #   re-signed later or used in a simulator.
+      # - The archive is placed in the 'build' directory.
+      - name: Build and Archive
+        run: |
+          xcodebuild archive \
+            -project ${{ env.PROJECT_NAME }} \
+            -scheme ${{ env.SCHEME_NAME }} \
+            -configuration ${{ env.BUILD_CONFIGURATION }} \
+            -archivePath ./build/${{ env.SCHEME_NAME }}.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO
+
+      # Step 4: Export the .ipa file
+      # This step takes the .xcarchive created in the previous step and exports it
+      # into a distributable .ipa file.
+      # - We first need an "Export Options" property list (.plist) file that tells
+      #   xcodebuild how to package the .ipa. We create one on the fly for a
+      #   development build.
+      - name: Export .ipa
+        run: |
+          # Create the ExportOptions.plist for a development build
+          cat <<EOF > ExportOptions.plist
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>development</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <!-- Add your bundle identifier and provisioning profile here if needed for device builds -->
+              <!-- <key>com.yourcompany.dogechat</key> -->
+              <!-- <string>Your Development Profile Name</string> -->
+            </dict>
+          </dict>
+          </plist>
+          EOF
+
+          xcodebuild -exportArchive \
+            -archivePath ./build/${{ env.SCHEME_NAME }}.xcarchive \
+            -exportPath ./build \
+            -exportOptionsPlist ExportOptions.plist
+
+      # Step 5: Upload the .ipa file as an artifact
+      # This makes the final .ipa file available for download from the workflow run's summary page.
+      # The artifact will be named "dogechat-ios-app".
+      - name: Upload .ipa Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dogechat-ios-app
+          path: ./build/${{ env.SCHEME_NAME }}.ipa
+          retention-days: 7 # Keep the artifact for 7 days
