@@ -11,6 +11,7 @@ The iOS build workflow (`.github/workflows/ios-build.yml`) is configured to buil
 3. **Proper IPA export**: Uses `xcodebuild -exportArchive` with development distribution method
 4. **Produces signed IPA**: The output `dogechat.ipa` is code-signed and can be installed on physical devices
 5. **Automatic re-signing**: Runs every 6 days to re-sign the app before the 7-day expiration
+6. **Permanent download link**: Automatically uploads to GitHub Release for easy access
 
 ### Current Capabilities
 
@@ -19,6 +20,7 @@ The iOS build workflow (`.github/workflows/ios-build.yml`) is configured to buil
 - ✅ Works for development and testing on your own devices
 - ✅ Automatically re-signs every 6 days (no manual intervention needed)
 - ✅ Always up to date with the latest code changes
+- ✅ Permanent download link via GitHub Release (no need to browse Actions tab)
 - ❌ Cannot be distributed via App Store (requires paid account)
 - ❌ Cannot be distributed via TestFlight (requires paid account)
 
@@ -66,6 +68,15 @@ The workflow runs automatically every 6 days at 00:00 UTC to re-sign the app bef
 5. Wait for the build to complete
 
 ### Step 5: Download the IPA
+
+**Permanent Download Link (Easiest):**
+
+The latest signed IPA is always available at this permanent link:
+**https://github.com/GreatApe42069/dogechat/releases/tag/ios-latest**
+
+Simply visit the link and download `dogechat.ipa` - it's automatically updated every 6 days with a fresh signature.
+
+**Alternative - From Actions Tab:**
 
 1. Go to the **Actions** tab in your GitHub repository
 2. Click on the latest successful workflow run
