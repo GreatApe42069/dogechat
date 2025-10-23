@@ -60,7 +60,7 @@ final class VoiceRecorder: NSObject, AVAudioRecorderDelegate {
             try session.setCategory(
                 .playAndRecord,
                 mode: .default,
-                options: [.defaultToSpeaker, .allowBluetoothA2DP, .allowBluetoothHFP]
+                options: [.defaultToSpeaker, .allowBluetooth]
             )
             try session.setActive(true, options: .notifyOthersOnDeactivation)
             #endif
