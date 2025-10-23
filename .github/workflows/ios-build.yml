@@ -16,7 +16,7 @@ env:
   PROJECT_NAME: "dogechat.xcodeproj"
   # The name of the scheme to build. This should be the scheme for your iOS app target.
   # UPDATED this value as the previous one was not found.
-  SCHEME_NAME: "dogechat-ios"
+  SCHEME_NAME: "dogechat"
   # The build configuration to use (e.g., Debug or Release).
   # For this workflow, we are creating a debug build.
   BUILD_CONFIGURATION: "Debug"
