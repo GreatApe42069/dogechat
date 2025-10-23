@@ -71,6 +71,7 @@ jobs:
             -scheme "${{ env.SCHEME_NAME }}" \
             -configuration "${{ env.BUILD_CONFIGURATION }}" \
             -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
+            -allowProvisioningUpdates \
             CODE_SIGN_IDENTITY="Apple Development" \
             CODE_SIGNING_ALLOWED=YES \
             DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID || 'NOTSET' }}" \
