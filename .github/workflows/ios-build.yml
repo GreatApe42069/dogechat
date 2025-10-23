@@ -1,10 +1,41 @@
-# DIAGNOSTIC WORKFLOW
-# This workflow adds a step to list the available schemes to debug the build issue.
+# FREE APPLE DEVELOPER ACCOUNT BUILD
+# This workflow builds a code-signed iOS app using a free Apple Developer account.
+# 
+# AUTOMATIC RE-SIGNING:
+# This workflow runs automatically every 6 days to re-sign the app before the 7-day
+# free account expiration. This ensures a fresh signed IPA is always available.
+#
+# PERMANENT DOWNLOAD LINK:
+# The signed IPA is automatically uploaded to the "ios-latest" GitHub Release.
+# Download link: https://github.com/GreatApe42069/dogechat/releases/tag/ios-latest
+# The release is automatically updated with each build (no need to browse Actions tab).
+#
+# SETUP REQUIRED:
+# 1. Sign up for a free Apple Developer account at developer.apple.com (no $99 fee required)
+# 2. Get your personal Team ID (10 character string, format: XXXXXXXXXX)
+#    - Found in Xcode under Preferences > Accounts > View Details
+#    - Or at developer.apple.com/account in the Membership section
+# 3. Add your Team ID as a GitHub secret named APPLE_TEAM_ID
+#    - Go to: Repository Settings > Secrets and variables > Actions > New repository secret
+#    - Name: APPLE_TEAM_ID
+#    - Value: Your 10-character Team ID
+#
+# This produces a SIGNED IPA that:
+# ✅ Can be installed on physical iOS devices (via Xcode or Apple Configurator)
+# ✅ Automatically re-signed every 6 days (before 7-day expiration)
+# ✅ Always up to date with the latest code changes
+# ✅ Permanent download link via GitHub Release (no Actions tab browsing needed)
+# ❌ Cannot be distributed via App Store (requires paid $99/year account)
+# ❌ Cannot be distributed via TestFlight (requires paid account)
 
 name: Build iOS App
 
 on:
   workflow_dispatch:
+  schedule:
+    # Run every 6 days at 00:00 UTC to re-sign the app before the 7-day expiration
+    # This ensures the app is always available with a fresh signature for free accounts
+    - cron: '0 0 */6 * *'
 
 env:
   PROJECT_NAME: "dogechat.xcodeproj"
@@ -40,12 +71,15 @@ jobs:
             -scheme "${{ env.SCHEME_NAME }}" \
             -configuration "${{ env.BUILD_CONFIGURATION }}" \
             -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
-            CODE_SIGN_IDENTITY="" \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGN_IDENTITY="Apple Development" \
+            CODE_SIGNING_ALLOWED=YES \
+            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID || 'NOTSET' }}" \
+            CODE_SIGN_STYLE=Automatic
 
-      - name: Export .ipa
+      - name: Export signed .ipa
         run: |
-          # Create the ExportOptions.plist for a development build
+          # Create ExportOptions.plist for development distribution
+          # This works with free Apple Developer accounts
           cat <<EOF > ExportOptions.plist
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -53,8 +87,12 @@ jobs:
           <dict>
             <key>method</key>
             <string>development</string>
+            <key>teamID</key>
+            <string>${{ secrets.APPLE_TEAM_ID || 'NOTSET' }}</string>
             <key>signingStyle</key>
-            <string>manual</string>
+            <string>automatic</string>
+            <key>compileBitcode</key>
+            <false/>
           </dict>
           </plist>
           EOF
@@ -62,11 +100,44 @@ jobs:
           xcodebuild -exportArchive \
             -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
             -exportPath ./build \
-            -exportOptionsPlist ExportOptions.plist
+            -exportOptionsPlist ExportOptions.plist \
+            -allowProvisioningUpdates
 
       - name: Upload .ipa Artifact
         uses: actions/upload-artifact@v4
         with:
           name: dogechat-ios-app
-          path: "./build/${{ env.SCHEME_NAME }}.ipa"
+          path: "./build/dogechat.ipa"
           retention-days: 7
+
+      - name: Create/Update Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ios-latest
+          name: "Latest iOS Build (Auto-signed)"
+          body: |
+            ## 📱 Latest iOS Build
+            
+            **Automatically built and signed with free Apple Developer account**
+            
+            ### Download
+            Download `dogechat.ipa` below and install via Xcode or Apple Configurator.
+            
+            ### Build Information
+            - **Built**: ${{ github.event.head_commit.timestamp || github.run_id }}
+            - **Commit**: ${{ github.sha }}
+            - **Signed**: Valid for 7 days (automatically re-signed every 6 days)
+            
+            ### Installation
+            1. Download the `dogechat.ipa` file
+            2. Connect your iOS device to your Mac
+            3. Open Xcode → Window → Devices and Simulators
+            4. Drag and drop the IPA to your device
+            
+            See [IOS-BUILD-SETUP.md](https://github.com/${{ github.repository }}/blob/${{ github.ref_name }}/docs/IOS-BUILD-SETUP.md) for detailed instructions.
+          files: ./build/dogechat.ipa
+          prerelease: false
+          draft: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # This will update the existing release if it exists
+          overwrite: true
