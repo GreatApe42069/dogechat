@@ -34,7 +34,7 @@ Once you have an Apple Developer account, follow these steps to enable proper co
 
 Edit `.github/workflows/ios-build.yml`:
 
-1. **Replace the placeholder team** (line ~45):
+1. **Replace the placeholder team** (line 53):
    ```yaml
    # Change from:
    DEVELOPMENT_TEAM=PLACEHOLDER
@@ -43,7 +43,7 @@ Edit `.github/workflows/ios-build.yml`:
    DEVELOPMENT_TEAM=YOUR_TEAM_ID
    ```
 
-2. **Enable code signing** (lines ~43-44):
+2. **Enable code signing** (lines 51-52):
    ```yaml
    # Remove these two lines:
    CODE_SIGN_IDENTITY="" \
@@ -61,7 +61,7 @@ Edit `.github/workflows/ios-build.yml`:
 
 ### Step 3: Update Export Step
 
-Replace the manual packaging step (lines ~47-61) with proper export:
+Replace the manual packaging step (lines 55-69) with proper export:
 
 ```yaml
 - name: Export .ipa
