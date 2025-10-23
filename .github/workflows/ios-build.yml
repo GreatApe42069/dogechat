@@ -14,9 +14,8 @@ on:
 env:
   # The name of your Xcode project file (e.g., YourApp.xcodeproj).
   PROJECT_NAME: "dogechat.xcodeproj"
-  # The name of the scheme to build. This should be the scheme for your iOS app target.
-  # UPDATED this value as the previous one was not found.
-  SCHEME_NAME: "dogechat"
+  # The name of the scheme to build. Using the exact name found in the repository.
+  SCHEME_NAME: "dogechat (iOS)"
   # The build configuration to use (e.g., Debug or Release).
   # For this workflow, we are creating a debug build.
   BUILD_CONFIGURATION: "Debug"
@@ -52,10 +51,10 @@ jobs:
       - name: Build and Archive
         run: |
           xcodebuild archive \
-            -project ${{ env.PROJECT_NAME }} \
-            -scheme ${{ env.SCHEME_NAME }} \
-            -configuration ${{ env.BUILD_CONFIGURATION }} \
-            -archivePath ./build/${{ env.SCHEME_NAME }}.xcarchive \
+            -project "${{ env.PROJECT_NAME }}" \
+            -scheme "${{ env.SCHEME_NAME }}" \
+            -configuration "${{ env.BUILD_CONFIGURATION }}" \
+            -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO
 
@@ -81,14 +80,14 @@ jobs:
             <dict>
               <!-- Add your bundle identifier and provisioning profile here if needed for device builds -->
               <!-- <key>com.yourcompany.dogechat</key> -->
-              <!-- <string>GreatApe42069</string> -->
+              <!-- <string>Your Development Profile Name</string> -->
             </dict>
           </dict>
           </plist>
           EOF
 
           xcodebuild -exportArchive \
-            -archivePath ./build/${{ env.SCHEME_NAME }}.xcarchive \
+            -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
             -exportPath ./build \
             -exportOptionsPlist ExportOptions.plist
 
@@ -99,5 +98,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dogechat-ios-app
-          path: ./build/${{ env.SCHEME_NAME }}.ipa
+          path: "./build/${{ env.SCHEME_NAME }}.ipa"
           retention-days: 7 # Keep the artifact for 7 days
