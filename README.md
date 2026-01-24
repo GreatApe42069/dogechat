@@ -1,6 +1,6 @@
-<img width="256" height="256" alt="icon_128x128@2x" src="https://github.com/user-attachments/assets/90133f83-b4f6-41c6-aab9-25d0859d2a47" />
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/7afe4707-c27c-4e30-8cb0-d86b5571f623" />
 
-## dogechat
+## dogechat iOS
 
 A decentralized peer-to-peer messaging app with dual transport architecture: local Bluetooth mesh networks for offline communication and internet-based Nostr protocol for global reach. No accounts, no phone numbers, no central servers. It's the side-groupchat.
 
