@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["arti-bitchat"]
+members = ["arti-dogechat"]
 
 [profile.release]
 opt-level = "z"
