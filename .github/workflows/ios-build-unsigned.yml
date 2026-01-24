@@ -1,0 +1,178 @@
+# UNSIGNED IPA BUILD FOR DEVELOPMENT
+# This workflow builds an unsigned iOS app that can be used for:
+# - Development and testing without Apple Developer account
+# - Quick distribution to testers
+# - Always having the latest version available
+#
+# AUTOMATIC BUILDS:
+# - Runs weekly on Sundays at 06:00 UTC (1 hour after relay updates)
+# - Runs automatically when relay data is updated (triggered by fetch_georelays workflow)
+# - Can be triggered manually via workflow_dispatch
+#
+# PERMANENT DOWNLOAD LINK:
+# The unsigned IPA is uploaded to the "ios-unsigned-latest" GitHub Release.
+# Download: https://github.com/GreatApe42069/dogechat/releases/tag/ios-unsigned-latest
+#
+# This produces an UNSIGNED IPA that:
+# ✅ Always up to date with latest code and relay updates
+# ✅ Can be re-signed with any Apple Developer account
+# ✅ No secrets or credentials required
+# ✅ Builds weekly to capture all updates
+# ⚠️  Requires re-signing before installation (use tools like iOS App Signer, AltStore, or Sideloadly)
+
+name: Build Unsigned iOS App
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Run weekly on Sundays at 07:00 UTC (1 hour after relay updates at 06:00 UTC)
+    - cron: '0 7 * * 0'
+  workflow_run:
+    workflows: ["Fetch GeoRelays Data"]
+    types:
+      - completed
+
+env:
+  PROJECT_NAME: "dogechat.xcodeproj"
+  SCHEME_NAME: "dogechat (iOS)"
+  BUILD_CONFIGURATION: "Release"
+
+jobs:
+  build-unsigned-ios:
+    name: Build Unsigned iOS App
+    runs-on: macos-latest
+    # Only run if triggered manually, scheduled, or if GeoRelays workflow succeeded
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'schedule' ||
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # If triggered by GeoRelays update, fetch the latest changes
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref }}
+
+      - name: Select Xcode version
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '16.4'
+      
+      - name: List Available Schemes
+        run: xcodebuild -list -project "${{ env.PROJECT_NAME }}"
+
+      - name: Build Archive (Unsigned)
+        run: |
+          echo "Building unsigned IPA for scheme: ${{ env.SCHEME_NAME }}"
+          echo "This build does not require Apple Developer credentials"
+          
+          xcodebuild archive \
+            -project "${{ env.PROJECT_NAME }}" \
+            -scheme "${{ env.SCHEME_NAME }}" \
+            -configuration "${{ env.BUILD_CONFIGURATION }}" \
+            -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGN_ENTITLEMENTS="" \
+            -sdk iphoneos
+
+      - name: Create Unsigned .ipa
+        run: |
+          # Create the Payload directory structure required for IPA
+          mkdir -p ./build/Payload
+          
+          # Find the .app bundle in the archive
+          APP_PATH=$(find "./build/${{ env.SCHEME_NAME }}.xcarchive/Products/Applications" -name "*.app" | head -n 1)
+          
+          if [ -z "$APP_PATH" ]; then
+            echo "Error: Could not find .app bundle in archive"
+            exit 1
+          fi
+          
+          echo "Found app at: $APP_PATH"
+          
+          # Copy the .app to Payload directory
+          cp -R "$APP_PATH" ./build/Payload/
+          
+          # Create the IPA (which is just a renamed zip file)
+          cd ./build
+          zip -r dogechat-unsigned.ipa Payload
+          cd ..
+          
+          echo "Created unsigned IPA at: ./build/dogechat-unsigned.ipa"
+          ls -lh ./build/dogechat-unsigned.ipa
+
+      - name: Upload Unsigned IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dogechat-unsigned-ios-app
+          path: "./build/dogechat-unsigned.ipa"
+          retention-days: 90
+
+      - name: Get Build Info
+        id: build_info
+        run: |
+          echo "timestamp=$(date -u '+%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_OUTPUT
+          echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Create/Update Unsigned Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ios-unsigned-latest
+          name: "Latest Unsigned iOS Build"
+          body: |
+            ## 📱 Latest Unsigned iOS Build
+            
+            **Automatically built unsigned IPA - ready for re-signing**
+            
+            ### Download
+            Download `dogechat-unsigned.ipa` below and re-sign with your Apple Developer account.
+            
+            ### Build Information
+            - **Built**: ${{ steps.build_info.outputs.timestamp }}
+            - **Commit**: ${{ github.sha }} (${{ steps.build_info.outputs.short_sha }})
+            - **Configuration**: Release (unsigned)
+            - **Relays**: Always includes latest relay updates
+            
+            ### Re-signing & Installation Options
+            
+            #### Option 1: iOS App Signer (Mac)
+            1. Download [iOS App Signer](https://dantheman827.github.io/ios-app-signer/)
+            2. Open the unsigned IPA
+            3. Select your signing certificate and provisioning profile
+            4. Click "Start" to create signed IPA
+            5. Install via Xcode or Apple Configurator
+            
+            #### Option 2: AltStore (No Mac Required)
+            1. Install [AltStore](https://altstore.io/) on your iOS device
+            2. Download the unsigned IPA to your device
+            3. Open in AltStore to automatically sign and install
+            4. Refresh weekly to keep it working
+            
+            #### Option 3: Sideloadly (Windows/Mac)
+            1. Download [Sideloadly](https://sideloadly.io/)
+            2. Connect your iOS device
+            3. Drag the unsigned IPA to Sideloadly
+            4. Enter your Apple ID to sign and install
+            
+            ### Why Unsigned?
+            - ✅ No Apple Developer account required to build
+            - ✅ Always up-to-date with latest code changes
+            - ✅ Automatically includes relay updates
+            - ✅ Can be re-signed with any certificate
+            - ✅ Smaller download size
+            
+            ### Automatic Updates
+            This unsigned build is automatically created:
+            - Weekly on Sundays at 06:00 UTC
+            - Whenever relay data is updated
+            - Can be manually triggered anytime
+            
+            For a pre-signed version, see the [ios-latest](https://github.com/${{ github.repository }}/releases/tag/ios-latest) release.
+          files: ./build/dogechat-unsigned.ipa
+          prerelease: false
+          draft: false
+          token: ${{ secrets.GITHUB_TOKEN }}
+          overwrite: true
