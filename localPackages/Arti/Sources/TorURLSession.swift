@@ -49,8 +49,9 @@ public final class TorURLSession {
             kCFNetworkProxiesSOCKSProxy as String: host,
             kCFNetworkProxiesSOCKSPort as String: port
         ]
-        #elseif os(iOS) || os(tvOS) || os(watchOS)
-        // iOS: CFNetwork SOCKS proxy keys are unavailable at compile time.
+        #else
+        // iOS/tvOS/watchOS: CFNetwork SOCKS proxy keys are unavailable at compile time.
+        // Use string keys for proxy configuration.
         cfg.connectionProxyDictionary = [
             "SOCKSEnable": 1,
             "SOCKSProxy": host,
