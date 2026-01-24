@@ -140,7 +140,7 @@ jobs:
             ## 📱 Latest iOS Build
             
             **Build Type**: ${{ steps.build-type.outputs.type == 'signed' && 'Signed with Apple Developer Account' || 'Unsigned (requires manual signing)' }}
-            **Built**: ${{ github.event.head_commit.timestamp || github.run_id }}
+            **Built**: ${{ github.event.head_commit.timestamp || github.event.repository.updated_at }}
             **Commit**: ${{ github.sha }}
             
             Download `dogechat.ipa` below.
