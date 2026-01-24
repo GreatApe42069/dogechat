@@ -73,9 +73,14 @@ jobs:
             -scheme "${{ env.SCHEME_NAME }}" \
             -configuration "${{ env.BUILD_CONFIGURATION }}" \
             -archivePath "./build/${{ env.SCHEME_NAME }}.xcarchive" \
+            -destination generic/platform=iOS \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGNING_ALLOWED=NO
+            CODE_SIGNING_ALLOWED=NO \
+            AD_HOC_CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_ENTITLEMENTS="" \
+            -skipPackagePluginValidation \
+            -skipMacroValidation
 
       - name: Export .ipa (Signed)
         if: steps.build-type.outputs.type == 'signed'
