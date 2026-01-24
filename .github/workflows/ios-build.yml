@@ -17,6 +17,9 @@ env:
   SCHEME_NAME: "dogechat (iOS)"
   BUILD_CONFIGURATION: "Debug"
 
+permissions:
+  contents: write
+
 jobs:
   build-ios:
     name: Build and Package iOS App
