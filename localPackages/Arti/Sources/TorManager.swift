@@ -1,4 +1,4 @@
-import BitLogger
+import DogeLogger
 import Foundation
 #if canImport(Network)
 import Network
@@ -36,7 +36,7 @@ private func arti_go_dormant() -> Int32
 @_silgen_name("arti_wake")
 private func arti_wake() -> Int32
 
-/// Arti-based Tor integration for BitChat.
+/// Arti-based Tor integration for DogeChat.
 /// - Boots a local Arti client and exposes a SOCKS5 proxy
 ///   on 127.0.0.1:socksPort. All app networking should await readiness and
 ///   route via this proxy. Fails closed by default when Tor is unavailable.
@@ -61,7 +61,7 @@ public final class TorManager: ObservableObject {
 
     // Whether the app must enforce Tor for all connections (fail-closed).
     public var torEnforced: Bool {
-        #if BITCHAT_DEV_ALLOW_CLEARNET
+        #if DOGECHAT_DEV_ALLOW_CLEARNET
         return false
         #else
         return true
@@ -133,7 +133,7 @@ public final class TorManager: ObservableObject {
                 appropriateFor: nil,
                 create: true
             )
-            let dir = base.appendingPathComponent("bitchat/arti", isDirectory: true)
+            let dir = base.appendingPathComponent("dogechat/arti", isDirectory: true)
             return dir
         } catch {
             return nil

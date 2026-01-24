@@ -14,7 +14,7 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../BitLogger"),
+        .package(path: "../DogeLogger"),
     ],
     targets: [
         // Main Swift target
@@ -22,7 +22,7 @@ let package = Package(
             name: "Tor",
             dependencies: [
                 "arti",
-                .product(name: "BitLogger", package: "BitLogger"),
+                .product(name: "DogeLogger", package: "DogeLogger"),
             ],
             path: "Sources",
             exclude: ["C"],
