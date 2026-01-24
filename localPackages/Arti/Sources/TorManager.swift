@@ -8,7 +8,10 @@ import Network
 #endif
 
 #if !canImport(Combine)
-// Stub implementations for non-Apple platforms (e.g., Linux builds)
+// Stub implementations for non-Apple platforms (e.g., Linux builds).
+// These are minimal stubs to allow compilation only - the code is designed
+// for iOS/macOS and won't run on other platforms. Full Combine functionality
+// is only available on Apple platforms.
 public protocol ObservableObject: AnyObject {}
 
 @propertyWrapper
