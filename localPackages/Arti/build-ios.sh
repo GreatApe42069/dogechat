@@ -15,7 +15,7 @@ cd "$SCRIPT_DIR"
 
 # Configuration
 CRATE_NAME="arti-dogechat"
-LIB_NAME="libarti_bitchat.a"
+LIB_NAME="libarti_dogechat.a"
 FRAMEWORK_NAME="arti"
 OUTPUT_DIR="$SCRIPT_DIR/Frameworks"
 
