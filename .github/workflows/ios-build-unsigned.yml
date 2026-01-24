@@ -51,7 +51,7 @@ jobs:
             -skipPackagePluginValidation \
             -skipMacroValidation
 
-      - name: Create unsigned .ipa for AltStore/SideStore
+      - name: Create unsigned .ipa for AltStore/SideStore and jailbroken devices
         run: |
           mkdir -p ./output/Payload
           cd "./build/${{ env.SCHEME_NAME }}.xcarchive/Products/Applications"
@@ -108,6 +108,7 @@ jobs:
             - 🆓 Works with **FREE Apple ID** (no developer account needed)
             - 🔄 **Fresh build every 6 days** - AltStore auto-refreshes signature
             - 📱 Just open this IPA in AltStore on your device
+            - 🔓 Also works on **jailbroken devices** (install with Filza/AppSync)
             
             #### 2️⃣ **`dogechat-unsigned.app.zip`**
             - 🛠️ Raw .app bundle for **manual signing workflows**
@@ -134,9 +135,16 @@ jobs:
             - AltStore will auto-renew the 7-day signature
             - New builds released every 6 days to stay fresh
             
+            ### 🔓 For Jailbroken Devices:
+            
+            The same **`dogechat-unsigned.ipa`** works perfectly:
+            1. Download the IPA
+            2. Install using Filza, AppSync Unified, or your preferred installer
+            3. No expiration - works permanently!
+            
             ---
             
-            **⚠️ Note**: You do NOT need a paid Apple Developer account. A free Apple ID works perfectly!
+            **⚠️ Note**: You do NOT need a paid Apple Developer account. A free Apple ID works perfectly with AltStore!
           files: |
             ./output/dogechat-unsigned.ipa
             ./output/dogechat-unsigned.app.zip
