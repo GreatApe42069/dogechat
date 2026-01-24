@@ -106,7 +106,7 @@ jobs:
     runs-on: macos-latest
     needs: build-ios-unsigned
     # Only run if APPLE_TEAM_ID secret is set
-    if: secrets.APPLE_TEAM_ID != ''
+    if: secrets.APPLE_TEAM_ID
 
     steps:
       - name: Checkout repository
