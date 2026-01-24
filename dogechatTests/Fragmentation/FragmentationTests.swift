@@ -54,8 +54,9 @@ struct FragmentationTests {
         // Wait for delegate callback with proper timeout
         try await capture.waitForPublicMessages(count: 1, timeout: .seconds(2))
 
-        #expect(capture.publicMessages.count == 1)
-        #expect(capture.publicMessages.first?.content.count == 3_000)
+        let publicMessages = await capture.publicMessages
+        #expect(publicMessages.count == 1)
+        #expect(publicMessages.first?.content.count == 3_000)
     }
     
     @Test("Duplicate fragment does not break reassembly")
@@ -88,8 +89,9 @@ struct FragmentationTests {
         // Wait for delegate callback with proper timeout
         try await capture.waitForPublicMessages(count: 1, timeout: .seconds(2))
 
-        #expect(capture.publicMessages.count == 1)
-        #expect(capture.publicMessages.first?.content.count == 2048)
+        let publicMessages = await capture.publicMessages
+        #expect(publicMessages.count == 1)
+        #expect(publicMessages.first?.content.count == 2048)
     }
 
     @Test("Max-sized file transfer survives reassembly")
@@ -136,7 +138,8 @@ struct FragmentationTests {
 
         try await capture.waitForReceivedMessages(count: 1, timeout: .seconds(2))
 
-        let message = try #require(capture.receivedMessages.first, "Expected file transfer message")
+        let receivedMessages = await capture.receivedMessages
+        let message = try #require(receivedMessages.first, "Expected file transfer message")
         #expect(message.content.hasPrefix("[file]"))
 
         if let fileName = message.content.split(separator: " ").last {
@@ -190,14 +193,14 @@ struct FragmentationTests {
         try await sleep(0.5)
 
         // Should not deliver since one fragment is invalid and reassembly can't complete
-        #expect(capture.publicMessages.isEmpty)
+        let publicMessages = await capture.publicMessages
+        #expect(publicMessages.isEmpty)
     }
 }
 
 extension FragmentationTests {
     /// Thread-safe delegate that supports awaiting message delivery
-    private final class CaptureDelegate: DogechatDelegate, @unchecked Sendable {
-        private let lock = NSLock()
+    private actor CaptureDelegate: DogechatDelegate {
         private var _publicMessages: [(peerID: PeerID, nickname: String, content: String)] = []
         private var _receivedMessages: [DogechatMessage] = []
         private var publicMessageContinuation: CheckedContinuation<Void, Never>?
@@ -206,72 +209,68 @@ extension FragmentationTests {
         private var expectedReceivedMessageCount: Int = 0
 
         var publicMessages: [(peerID: PeerID, nickname: String, content: String)] {
-            lock.lock()
-            defer { lock.unlock() }
             return _publicMessages
         }
 
         var receivedMessages: [DogechatMessage] {
-            lock.lock()
-            defer { lock.unlock() }
             return _receivedMessages
         }
 
-        func didReceiveMessage(_ message: DogechatMessage) {
-            lock.lock()
+        nonisolated func didReceiveMessage(_ message: DogechatMessage) {
+            Task {
+                await _didReceiveMessage(message)
+            }
+        }
+
+        private func _didReceiveMessage(_ message: DogechatMessage) {
             _receivedMessages.append(message)
             let count = _receivedMessages.count
             let expected = expectedReceivedMessageCount
             let continuation = receivedMessageContinuation
-            lock.unlock()
 
             if count >= expected, let cont = continuation {
-                lock.lock()
                 receivedMessageContinuation = nil
-                lock.unlock()
                 cont.resume()
             }
         }
 
-        func didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date, messageID: String?) {
-            lock.lock()
+        nonisolated func didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date, messageID: String?) {
+            Task {
+                await _didReceivePublicMessage(from: peerID, nickname: nickname, content: content, timestamp: timestamp, messageID: messageID)
+            }
+        }
+
+        private func _didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date, messageID: String?) {
             _publicMessages.append((peerID, nickname, content))
             let count = _publicMessages.count
             let expected = expectedPublicMessageCount
             let continuation = publicMessageContinuation
-            lock.unlock()
 
             if count >= expected, let cont = continuation {
-                lock.lock()
                 publicMessageContinuation = nil
-                lock.unlock()
                 cont.resume()
             }
         }
 
         /// Waits for the specified number of public messages to be received
         func waitForPublicMessages(count: Int, timeout: Duration = .seconds(2)) async throws {
-            lock.lock()
             if _publicMessages.count >= count {
-                lock.unlock()
                 return
             }
             expectedPublicMessageCount = count
-            lock.unlock()
 
             try await withThrowingTaskGroup(of: Void.self) { group in
                 group.addTask {
                     await withCheckedContinuation { continuation in
-                        self.lock.lock()
-                        // Recheck count after acquiring lock to avoid race condition
-                        // where message arrives between initial check and continuation install
-                        if self._publicMessages.count >= count {
-                            self.lock.unlock()
-                            continuation.resume()
-                            return
+                        Task {
+                            // Recheck count after acquiring actor isolation to avoid race condition
+                            // where message arrives between initial check and continuation install
+                            if await self._publicMessages.count >= count {
+                                continuation.resume()
+                                return
+                            }
+                            await self.setPublicMessageContinuation(continuation)
                         }
-                        self.publicMessageContinuation = continuation
-                        self.lock.unlock()
                     }
                 }
                 group.addTask {
@@ -281,31 +280,31 @@ extension FragmentationTests {
                 try await group.next()
                 group.cancelAll()
             }
+        }
+
+        private func setPublicMessageContinuation(_ continuation: CheckedContinuation<Void, Never>) {
+            self.publicMessageContinuation = continuation
         }
 
         /// Waits for the specified number of received messages
         func waitForReceivedMessages(count: Int, timeout: Duration = .seconds(2)) async throws {
-            lock.lock()
             if _receivedMessages.count >= count {
-                lock.unlock()
                 return
             }
             expectedReceivedMessageCount = count
-            lock.unlock()
 
             try await withThrowingTaskGroup(of: Void.self) { group in
                 group.addTask {
                     await withCheckedContinuation { continuation in
-                        self.lock.lock()
-                        // Recheck count after acquiring lock to avoid race condition
-                        // where message arrives between initial check and continuation install
-                        if self._receivedMessages.count >= count {
-                            self.lock.unlock()
-                            continuation.resume()
-                            return
+                        Task {
+                            // Recheck count after acquiring actor isolation to avoid race condition
+                            // where message arrives between initial check and continuation install
+                            if await self._receivedMessages.count >= count {
+                                continuation.resume()
+                                return
+                            }
+                            await self.setReceivedMessageContinuation(continuation)
                         }
-                        self.receivedMessageContinuation = continuation
-                        self.lock.unlock()
                     }
                 }
                 group.addTask {
@@ -317,14 +316,18 @@ extension FragmentationTests {
             }
         }
 
-        func didConnectToPeer(_ peerID: PeerID) {}
-        func didDisconnectFromPeer(_ peerID: PeerID) {}
-        func didUpdatePeerList(_ peers: [PeerID]) {}
-        func isFavorite(fingerprint: String) -> Bool { false }
-        func didUpdateMessageDeliveryStatus(_ messageID: String, status: DeliveryStatus) {}
-        func didReceiveNoisePayload(from peerID: PeerID, type: NoisePayloadType, payload: Data, timestamp: Date) {}
-        func didUpdateBluetoothState(_ state: CBManagerState) {}
-        func didReceiveRegionalPublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date) {}
+        private func setReceivedMessageContinuation(_ continuation: CheckedContinuation<Void, Never>) {
+            self.receivedMessageContinuation = continuation
+        }
+
+        nonisolated func didConnectToPeer(_ peerID: PeerID) {}
+        nonisolated func didDisconnectFromPeer(_ peerID: PeerID) {}
+        nonisolated func didUpdatePeerList(_ peers: [PeerID]) {}
+        nonisolated func isFavorite(fingerprint: String) -> Bool { false }
+        nonisolated func didUpdateMessageDeliveryStatus(_ messageID: String, status: DeliveryStatus) {}
+        nonisolated func didReceiveNoisePayload(from peerID: PeerID, type: NoisePayloadType, payload: Data, timestamp: Date) {}
+        nonisolated func didUpdateBluetoothState(_ state: CBManagerState) {}
+        nonisolated func didReceiveRegionalPublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date) {}
     }
 
     // Helper: build a large message packet (unencrypted public message)
