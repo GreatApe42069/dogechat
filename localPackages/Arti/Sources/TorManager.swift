@@ -1,7 +1,27 @@
 import DogeLogger
 import Foundation
+#if canImport(Combine)
+import Combine
+#endif
 #if canImport(Network)
 import Network
+#endif
+
+#if !canImport(Combine)
+// Stub implementations for non-Apple platforms (e.g., Linux builds).
+// These are minimal stubs to allow compilation only - the code is designed
+// for iOS/macOS and won't run on other platforms. Full Combine functionality
+// is only available on Apple platforms.
+public protocol ObservableObject: AnyObject {}
+
+@propertyWrapper
+public struct Published<Value> {
+    public var wrappedValue: Value
+    
+    public init(wrappedValue: Value) {
+        self.wrappedValue = wrappedValue
+    }
+}
 #endif
 
 #if !canImport(Network)

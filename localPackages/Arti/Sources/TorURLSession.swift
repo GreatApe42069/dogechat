@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 #if os(macOS)
 import CFNetwork
 #endif
@@ -34,7 +37,9 @@ public final class TorURLSession {
 
     private static func makeTorSession() -> URLSession {
         let cfg = URLSessionConfiguration.ephemeral
+        #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
         cfg.waitsForConnectivity = true
+        #endif
         // Keep in sync with TorManager defaults
         let host = "127.0.0.1"
         let port = 39050
@@ -45,7 +50,8 @@ public final class TorURLSession {
             kCFNetworkProxiesSOCKSPort as String: port
         ]
         #else
-        // iOS: CFNetwork SOCKS proxy keys are unavailable at compile time.
+        // iOS/tvOS/watchOS: CFNetwork SOCKS proxy keys are unavailable at compile time.
+        // Use string keys for proxy configuration.
         cfg.connectionProxyDictionary = [
             "SOCKSEnable": 1,
             "SOCKSProxy": host,
@@ -57,7 +63,9 @@ public final class TorURLSession {
 
     private static func makeDefaultSession() -> URLSession {
         let cfg = URLSessionConfiguration.default
+        #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
         cfg.waitsForConnectivity = true
+        #endif
         return URLSession(configuration: cfg)
     }
 }

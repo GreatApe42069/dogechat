@@ -197,6 +197,9 @@ struct ChatViewModelReceivingTests {
 
         // Give time for async Task and pipeline processing
         try? await Task.sleep(nanoseconds: 500_000_000)
+        
+        // Flush the pipeline to ensure batched messages are processed
+        viewModel.publicMessagePipeline.flushIfNeeded()
 
         #expect(viewModel.messages.contains { $0.content == "Public hello from Bob" })
     }
