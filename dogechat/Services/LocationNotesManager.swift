@@ -1,4 +1,4 @@
-import BitLogger
+import DogeLogger
 import Foundation
 
 /// Dependencies for location notes, allowing tests to stub relay/identity behavior.

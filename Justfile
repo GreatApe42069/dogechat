@@ -1,9 +1,9 @@
-# Dogechat macOS Build Justfile
+# DogeChat macOS Build Justfile
 # Handles temporary modifications needed to build and run on macOS
 
 # Default recipe - shows available commands
 default:
-    @echo "Dogechat macOS Build Commands:"
+    @echo "DogeChat macOS Build Commands:"
     @echo "  just run     - Build and run the macOS app"
     @echo "  just build   - Build the macOS app only"
     @echo "  just clean   - Clean build artifacts and restore original files"
@@ -46,12 +46,12 @@ patch-for-macos: backup
 
 # Build the macOS app
 build: #check generate
-    @echo "Building Dogechat for macOS..."
-    @xcodebuild -project dogechat.xcodeproj -scheme "dogechat_macOS" -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build
+    @echo "Building DogeChat for macOS..."
+    @xcodebuild -project dogechat.xcodeproj -scheme "dogechat (macOS)" -configuration Debug CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGN_ENTITLEMENTS="" build
 
 # Run the macOS app
 run: build
-    @echo "Launching Dogechat..."
+    @echo "Launching DogeChat..."
     @find ~/Library/Developer/Xcode/DerivedData -name "dogechat.app" -path "*/Debug/*" -not -path "*/Index.noindex/*" | head -1 | xargs -I {} open "{}"
 
 # Clean build artifacts and restore original files
@@ -75,7 +75,7 @@ dev-run: check
 
 # Show app info
 info:
-    @echo "Dogechat - Decentralized Mesh Messaging"
+    @echo "DogeChat - Decentralized Mesh Messaging"
     @echo "======================================"
     @echo "• Native macOS SwiftUI app"
     @echo "• Bluetooth LE mesh networking"

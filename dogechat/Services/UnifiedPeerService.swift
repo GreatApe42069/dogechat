@@ -6,7 +6,7 @@
 //  This is free and unencumbered software released into the public domain.
 //
 
-import BitLogger
+import DogeLogger
 import Foundation
 import Combine
 import SwiftUI

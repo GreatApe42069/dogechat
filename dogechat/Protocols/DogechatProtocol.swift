@@ -9,7 +9,7 @@
 ///
 /// # DogechatProtocol
 ///
-/// Defines the application-layer protocol for Dogechat mesh networking, including
+/// Defines the application-layer protocol for DogeChat mesh networking, including
 /// message types, packet structures, and encoding/decoding logic.
 ///
 /// ## Overview
@@ -63,7 +63,7 @@ import CoreBluetooth
 
 // MARK: - Message Types
 
-/// Simplified Dogechat protocol message types.
+/// Simplified DogeChat protocol message types.
 /// Reduced from 24 types to just 6 essential ones.
 /// All private communication metadata (receipts, status) is embedded in noiseEncrypted payloads.
 enum MessageType: UInt8 {
@@ -178,7 +178,7 @@ protocol DogechatDelegate: AnyObject {
 
     // Bluetooth state updates for user notifications
     func didUpdateBluetoothState(_ state: CBManagerState)
-    func didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date)
+    func didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date, messageID: String?)
 }
 
 // Provide default implementation to make it effectively optional
@@ -195,7 +195,7 @@ extension DogechatDelegate {
         // Default empty implementation
     }
 
-    func didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date) {
+    func didReceivePublicMessage(from peerID: PeerID, nickname: String, content: String, timestamp: Date, messageID: String?) {
         // Default empty implementation
     }
 }

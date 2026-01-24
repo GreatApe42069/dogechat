@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import BitLogger
+import DogeLogger
 
 /// TLV payload for Bluetooth mesh file transfers (voice notes, images, generic files).
 /// Mirrors the Android client specification to ensure cross-platform interoperability.

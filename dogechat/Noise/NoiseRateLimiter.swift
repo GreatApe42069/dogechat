@@ -6,7 +6,7 @@
 // For more information, see <https://unlicense.org>
 //
 
-import BitLogger
+import DogeLogger
 import Foundation
 
 final class NoiseRateLimiter {

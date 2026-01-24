@@ -90,7 +90,7 @@
 /// - Advanced conflict resolution
 ///
 
-import BitLogger
+import DogeLogger
 import Foundation
 import CryptoKit
 

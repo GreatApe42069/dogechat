@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// The core packet structure for all Dogechat protocol messages.
+/// The core packet structure for all DogeChat protocol messages.
 /// Encapsulates all data needed for routing through the mesh network,
 /// including TTL for hop limiting and optional encryption.
 /// - Note: Packets larger than BLE MTU (512 bytes) are automatically fragmented
@@ -21,8 +21,10 @@ struct DogechatPacket: Codable {
     let payload: Data
     var signature: Data?
     var ttl: UInt8
+    var route: [Data]?
+    var isRSR: Bool
     
-    init(type: UInt8, senderID: Data, recipientID: Data?, timestamp: UInt64, payload: Data, signature: Data?, ttl: UInt8, version: UInt8 = 1) {
+    init(type: UInt8, senderID: Data, recipientID: Data?, timestamp: UInt64, payload: Data, signature: Data?, ttl: UInt8, version: UInt8 = 1, route: [Data]? = nil, isRSR: Bool = false) {
         self.version = version
         self.type = type
         self.senderID = senderID
@@ -31,10 +33,12 @@ struct DogechatPacket: Codable {
         self.payload = payload
         self.signature = signature
         self.ttl = ttl
+        self.route = route
+        self.isRSR = isRSR
     }
     
     // Convenience initializer for new binary format
-    init(type: UInt8, ttl: UInt8, senderID: PeerID, payload: Data) {
+    init(type: UInt8, ttl: UInt8, senderID: PeerID, payload: Data, isRSR: Bool = false) {
         self.version = 1
         self.type = type
         // Convert hex string peer ID to binary data (8 bytes)
@@ -53,6 +57,8 @@ struct DogechatPacket: Codable {
         self.payload = payload
         self.signature = nil
         self.ttl = ttl
+        self.route = nil
+        self.isRSR = isRSR
     }
     
     var data: Data? {
@@ -81,7 +87,9 @@ struct DogechatPacket: Codable {
             payload: payload,
             signature: nil, // Remove signature for signing
             ttl: 0, // Use fixed TTL=0 for signing to ensure relay compatibility
-            version: version
+            version: version,
+            route: route,
+            isRSR: false // RSR flag is mutable and not part of the signature
         )
         return BinaryProtocol.encode(unsignedPacket)
     }

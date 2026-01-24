@@ -1,4 +1,4 @@
-import BitLogger
+import DogeLogger
 import Foundation
 import Tor
 #if os(iOS)

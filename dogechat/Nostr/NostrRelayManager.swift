@@ -1,4 +1,4 @@
-import BitLogger
+import DogeLogger
 import Foundation
 import Network
 import Combine
@@ -69,7 +69,6 @@ final class NostrRelayManager: ObservableObject {
     private var messageQueue: [PendingSend] = []
     private let messageQueueLock = NSLock()
     private let encoder = JSONEncoder()
-    private let decoder = JSONDecoder()
     private var networkService: NetworkActivationService { NetworkActivationService.shared }
     private var shouldUseTor: Bool { networkService.userTorEnabled }
     
@@ -79,8 +78,6 @@ final class NostrRelayManager: ObservableObject {
     private let backoffMultiplier: Double = TransportConfig.nostrRelayBackoffMultiplier
     private let maxReconnectAttempts = TransportConfig.nostrRelayMaxReconnectAttempts
     
-    // Reconnection timer
-    private var reconnectionTimer: Timer?
     // Bump generation to invalidate scheduled reconnects when we reset/disconnect
     private var connectionGeneration: Int = 0
     
@@ -887,10 +884,10 @@ struct NostrFilter: Encodable {
         return filter
     }
 
-    // For location channels: geohash-scoped ephemeral events (kind 20000)
-    static func geohashEphemeral(_ geohash: String, since: Date? = nil, limit: Int = 200) -> NostrFilter {
+    // For location channels: geohash-scoped ephemeral events (kind 20000) and presence (kind 20001)
+    static func geohashEphemeral(_ geohash: String, since: Date? = nil, limit: Int = 1000) -> NostrFilter {
         var filter = NostrFilter()
-        filter.kinds = [20000]
+        filter.kinds = [20000, 20001]
         filter.since = since?.timeIntervalSince1970.toInt()
         filter.tagFilters = ["g": [geohash]]
         filter.limit = limit

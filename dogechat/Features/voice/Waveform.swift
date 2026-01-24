@@ -1,6 +1,6 @@
 import AVFoundation
 import Foundation
-import BitLogger
+import DogeLogger
 
 /// Generates and caches downsampled waveforms for audio files so UI rendering is cheap.
 final class WaveformCache {

@@ -8,6 +8,10 @@ enum TransportConfig {
     static let messageTTLDefault: UInt8 = 7                 // Default TTL for mesh flooding
     static let bleMaxInFlightAssemblies: Int = 128          // Cap concurrent fragment assemblies
     static let bleHighDegreeThreshold: Int = 6              // For adaptive TTL/probabilistic relays
+    static let bleMaxConcurrentTransfers: Int = 2           // Limit simultaneous large media sends
+    static let bleFragmentRelayMinDelayMs: Int = 8          // Faster forwarding for media fragments
+    static let bleFragmentRelayMaxDelayMs: Int = 25         // Upper jitter bound for fragment relays
+    static let bleFragmentRelayTtlCap: UInt8 = 5            // Clamp fragment TTL to contain floods
 
     // UI / Storage Caps
     static let privateChatCap: Int = 1337
@@ -66,6 +70,7 @@ enum TransportConfig {
     static let uiAnimationMediumSeconds: TimeInterval = 0.2
     static let uiAnimationSidebarSeconds: TimeInterval = 0.25
     static let uiRecentCutoffFiveMinutesSeconds: TimeInterval = 5 * 60
+    static let uiMeshEmptyConfirmationSeconds: TimeInterval = 30.0
 
     // BLE maintenance & thresholds
     static let bleMaintenanceInterval: TimeInterval = 5.0
@@ -91,11 +96,12 @@ enum TransportConfig {
     // Keep scanning fully ON when we saw traffic very recently
     static let bleRecentTrafficForceScanSeconds: TimeInterval = 10.0
     static let bleThreadSleepWriteShortDelaySeconds: TimeInterval = 0.05
-    static let bleExpectedWritePerFragmentMs: Int = 8
-    static let bleExpectedWriteMaxMs: Int = 2000
-    // Faster fragment pacing; use slightly tighter spacing for directed trains
-    static let bleFragmentSpacingMs: Int = 5
-    static let bleFragmentSpacingDirectedMs: Int = 4
+    static let bleExpectedWritePerFragmentMs: Int = 20
+    static let bleExpectedWriteMaxMs: Int = 5000
+    // Fragment pacing: Conservative spacing to prevent BLE buffer overflow
+    // Aggressive pacing causes packet loss; needs 25-30ms between fragments for reliable delivery
+    static let bleFragmentSpacingMs: Int = 30
+    static let bleFragmentSpacingDirectedMs: Int = 25
     static let bleAnnounceIntervalSeconds: TimeInterval = 4.0
     static let bleDutyOnDurationDense: TimeInterval = 3.0
     static let bleDutyOffDurationDense: TimeInterval = 15.0
@@ -157,6 +163,14 @@ enum TransportConfig {
     static let blePostAnnounceDelaySeconds: TimeInterval = 0.4
     static let bleForceAnnounceMinIntervalSeconds: TimeInterval = 0.15
 
+    // BCH-01-004: Rate-limiting for subscription-triggered announces
+    // Prevents rapid enumeration attacks by rate-limiting announce responses
+    static let bleSubscriptionRateLimitMinSeconds: TimeInterval = 2.0       // Minimum interval between announces per central
+    static let bleSubscriptionRateLimitBackoffFactor: Double = 2.0          // Exponential backoff multiplier
+    static let bleSubscriptionRateLimitMaxBackoffSeconds: TimeInterval = 30.0  // Maximum backoff period
+    static let bleSubscriptionRateLimitWindowSeconds: TimeInterval = 60.0   // Window for tracking subscription attempts
+    static let bleSubscriptionRateLimitMaxAttempts: Int = 5                 // Max attempts before extended cooldown
+
     // Store-and-forward for directed packets at relays
     static let bleDirectedSpoolWindowSeconds: TimeInterval = 15.0
 
@@ -198,4 +212,18 @@ enum TransportConfig {
     static let uiShareExtensionDismissDelaySeconds: TimeInterval = 2.0
     static let uiShareAcceptWindowSeconds: TimeInterval = 30.0
     static let uiMigrationCutoffSeconds: TimeInterval = 24 * 60 * 60
+
+    // Gossip Sync Configuration
+    static let syncSeenCapacity: Int = 1000
+    static let syncGCSMaxBytes: Int = 400
+    static let syncGCSTargetFpr: Double = 0.01
+    static let syncMaxMessageAgeSeconds: TimeInterval = 900
+    static let syncMaintenanceIntervalSeconds: TimeInterval = 30.0
+    static let syncStalePeerCleanupIntervalSeconds: TimeInterval = 60.0
+    static let syncStalePeerTimeoutSeconds: TimeInterval = 60.0
+    static let syncFragmentCapacity: Int = 600
+    static let syncFileTransferCapacity: Int = 200
+    static let syncFragmentIntervalSeconds: TimeInterval = 30.0
+    static let syncFileTransferIntervalSeconds: TimeInterval = 60.0
+    static let syncMessageIntervalSeconds: TimeInterval = 15.0
 }

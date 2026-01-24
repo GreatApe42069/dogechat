@@ -1,29 +1,23 @@
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/e3bde6ea-68dc-47cb-b6cf-a75ad167467e" />
+<img width="256" height="256" alt="icon_128x128@2x" src="https://github.com/user-attachments/assets/90133f83-b4f6-41c6-aab9-25d0859d2a47" />
 
+## dogechat
 
-## Đogechat
-
-A Đecentralized peer-to-peer messaging app that works over Bluetooth mesh networks. No internet required, no servers, no phone numbers. It's the side-groupchat. 
+A decentralized peer-to-peer messaging app with dual transport architecture: local Bluetooth mesh networks for offline communication and internet-based Nostr protocol for global reach. No accounts, no phone numbers, no central servers. It's the side-groupchat.
 
 [dogechat.free](http://dogechat.free)
 
-📲 [App Store](https://apps.apple.com/us/app/dogechat-mesh/idXxxxxxxxX)
-
-> [!WARNING]
-> Private messages have not received external security review and may contain vulnerabilities. Do not use for sensitive use cases, and do not rely on its security until it has been reviewed. Now uses the [Noise Protocol](http://www.noiseprotocol.org) for identity and encryption. Public local chat (the main feature) has no security concerns. 
-
+📲 [App Store](https://apps.apple.com/us/app/dogechat-mesh/id6748219622)
 
 ## License
 
 This project is released into the public domain. See the [LICENSE](LICENSE) file for details.
 
-
 ## Features
 
-- **Đual Transport Architecture**: Bluetooth mesh for offline + Nostr protocol for internet-based messaging
+- **Dual Transport Architecture**: Bluetooth mesh for offline + Nostr protocol for internet-based messaging
 - **Location-Based Channels**: Geographic chat rooms using geohash coordinates over global Nostr relays
 - **Intelligent Message Routing**: Automatically chooses best transport (Bluetooth → Nostr fallback)
-- **Đecentralized Mesh Network**: Automatic peer discovery and multi-hop message relay over Bluetooth LE
+- **Decentralized Mesh Network**: Automatic peer discovery and multi-hop message relay over Bluetooth LE
 - **Privacy First**: No accounts, no phone numbers, no persistent identifiers
 - **Private Message End-to-End Encryption**: [Noise Protocol](https://noiseprotocol.org) for mesh, NIP-17 for Nostr
 - **IRC-Style Commands**: Familiar `/slap`, `/msg`, `/who` style interface
@@ -33,7 +27,7 @@ This project is released into the public domain. See the [LICENSE](LICENSE) file
 
 ## [Technical Architecture](https://deepwiki.com/permissionlesstech/dogechat)
 
-Dogechat uses a **hybrid messaging architecture** with two complementary transport layers:
+DogeChat uses a **hybrid messaging architecture** with two complementary transport layers:
 
 ### Bluetooth Mesh Network (Offline)
 
@@ -80,7 +74,7 @@ Private messages use **intelligent transport selection**:
 
 1. **Bluetooth First** (preferred when available)
 
-   - Đirect connection with established Noise session
+   - Direct connection with established Noise session
    - Fastest and most private option
 
 2. **Nostr Fallback** (when Bluetooth unavailable)

@@ -1,6 +1,6 @@
 import Foundation
 import AVFoundation
-import BitLogger
+import DogeLogger
 
 /// Controls playback for a single voice note and coordinates exclusive playback across the app.
 final class VoiceNotePlaybackController: NSObject, ObservableObject, AVAudioPlayerDelegate {

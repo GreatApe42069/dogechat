@@ -14,7 +14,7 @@ import UIKit
 import AppKit
 #endif
 import UniformTypeIdentifiers
-import BitLogger
+import DogeLogger
 
 // MARK: - Supporting Types
 
@@ -40,11 +40,8 @@ struct ContentView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.dismiss) private var dismiss
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
-    @State private var showPeerList = false
     @State private var showSidebar = false
     @State private var showAppInfo = false
-    @State private var showCommandSuggestions = false
-    @State private var commandSuggestions: [String] = []
     @State private var showMessageActions = false
     @State private var selectedMessageSender: String?
     @State private var selectedMessageSenderID: PeerID?
@@ -59,7 +56,6 @@ struct ContentView: View {
     @State private var expandedMessageIDs: Set<String> = []
     @State private var showLocationNotes = false
     @State private var notesGeohash: String? = nil
-    @State private var sheetNotesCount: Int = 0
     @State private var imagePreviewURL: URL? = nil
     @State private var recordingAlertMessage: String = ""
     @State private var showRecordingAlert = false
@@ -191,6 +187,7 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showAppInfo) {
             AppInfoView()
+                .environmentObject(viewModel)
                 .onAppear { viewModel.isAppInfoPresented = true }
                 .onDisappear { viewModel.isAppInfoPresented = false }
         }
@@ -200,6 +197,7 @@ struct ContentView: View {
         )) {
             if let peerID = viewModel.showingFingerprintFor {
                 FingerprintView(viewModel: viewModel, peerID: peerID)
+                    .environmentObject(viewModel)
             }
         }
 #if os(iOS)
@@ -227,6 +225,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .environmentObject(viewModel)
             .ignoresSafeArea()
         }
 #endif
@@ -255,6 +254,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .environmentObject(viewModel)
         }
 #endif
         .sheet(isPresented: Binding(
@@ -263,6 +263,7 @@ struct ContentView: View {
         )) {
             if let url = imagePreviewURL {
                 ImagePreviewView(url: url)
+                    .environmentObject(viewModel)
             }
         }
         .alert("Recording Error", isPresented: $showRecordingAlert, actions: {
@@ -467,17 +468,17 @@ struct ContentView: View {
                     } else {
                         // Schedule a delayed scroll
                         scrollThrottleTimer?.invalidate()
-                        scrollThrottleTimer = Timer.scheduledTimer(withTimeInterval: TransportConfig.uiScrollThrottleSeconds, repeats: false) { _ in
-                            lastScrollTime = Date()
-                        let contextKey: String = {
-                            switch locationManager.selectedChannel {
-                            case .mesh: return "mesh"
-                            case .location(let ch): return "geo:\(ch.geohash)"
-                            }
-                        }()
-                            let count = windowCountPublic
-                            let target = viewModel.messages.suffix(count).last.map { "\(contextKey)|\($0.id)" }
-                            DispatchQueue.main.async {
+                        scrollThrottleTimer = Timer.scheduledTimer(withTimeInterval: TransportConfig.uiScrollThrottleSeconds, repeats: false) { [weak viewModel] _ in
+                            Task { @MainActor in
+                                lastScrollTime = Date()
+                                let contextKey: String = {
+                                    switch locationManager.selectedChannel {
+                                    case .mesh: return "mesh"
+                                    case .location(let ch): return "geo:\(ch.geohash)"
+                                    }
+                                }()
+                                let count = windowCountPublic
+                                let target = viewModel?.messages.suffix(count).last.map { "\(contextKey)|\($0.id)" }
                                 if let target = target { proxy.scrollTo(target, anchor: .bottom) }
                             }
                         }
@@ -605,77 +606,12 @@ struct ContentView: View {
                 .padding(.horizontal, 12)
             }
 
-            // Command suggestions
-            if showCommandSuggestions && !commandSuggestions.isEmpty {
-                VStack(alignment: .leading, spacing: 0) {
-                    // Define commands with aliases and syntax
-                    let baseInfo: [(commands: [String], syntax: String?, description: String)] = [
-                        (["/block"], "[nickname]", "block or list blocked peers"),
-                        (["/clear"], nil, "clear chat messages"),
-                        (["/hug"], "<nickname>", "send someone a warm hug"),
-                        (["/m", "/msg"], "<nickname> [message]", "send private message"),
-                        (["/slap"], "<nickname>", "slap someone with a trout"),
-                        (["/unblock"], "<nickname>", "unblock a peer"),
-                        (["/w"], nil, "see who's online")
-                    ]
-                    let isGeoPublic: Bool = { if case .location = locationManager.selectedChannel { return true }; return false }()
-                    let isGeoDM = viewModel.selectedPrivateChatPeer?.isGeoDM == true
-                    let favInfo: [(commands: [String], syntax: String?, description: String)] = [
-                        (["/fav"], "<nickname>", "add to favorites"),
-                        (["/unfav"], "<nickname>", "remove from favorites")
-                    ]
-                    let commandInfo = baseInfo + ((isGeoPublic || isGeoDM) ? [] : favInfo)
-
-                    // Build the display
-                    let allCommands = commandInfo
-
-                    // Show matching commands
-                    ForEach(commandSuggestions, id: \.self) { command in
-                        // Find the command info for this suggestion
-                        if let info = allCommands.first(where: { $0.commands.contains(command) }) {
-                            Button(action: {
-                                // Replace current text with selected command
-                                messageText = command + " "
-                                showCommandSuggestions = false
-                                commandSuggestions = []
-                            }) {
-                                HStack {
-                                    // Show all aliases together
-                                    Text(info.commands.joined(separator: ", "))
-                                        .font(.dogechatSystem(size: 11, design: .monospaced))
-                                        .foregroundColor(textColor)
-                                        .fontWeight(.medium)
-
-                                    // Show syntax if any
-                                    if let syntax = info.syntax {
-                                        Text(syntax)
-                                            .font(.dogechatSystem(size: 10, design: .monospaced))
-                                            .foregroundColor(secondaryTextColor.opacity(0.8))
-                                    }
-
-                                    Spacer()
-
-                                    // Show description
-                                    Text(info.description)
-                                        .font(.dogechatSystem(size: 10, design: .monospaced))
-                                        .foregroundColor(secondaryTextColor)
-                                }
-                                .padding(.horizontal, 12)
-                                .padding(.vertical, 3)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                            .buttonStyle(.plain)
-                            .background(Color.gray.opacity(0.1))
-                        }
-                    }
-                }
-                .background(backgroundColor)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 4)
-                        .stroke(secondaryTextColor.opacity(0.3), lineWidth: 1)
-                )
-                .padding(.horizontal, 12)
-            }
+            CommandSuggestionsView(
+                messageText: $messageText,
+                textColor: textColor,
+                backgroundColor: backgroundColor,
+                secondaryTextColor: secondaryTextColor
+            )
 
             // Recording indicator
             if isPreparingVoiceNote || isRecordingVoiceNote {
@@ -709,67 +645,12 @@ struct ContentView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .onChange(of: messageText) { newValue in
-                    // Cancel previous debounce timer
                     autocompleteDebounceTimer?.invalidate()
-
-                    // Debounce autocomplete updates to reduce calls during rapid typing
-                    autocompleteDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { _ in
-                        // Get cursor position (approximate - end of text for now)
+                    autocompleteDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak viewModel] _ in
                         let cursorPosition = newValue.count
-                        viewModel.updateAutocomplete(for: newValue, cursorPosition: cursorPosition)
-                    }
-
-                    // Check for command autocomplete (instant, no debounce needed)
-                    if newValue.hasPrefix("/") && newValue.count >= 1 {
-                        // Build context-aware command list
-                        let isGeoPublic: Bool = {
-                            if case .location = locationManager.selectedChannel { return true }
-                            return false
-                        }()
-                        let isGeoDM = viewModel.selectedPrivateChatPeer?.isGeoDM == true
-                        var commandDescriptions = [
-                            ("/block", String(localized: "content.commands.block", comment: "Description for /block command")),
-                            ("/clear", String(localized: "content.commands.clear", comment: "Description for /clear command")),
-                            ("/hug", String(localized: "content.commands.hug", comment: "Description for /hug command")),
-                            ("/m", String(localized: "content.commands.message", comment: "Description for /m command")),
-                            ("/slap", String(localized: "content.commands.slap", comment: "Description for /slap command")),
-                            ("/unblock", String(localized: "content.commands.unblock", comment: "Description for /unblock command")),
-                            ("/w", String(localized: "content.commands.who", comment: "Description for /w command"))
-                        ]
-                        // Only show favorites commands when not in geohash context
-                        if !(isGeoPublic || isGeoDM) {
-                            commandDescriptions.append(("/fav", String(localized: "content.commands.favorite", comment: "Description for /fav command")))
-                            commandDescriptions.append(("/unfav", String(localized: "content.commands.unfavorite", comment: "Description for /unfav command")))
+                        Task { @MainActor in
+                            viewModel?.updateAutocomplete(for: newValue, cursorPosition: cursorPosition)
                         }
-
-                        let input = newValue.lowercased()
-
-                        // Map of aliases to primary commands
-                        let aliases: [String: String] = [
-                            "/join": "/j",
-                            "/msg": "/m"
-                        ]
-
-                        // Filter commands, but convert aliases to primary
-                        commandSuggestions = commandDescriptions
-                            .filter { $0.0.starts(with: input) }
-                            .map { $0.0 }
-
-                        // Also check if input matches an alias
-                        for (alias, primary) in aliases {
-                            if alias.starts(with: input) && !commandSuggestions.contains(primary) {
-                                if commandDescriptions.contains(where: { $0.0 == primary }) {
-                                    commandSuggestions.append(primary)
-                                }
-                            }
-                        }
-
-                        // Remove duplicates and sort
-                        commandSuggestions = Array(Set(commandSuggestions)).sorted()
-                        showCommandSuggestions = !commandSuggestions.isEmpty
-                    } else {
-                        showCommandSuggestions = false
-                        commandSuggestions = []
                     }
                 }
 
@@ -787,7 +668,7 @@ struct ContentView: View {
         .padding(.bottom, 8)
         .background(backgroundColor.opacity(0.95))
     }
-
+    
     private func handleOpenURL(_ url: URL) {
         guard url.scheme == "dogechat" else { return }
         switch url.host {
@@ -947,6 +828,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .environmentObject(viewModel)
             .ignoresSafeArea()
         }
         #endif
@@ -967,6 +849,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .environmentObject(viewModel)
         }
         #endif
     }
@@ -1296,19 +1179,6 @@ struct ContentView: View {
         )
     }
 
-    // Split a name into base and a '#abcd' suffix if present
-    private func splitNameSuffix(_ name: String) -> (base: String, suffix: String) {
-        guard name.count >= 5 else { return (name, "") }
-        let suffix = String(name.suffix(5))
-        if suffix.first == "#", suffix.dropFirst().allSatisfy({ c in
-            ("0"..."9").contains(String(c)) || ("a"..."f").contains(String(c)) || ("A"..."F").contains(String(c))
-        }) {
-            let base = String(name.dropLast(5))
-            return (base, suffix)
-        }
-        return (name, "")
-    }
-    
     // Compute channel-aware people count and color for toolbar (cross-platform)
     private func channelPeopleCountAndColor() -> (Int, Color) {
         switch locationManager.selectedChannel {
@@ -1423,8 +1293,8 @@ struct ContentView: View {
 
                 // Bookmark toggle (geochats): to the left of #geohash
                 if case .location(let ch) = locationManager.selectedChannel {
-                    Button(action: { GeohashBookmarksStore.shared.toggle(ch.geohash) }) {
-                        Image(systemName: GeohashBookmarksStore.shared.isBookmarked(ch.geohash) ? "bookmark.fill" : "bookmark")
+                    Button(action: { bookmarks.toggle(ch.geohash) }) {
+                        Image(systemName: bookmarks.isBookmarked(ch.geohash) ? "bookmark.fill" : "bookmark")
                             .font(.dogechatSystem(size: 12))
                     }
                     .buttonStyle(.plain)
@@ -1504,6 +1374,7 @@ struct ContentView: View {
         .padding(.horizontal, 12)
         .sheet(isPresented: $showLocationChannelsSheet) {
             LocationChannelsSheet(isPresented: $showLocationChannelsSheet)
+                .environmentObject(viewModel)
                 .onAppear { viewModel.isLocationChannelsSheetPresented = true }
                 .onDisappear { viewModel.isLocationChannelsSheetPresented = false }
         }
@@ -1681,7 +1552,7 @@ private extension ContentView {
         } else if let media = mediaAttachment(for: message) {
             mediaMessageRow(message: message, media: media)
         } else {
-            textMessageRow(message)
+            TextMessageView(message: message, expandedMessageIDs: $expandedMessageIDs)
         }
     }
 
@@ -1743,56 +1614,6 @@ private extension ContentView {
             }
         }
         .padding(.vertical, 4)
-    }
-
-    @ViewBuilder
-    private func textMessageRow(_ message: DogechatMessage) -> some View {
-        let cashuTokens = message.content.extractCashuLinks()
-        let lightningLinks = message.content.extractLightningLinks()
-        let isLong = (message.content.count > TransportConfig.uiLongMessageLengthThreshold || message.content.hasVeryLongToken(threshold: TransportConfig.uiVeryLongTokenThreshold)) && cashuTokens.isEmpty
-        let isExpanded = expandedMessageIDs.contains(message.id)
-
-        VStack(alignment: .leading, spacing: 0) {
-            HStack(alignment: .top, spacing: 0) {
-                Text(viewModel.formatMessageAsText(message, colorScheme: colorScheme))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineLimit(isLong && !isExpanded ? TransportConfig.uiLongMessageLineLimit : nil)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-
-                if message.isPrivate && message.sender == viewModel.nickname,
-                   let status = message.deliveryStatus {
-                    DeliveryStatusView(status: status)
-                        .padding(.leading, 4)
-                }
-            }
-
-            if isLong && cashuTokens.isEmpty {
-                let labelKey = isExpanded ? LocalizedStringKey("content.message.show_less") : LocalizedStringKey("content.message.show_more")
-                Button(labelKey) {
-                    if isExpanded { expandedMessageIDs.remove(message.id) }
-                    else { expandedMessageIDs.insert(message.id) }
-                }
-                .font(.dogechatSystem(size: 11, weight: .medium, design: .monospaced))
-                .foregroundColor(Color.blue)
-                .padding(.top, 4)
-            }
-
-            if !lightningLinks.isEmpty || !cashuTokens.isEmpty {
-                HStack(spacing: 8) {
-                    ForEach(Array(lightningLinks.prefix(3)), id: \.self) { link in
-                        PaymentChipView(paymentType: .lightning(link))
-                    }
-
-                    ForEach(Array(cashuTokens.prefix(3)), id: \.self) { token in
-                        let enc = token.addingPercentEncoding(withAllowedCharacters: .alphanumerics.union(CharacterSet(charactersIn: "-_"))) ?? token
-                        let urlStr = "cashu:\(enc)"
-                        PaymentChipView(paymentType: .cashu(urlStr))
-                    }
-                }
-                .padding(.top, 6)
-                .padding(.leading, 2)
-            }
-        }
     }
 
     private func expandWindow(ifNeededFor message: DogechatMessage,

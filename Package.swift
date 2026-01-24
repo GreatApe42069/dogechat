@@ -16,8 +16,8 @@ let package = Package(
         ),
     ],
     dependencies:[
-        .package(path: "localPackages/Tor"),
-        .package(path: "localPackages/BitLogger"),
+        .package(path: "localPackages/Arti"),
+        .package(path: "localPackages/DogeLogger"),
         .package(url: "https://github.com/21-DOT-DEV/swift-secp256k1", exact: "0.21.1")
     ],
     targets: [
@@ -25,8 +25,8 @@ let package = Package(
             name: "dogechat",
             dependencies: [
                 .product(name: "P256K", package: "swift-secp256k1"),
-                .product(name: "BitLogger", package: "BitLogger"),
-                .product(name: "Tor", package: "Tor")
+                .product(name: "DogeLogger", package: "DogeLogger"),
+                .product(name: "Tor", package: "Arti")
             ],
             path: "dogechat",
             exclude: [
@@ -34,7 +34,8 @@ let package = Package(
                 "Assets.xcassets",
                 "dogechat.entitlements",
                 "dogechat-macOS.entitlements",
-                "LaunchScreen.storyboard"
+                "LaunchScreen.storyboard",
+                "ViewModels/Extensions/README.md"
             ],
             resources: [
                 .process("Localizable.xcstrings")
@@ -49,7 +50,8 @@ let package = Package(
                 "README.md"
             ],
             resources: [
-                .process("Localization")
+                .process("Localization"),
+                .process("Noise")
             ]
         )
     ]
