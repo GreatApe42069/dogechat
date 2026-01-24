@@ -106,7 +106,7 @@
       "common.copy": "copiar",
       "app_info.close": "cerrar",
       "app_info.done": "LISTO",
-      "content.alert.bluetooth_required.permission": "bitChat necesita permiso de Bluetooth para conectarse con dispositivos cercanos. Habilita el acceso en Ajustes.",
+      "content.alert.bluetooth_required.permission": "DogeChat necesita permiso de Bluetooth para conectarse con dispositivos cercanos. Habilita el acceso en Ajustes.",
       "content.alert.bluetooth_required.settings": "ajustes",
       "app_info.app_name": "dogechat",
       "app_info.features.encryption.title": "cifrado de extremo a extremo",
