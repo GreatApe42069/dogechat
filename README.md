@@ -5,14 +5,14 @@
 
 A decentralized peer-to-peer messaging app with dual transport architecture: local Bluetooth mesh networks for offline communication and internet-based Nostr protocol for global reach. No accounts, no phone numbers, no central servers. It's the side-groupchat.
 
-[dogechat.free](http://dogechat.free)
+[dogechat iOS git page coming soon](https://greatape42069.github.io/dogechat)
 
-📲 [App Store](https://apps.apple.com/us/app/dogechat-mesh/id6748219622)
+📲 [App Store Coming Soon](https://apps.apple.com/us/app/dogechat-mesh/idxxxxxxx)
 
 ## Installation
 
 ### Official App Store (Recommended)
-Download from the [App Store](https://apps.apple.com/us/app/dogechat-mesh/id6748219622) for the easiest installation experience.
+Download from the [App Store Coming Soon](https://apps.apple.com/us/app/dogechat-mesh/idxxxxxx) for the easiest installation experience.
 
 ### Unsigned Builds (Alternative)
 For users who prefer sideloading or need unsigned builds:
@@ -25,9 +25,6 @@ For users who prefer sideloading or need unsigned builds:
 
 Download the latest unsigned build: [ios-latest-unsigned release](https://github.com/GreatApe42069/dogechat/releases/tag/ios-latest-unsigned)
 
-## License
-
-This project is released into the public domain. See the [LICENSE](LICENSE) file for details.
 
 ## Features
 
@@ -137,3 +134,48 @@ Run `just clean` afterwards to restore things to original state for mobile app b
 - Share extension strings are separate in `dogechatShareExtension/Localization/Base.lproj/Localizable.strings`.
 - Prefer keys that describe intent (`app_info.features.offline.title`) and reuse existing ones where possible.
 - Run `xcodebuild -project dogechat.xcodeproj -scheme "dogechat (macOS)" -configuration Debug CODE_SIGNING_ALLOWED=NO build` to compile-check any localization updates.
+
+# 🛠 Contributing
+
+If you'd like to contribute or donate to this project, please donate in Dogecoin adddresses of contributors below. For all active contributors who wish to help improve dogechatEXT, its as easy as opening issues, and or creating pull requests.
+
+This software is Open-source, Đecentralized, an FREE to use, Đonations are accepted, but never expected, to support The Contributers of Đogechat you can send any Donations in Dogecoin, Doginals, Dunes, or Drc-20's to the following Contributors:
+
+---
+
+***You can donate to*** **GreatApe** ***here:***
+
+"handle": ***"GreatApe42069"*** "at": [***"@Greatape42069E"***](https://x.com/Greatape42069E)
+
+ **"Đogecoin_address":** **D9pqzxiiUke5eodEzMmxZAxpFcbvwuM4Hg**
+
+ ---
+
+## ***Contributions are welcome! Key areas for enhancement:***
+
+1. **Performance**: Battery optimization and connection reliability
+2. **UI/UX**: Additional Material Design 3 features
+3. **Privacy**: Enhanced privacy features and NIP-07 signer support
+4. **Testing**: Unit and integration test coverage
+5. **Documentation**: API documentation and development guides
+
+### Support & Issues
+
+- **Bug Reports**: [Create an issue](../../issues) with device info and logs
+- **Feature Requests**: [Start a discussion](https://github.com/orgs/greatape42069/discussions)
+- **Security Issues**: Email security concerns privately
+- **Android Compatibility**: Cross-reference with [original dogechat-android repo](https://github.com/GreatApe42069/dogechat-android)
+
+---
+
+## 📚 Additional Resources
+
+- **[Changelog](CHANGELOG.md)** - View all updates and version history
+- **[GitHub Pages Site](https://greatape42069.github.io/dogechat/)** - Official info page with Privacy Policy
+- **[Privacy Policy](https://greatape42069.github.io/dogechat/#privacy)** - Required by Google Web Store
+
+---
+
+## 📜 License
+
+This project is open source and available under the CC0 1.0 Universal License. 
