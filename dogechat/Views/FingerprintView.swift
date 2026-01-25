@@ -15,7 +15,7 @@ struct FingerprintView: View {
     @Environment(\.colorScheme) var colorScheme
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.adaptiveGreen(isDark: colorScheme == .dark)
     }
     
     private var backgroundColor: Color {
@@ -87,7 +87,7 @@ struct FingerprintView: View {
                     if let icon = encryptionStatus.icon {
                         Image(systemName: icon)
                             .font(.dogechatSystem(size: 20))
-                            .foregroundColor(encryptionStatus == .noiseVerified ? Color.green : textColor)
+                            .foregroundColor(encryptionStatus == .noiseVerified ? Color.limeGreen : textColor)
                     }
                     
                     VStack(alignment: .leading, spacing: 4) {
@@ -177,7 +177,7 @@ struct FingerprintView: View {
                     VStack(spacing: 12) {
                         Text(isVerified ? Strings.verifiedBadge : Strings.notVerifiedBadge)
                             .font(.dogechatSystem(size: 14, weight: .bold, design: .monospaced))
-                            .foregroundColor(isVerified ? Color.green : Color.orange)
+                            .foregroundColor(isVerified ? Color.limeGreen : Color.orange)
                             .frame(maxWidth: .infinity)
                         
                         Group {
@@ -204,7 +204,7 @@ struct FingerprintView: View {
                                     .foregroundColor(.white)
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 10)
-                                    .background(Color.green)
+                                    .background(Color.limeGreen)
                                     .cornerRadius(8)
                             }
                             .buttonStyle(PlainButtonStyle())

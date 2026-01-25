@@ -9,11 +9,11 @@ struct AppInfoView: View {
     }
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.adaptiveGreen(isDark: colorScheme == .dark)
     }
     
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color.adaptiveGreen(isDark: colorScheme == .dark, opacity: 0.8)
     }
     
     // MARK: - Constants
@@ -204,7 +204,7 @@ struct SectionHeader: View {
     @Environment(\.colorScheme) var colorScheme
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.adaptiveGreen(isDark: colorScheme == .dark)
     }
     
     init(_ title: LocalizedStringKey) {
@@ -224,11 +224,11 @@ struct FeatureRow: View {
     @Environment(\.colorScheme) var colorScheme
     
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.adaptiveGreen(isDark: colorScheme == .dark)
     }
     
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color.adaptiveGreen(isDark: colorScheme == .dark, opacity: 0.8)
     }
     
     var body: some View {

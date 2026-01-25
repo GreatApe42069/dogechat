@@ -31,7 +31,7 @@ struct VoiceNoteView: View {
     }
 
     private var borderColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.3) : Color.green.opacity(0.2)
+        colorScheme == .dark ? Color.limeGreen.opacity(0.3) : Color.limeGreen.opacity(0.2)
     }
 
     private var durationText: String {
@@ -60,7 +60,7 @@ struct VoiceNoteView: View {
                 Image(systemName: playback.isPlaying ? "pause.fill" : "play.fill")
                     .foregroundColor(.white)
                     .frame(width: 36, height: 36)
-                    .background(Circle().fill(Color.green))
+                    .background(Circle().fill(Color.limeGreen))
             }
             .buttonStyle(.plain)
 

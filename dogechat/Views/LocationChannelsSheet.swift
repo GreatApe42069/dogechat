@@ -514,7 +514,7 @@ extension LocationChannelsSheet {
     }
 
     private var standardGreen: Color {
-        (colorScheme == .dark) ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.adaptiveGreen(isDark: colorScheme == .dark)
     }
     private var standardBlue: Color {
         Color(red: 0.0, green: 0.478, blue: 1.0)

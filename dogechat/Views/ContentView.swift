@@ -85,11 +85,11 @@ struct ContentView: View {
     }
 
     private var textColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.adaptiveGreen(isDark: colorScheme == .dark)
     }
 
     private var secondaryTextColor: Color {
-        colorScheme == .dark ? Color.green.opacity(0.8) : Color(red: 0, green: 0.5, blue: 0).opacity(0.8)
+        Color.adaptiveGreen(isDark: colorScheme == .dark, opacity: 0.8)
     }
 
     private var headerLineLimit: Int? {
@@ -900,7 +900,7 @@ struct ContentView: View {
                         case .mesh:
                             return Color.blue
                         case .location:
-                            return Color.green
+                            return Color.adaptiveGreen(isDark: colorScheme == .dark)
                         }
                     }()
                     HStack(spacing: 6) {
@@ -1184,7 +1184,7 @@ struct ContentView: View {
         switch locationManager.selectedChannel {
         case .location:
             let n = viewModel.geohashPeople.count
-            let standardGreen = (colorScheme == .dark) ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+            let standardGreen = Color.adaptiveGreen(isDark: colorScheme == .dark)
             return (n, n > 0 ? standardGreen : Color.secondary)
         case .mesh:
             let counts = viewModel.allPeers.reduce(into: (others: 0, mesh: 0)) { counts, peer in
@@ -1320,7 +1320,7 @@ struct ContentView: View {
                         case .mesh:
                             return Color(hue: 0.60, saturation: 0.85, brightness: 0.82)
                         case .location:
-                            return (colorScheme == .dark) ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+                            return Color.adaptiveGreen(isDark: colorScheme == .dark)
                         }
                     }()
                     Text(badgeText)
