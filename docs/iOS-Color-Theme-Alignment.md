@@ -22,7 +22,7 @@ This document outlines the color theme updates made to align the iOS app with th
 
 | Android Color | Hex Value | iOS Implementation | Usage |
 |--------------|-----------|-------------------|-------|
-| `mention_color` | `#32CD32` | `Color.mentionColor` | @mention highlighting |
+| `mention_color` | `#FFA500` | `Color.mentionColor` | @mention highlighting (changed to orange) |
 | `hashtag_color` | `#0080FF` | `Color.hashtagColor` | #hashtag highlighting |
 
 ### Status Colors
@@ -101,8 +101,8 @@ style.foregroundColor = .purple
 // New adaptive green
 let textColor = Color.adaptiveGreen(isDark: colorScheme == .dark)
 
-// New mention color (matches Android)
-mentionStyle.foregroundColor = .mentionColor  // #32CD32
+// New mention color (orange)
+mentionStyle.foregroundColor = .mentionColor  // #FFA500
 
 // New hashtag color (matches Android)
 style.foregroundColor = .hashtagColor  // Bright Blue #0080FF
@@ -113,7 +113,7 @@ style.foregroundColor = .hashtagColor  // Bright Blue #0080FF
 - [x] Verify AccentColor uses Dogecoin Gold (#FFD700)
 - [x] Test dark mode: lime green (#39FF14) for active states
 - [x] Test light mode: standard green for active states
-- [x] Verify @mentions use mention color (#32CD32)
+- [x] Verify @mentions use orange color (#FFA500)
 - [x] Verify #hashtags use bright blue (#0080FF)
 - [x] Verify lightning payments use Dogecoin gold
 - [x] Verify cashu tokens use lime green

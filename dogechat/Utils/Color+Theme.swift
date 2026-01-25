@@ -28,8 +28,8 @@ extension Color {
     
     // MARK: - Text Highlighting
     
-    /// Mention color (Green color for @mentions)
-    static let mentionColor = Color(red: 50.0/255.0, green: 205.0/255.0, blue: 50.0/255.0)  // #32CD32
+    /// Mention color (Orange color for @mentions)
+    static let mentionColor = Color(red: 1.0, green: 165.0/255.0, blue: 0.0)  // #FFA500
     
     /// Hashtag color (Bright Blue for #hashtags)
     static let hashtagColor = Color(red: 0.0, green: 128.0/255.0, blue: 1.0)  // #0080FF
