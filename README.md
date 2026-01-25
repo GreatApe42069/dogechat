@@ -9,6 +9,22 @@ A decentralized peer-to-peer messaging app with dual transport architecture: loc
 
 📲 [App Store](https://apps.apple.com/us/app/dogechat-mesh/id6748219622)
 
+## Installation
+
+### Official App Store (Recommended)
+Download from the [App Store](https://apps.apple.com/us/app/dogechat-mesh/id6748219622) for the easiest installation experience.
+
+### Unsigned Builds (Alternative)
+For users who prefer sideloading or need unsigned builds:
+
+- 📱 **AltStore/SideStore Users**: Download and install with your FREE Apple ID
+- 🔓 **Jailbroken Devices**: Install permanently without expiration
+- 🛠️ **Advanced Users**: Manual signing with your own tools
+
+**[📖 Full Installation Guide for Unsigned Builds](INSTALL_IOS.md)**
+
+Download the latest unsigned build: [ios-latest-unsigned release](https://github.com/GreatApe42069/dogechat/releases/tag/ios-latest-unsigned)
+
 ## License
 
 This project is released into the public domain. See the [LICENSE](LICENSE) file for details.
