@@ -25,8 +25,68 @@ For users who prefer sideloading or need unsigned builds:
 
 Download the latest unsigned build: [ios-latest-unsigned release](https://github.com/GreatApe42069/dogechat/releases/tag/ios-latest-unsigned)
 
+### 🎯 The Truth
 
-## Features
+***Our unsigned IPA currently has NO certificate at all. That's actually the brilliant part of our current dogechat iOS setup!***
+
+
+**Our Current Unsigned IPA:**
+
+- ❌ Has zero certificates in it
+
+- ✅ Users sign it themselves with their own Apple ID
+
+- ✅ Each user trusts their own certificate (not Ours)
+
+- ✅ Works for unlimited users
+
+- ✅ No trust/certificate installation needed
+
+
+**If We Made a Signed IPA (with a free Apple ID):**
+
+
+- ✅ Pre-signed with your certificate
+
+- ❌ Only works for people who manually install and trust OUR certificate
+
+- ❌ Requires users to download your certificate profile
+
+- ❌ Still expires in 7 days
+
+- ❌ More complicated for end users
+
+- ❌ Limited to devices you manually add to your Apple Developer portal
+
+
+**Our current unsigned workflow is BETTER than a free Apple ID signed version!**
+
+
+Here's why:
+
+***Unsigned (Ours Currently)*** 	
+- Users needed to trust certificate: No (they use their own)
+- Number of users: Unlimited
+- User setup complexity: Very Easy (AltStore handles it)
+- Expiration: 7 days (auto-renewable via AltStore)
+- Cost: FREE
+
+***Signed with Free Apple ID***
+- Users needed to trust certificate: Yes (manual certificate install) 
+- Number of users: Limited (~100 devices manually registered)
+- User setup complexity: Complex (certificate + trust + IPA)
+- Expiration: 7 days (requires re-download)
+- Cost: FREE
+
+***Signed with Paid Dev Account***
+- Users needed to trust certificate: No (Apple trusts it)
+- Number of users: Unlimited
+- User setup complexity: Easy (TestFlight/App Store handles it)
+- Expiration : No expiration
+- Cost : $99/year
+
+
+## [Features](https://github.com/GreatApe42069/dogechat/blob/main/WHITEPAPER.md)
 
 - **Dual Transport Architecture**: Bluetooth mesh for offline + Nostr protocol for internet-based messaging
 - **Location-Based Channels**: Geographic chat rooms using geohash coordinates over global Nostr relays
@@ -39,7 +99,7 @@ Download the latest unsigned build: [ios-latest-unsigned release](https://github
 - **Emergency Wipe**: Triple-tap to instantly clear all data
 - **Performance Optimizations**: LZ4 message compression, adaptive battery modes, and optimized networking
 
-## [Technical Architecture](https://deepwiki.com/permissionlesstech/dogechat)
+## [Technical Architecture](https://deepwiki.com/GreatApe42069/dogechat)
 
 DogeChat uses a **hybrid messaging architecture** with two complementary transport layers:
 
@@ -147,7 +207,7 @@ This software is Open-source, Đecentralized, an FREE to use, Đonations are acc
 
 "handle": ***"GreatApe42069"*** "at": [***"@Greatape42069E"***](https://x.com/Greatape42069E)
 
- **"Đogecoin_address":** **D9pqzxiiUke5eodEzMmxZAxpFcbvwuM4Hg**
+ **"Đogecoin_address":** **[D9pqzxiiUke5eodEzMmxZAxpFcbvwuM4Hg](https://www.mydoge.com/GreatApe42069)**
 
  ---
 
