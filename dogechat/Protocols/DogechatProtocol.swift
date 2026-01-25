@@ -9,7 +9,7 @@
 ///
 /// # DogechatProtocol
 ///
-/// Defines the application-layer protocol for DogeChat mesh networking, including
+/// Defines the application-layer protocol for Dogechat mesh networking, including
 /// message types, packet structures, and encoding/decoding logic.
 ///
 /// ## Overview
@@ -63,7 +63,7 @@ import CoreBluetooth
 
 // MARK: - Message Types
 
-/// Simplified DogeChat protocol message types.
+/// Simplified Dogechat protocol message types.
 /// Reduced from 24 types to just 6 essential ones.
 /// All private communication metadata (receipts, status) is embedded in noiseEncrypted payloads.
 enum MessageType: UInt8 {

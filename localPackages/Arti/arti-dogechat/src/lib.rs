@@ -1,4 +1,4 @@
-//! arti-dogechat: Minimal FFI wrapper around arti-client for DogeChat
+//! arti-dogechat: Minimal FFI wrapper around arti-client for Dogechat
 //!
 //! Provides a C-compatible interface for embedding Arti (Rust Tor) in iOS/macOS apps.
 //! Exposes a SOCKS5 proxy on localhost that Swift code can route traffic through.

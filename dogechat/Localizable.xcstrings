@@ -12410,7 +12410,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "bluetooth está desactivado. Actívalo en Ajustes para usar DogeChat."
+            "value" : "bluetooth está desactivado. Actívalo en Ajustes para usar Dogechat."
           }
         },
         "fil" : {
@@ -12589,7 +12589,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "DogeChat necesita permiso de Bluetooth para conectarse con dispositivos cercanos. Habilita el acceso en Ajustes."
+            "value" : "Dogechat necesita permiso de Bluetooth para conectarse con dispositivos cercanos. Habilita el acceso en Ajustes."
           }
         },
         "fil" : {
@@ -13126,7 +13126,7 @@
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "este dispositivo no admite Bluetooth. DogeChat necesita Bluetooth para funcionar."
+            "value" : "este dispositivo no admite Bluetooth. Dogechat necesita Bluetooth para funcionar."
           }
         },
         "fil" : {

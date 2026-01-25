@@ -617,11 +617,11 @@ extension ChatViewModel {
                 return
             }
             
-            // Check if it's a DogeChat packet embedded in the content (dogechat1:...)
+            // Check if it's a Dogechat packet embedded in the content (dogechat1:...)
             if content.hasPrefix("dogechat1:") {
                 guard let packetData = Self.base64URLDecode(String(content.dropFirst("dogechat1:".count))),
                       let packet = DogechatPacket.from(packetData) else {
-                    SecureLogger.error("Failed to decode embedded DogeChat packet from Nostr DM", category: .session)
+                    SecureLogger.error("Failed to decode embedded Dogechat packet from Nostr DM", category: .session)
                     return
                 }
                 

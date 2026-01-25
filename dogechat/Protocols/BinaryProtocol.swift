@@ -9,7 +9,7 @@
 ///
 /// # BinaryProtocol
 ///
-/// Low-level binary encoding and decoding for DogeChat protocol messages.
+/// Low-level binary encoding and decoding for Dogechat protocol messages.
 /// Optimized for Bluetooth LE's limited bandwidth and MTU constraints.
 ///
 /// ## Overview
@@ -101,7 +101,7 @@ extension Data {
     }
 }
 
-/// Implements binary encoding and decoding for DogeChat protocol messages.
+/// Implements binary encoding and decoding for Dogechat protocol messages.
 /// Provides static methods for converting between DogechatPacket objects and
 /// their binary wire format representation.
 /// - Note: All multi-byte values use network byte order (big-endian)

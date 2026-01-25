@@ -126,7 +126,7 @@ If we update this policy:
 ## Contact
 
 dogechat is an open source project. For privacy questions:
-- View our source code: [https://github.com/permissionlesstech/dogechat/tree/main](https://github.com/permissionlesstech/dogechat/tree/main)
+- View our source code: [https://github.com/greatape42069/dogechat/tree/main](https://github.com/greatape42069/dogechat/tree/main)
 - Open an issue on GitHub
 - Join the discussion in public rooms
 

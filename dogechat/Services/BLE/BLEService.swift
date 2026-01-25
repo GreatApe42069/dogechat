@@ -2094,7 +2094,7 @@ extension BLEService: CBPeripheralDelegate {
         }
         
         guard let service = services.first(where: { $0.uuid == BLEService.serviceUUID }) else {
-            // Not a DogeChat peer - disconnect
+            // Not a Dogechat peer - disconnect
             centralManager?.cancelPeripheralConnection(peripheral)
             return
         }
@@ -2262,7 +2262,7 @@ extension BLEService: CBPeripheralDelegate {
         
         if !hasOurService {
             // Service is gone - disconnect
-            SecureLogger.warning("❌ DogeChat service removed - disconnecting from \(peripheral.name ?? peripheral.identifier.uuidString)", category: .session)
+            SecureLogger.warning("❌ Dogechat service removed - disconnecting from \(peripheral.name ?? peripheral.identifier.uuidString)", category: .session)
             centralManager?.cancelPeripheralConnection(peripheral)
         } else {
             // Try to rediscover

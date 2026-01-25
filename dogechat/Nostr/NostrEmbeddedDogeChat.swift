@@ -1,9 +1,9 @@
 import Foundation
 
-// MARK: - DogeChat-over-Nostr Adapter
+// MARK: - Dogechat-over-Nostr Adapter
 
-struct NostrEmbeddedDogeChat {
-    /// Build a `dogechat1:` base64url-encoded DogeChat packet carrying a private message for Nostr DMs.
+struct NostrEmbeddedDogechat {
+    /// Build a `dogechat1:` base64url-encoded Dogechat packet carrying a private message for Nostr DMs.
     static func encodePMForNostr(content: String, messageID: String, recipientPeerID: PeerID, senderPeerID: PeerID) -> String? {
         // TLV-encode the private message
         let pm = PrivateMessagePacket(messageID: messageID, content: content)
@@ -30,7 +30,7 @@ struct NostrEmbeddedDogeChat {
         return "dogechat1:" + base64URLEncode(data)
     }
 
-    /// Build a `dogechat1:` base64url-encoded DogeChat packet carrying a delivery/read ack for Nostr DMs.
+    /// Build a `dogechat1:` base64url-encoded Dogechat packet carrying a delivery/read ack for Nostr DMs.
     static func encodeAckForNostr(type: NoisePayloadType, messageID: String, recipientPeerID: PeerID, senderPeerID: PeerID) -> String? {
         guard type == .delivered || type == .readReceipt else { return nil }
 

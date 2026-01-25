@@ -1,7 +1,7 @@
 import Foundation
 import CoreBluetooth
 
-/// Represents a peer in the DogeChat network with all associated metadata
+/// Represents a peer in the Dogechat network with all associated metadata
 struct DogechatPeer: Equatable {
     let peerID: PeerID // Hex-encoded peer ID
     let noisePublicKey: Data

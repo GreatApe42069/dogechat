@@ -10,7 +10,7 @@
 /// # NoiseEncryptionService
 ///
 /// High-level encryption service that manages Noise Protocol sessions for secure
-/// peer-to-peer communication in DogeChat. Acts as the bridge between the transport
+/// peer-to-peer communication in Dogechat. Acts as the bridge between the transport
 /// layer (BLEService) and the cryptographic layer (NoiseProtocol).
 ///
 /// ## Overview
@@ -145,7 +145,7 @@ enum EncryptionStatus: Equatable {
 
 // MARK: - Noise Encryption Service
 
-/// Manages end-to-end encryption for DogeChat using the Noise Protocol Framework.
+/// Manages end-to-end encryption for Dogechat using the Noise Protocol Framework.
 /// Provides a high-level API for establishing secure channels between peers,
 /// handling all cryptographic operations transparently.
 /// - Important: This service maintains the device's cryptographic identity
@@ -690,7 +690,7 @@ final class NoiseEncryptionService {
 // MARK: - Protocol Message Types for Noise
 
 /// Message types for the Noise encryption protocol layer.
-/// These types wrap the underlying DogeChat protocol messages with encryption metadata.
+/// These types wrap the underlying Dogechat protocol messages with encryption metadata.
 enum NoiseMessageType: UInt8 {
     case handshakeInitiation = 0x10
     case handshakeResponse = 0x11

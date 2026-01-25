@@ -2,7 +2,7 @@
 // CommandProcessor.swift
 // dogechat
 //
-// Handles command parsing and execution for DogeChat
+// Handles command parsing and execution for Dogechat
 // This is free and unencumbered software released into the public domain.
 //
 

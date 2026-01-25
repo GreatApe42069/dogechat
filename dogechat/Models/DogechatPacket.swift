@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// The core packet structure for all DogeChat protocol messages.
+/// The core packet structure for all Dogechat protocol messages.
 /// Encapsulates all data needed for routing through the mesh network,
 /// including TTL for hop limiting and optional encryption.
 /// - Note: Packets larger than BLE MTU (512 bytes) are automatically fragmented

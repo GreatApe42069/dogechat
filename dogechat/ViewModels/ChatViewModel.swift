@@ -9,12 +9,12 @@
 ///
 /// # ChatViewModel
 ///
-/// The central business logic and state management component for DogeChat.
+/// The central business logic and state management component for Dogechat.
 /// Coordinates between the UI layer and the networking/encryption services.
 ///
 /// ## Overview
 /// ChatViewModel implements the MVVM pattern, serving as the binding layer between
-/// SwiftUI views and the underlying DogeChat services. It manages:
+/// SwiftUI views and the underlying Dogechat services. It manages:
 /// - Message state and delivery
 /// - Peer connections and presence
 /// - Private chat sessions
@@ -89,7 +89,7 @@ import UIKit
 #endif
 import UniformTypeIdentifiers
 
-/// Manages the application state and business logic for DogeChat.
+/// Manages the application state and business logic for Dogechat.
 /// Acts as the primary coordinator between UI components and backend services,
 /// implementing the DogechatDelegate protocol to handle network events.
 final class ChatViewModel: ObservableObject, DogechatDelegate, CommandContextProvider, GeohashParticipantContext, MessageFormattingContext {
@@ -991,7 +991,7 @@ final class ChatViewModel: ObservableObject, DogechatDelegate, CommandContextPro
     
     // MARK: - Message Sending
     
-    /// Sends a message through the DogeChat network.
+    /// Sends a message through the Dogechat network.
     /// - Parameter content: The message content to send
     /// - Note: Automatically handles command processing if content starts with '/'
     ///         Routes to private chat if one is selected, otherwise broadcasts

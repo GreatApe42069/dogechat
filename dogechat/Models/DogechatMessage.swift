@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// Represents a user-visible message in the DogeChat system.
+/// Represents a user-visible message in the Dogechat system.
 /// Handles both broadcast messages and private encrypted messages,
 /// with support for mentions, replies, and delivery tracking.
 /// - Note: This is the primary data model for chat messages

@@ -4,7 +4,7 @@ import Combine
 
 // Minimal Nostr transport conforming to Transport for offline sending
 final class NostrTransport: Transport, @unchecked Sendable {
-    // Provide BLE short peer ID for DogeChat embedding
+    // Provide BLE short peer ID for Dogechat embedding
     var senderPeerID = PeerID(str: "")
 
     // Throttle READ receipts to avoid relay rate limits
@@ -122,7 +122,7 @@ final class NostrTransport: Transport, @unchecked Sendable {
                   let recipientHex = npubToHex(recipientNpub),
                   let senderIdentity = try? idBridge.getCurrentNostrIdentity() else { return }
             SecureLogger.debug("NostrTransport: preparing PM to \(recipientNpub.prefix(16))… id=\(messageID.prefix(8))…", category: .session)
-            guard let embedded = NostrEmbeddedDogeChat.encodePMForNostr(content: content, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
+            guard let embedded = NostrEmbeddedDogechat.encodePMForNostr(content: content, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed PM packet", category: .session)
                 return
             }
@@ -146,7 +146,7 @@ final class NostrTransport: Transport, @unchecked Sendable {
                   let senderIdentity = try? idBridge.getCurrentNostrIdentity() else { return }
             let content = isFavorite ? "[FAVORITED]:\(senderIdentity.npub)" : "[UNFAVORITED]:\(senderIdentity.npub)"
             SecureLogger.debug("NostrTransport: preparing FAVORITE(\(isFavorite)) to \(recipientNpub.prefix(16))…", category: .session)
-            guard let embedded = NostrEmbeddedDogeChat.encodePMForNostr(content: content, messageID: UUID().uuidString, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
+            guard let embedded = NostrEmbeddedDogechat.encodePMForNostr(content: content, messageID: UUID().uuidString, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed favorite notification", category: .session)
                 return
             }
@@ -161,7 +161,7 @@ final class NostrTransport: Transport, @unchecked Sendable {
                   let recipientHex = npubToHex(recipientNpub),
                   let senderIdentity = try? idBridge.getCurrentNostrIdentity() else { return }
             SecureLogger.debug("NostrTransport: preparing DELIVERED ack id=\(messageID.prefix(8))…", category: .session)
-            guard let ack = NostrEmbeddedDogeChat.encodeAckForNostr(type: .delivered, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
+            guard let ack = NostrEmbeddedDogechat.encodeAckForNostr(type: .delivered, messageID: messageID, recipientPeerID: peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed DELIVERED ack", category: .session)
                 return
             }
@@ -178,7 +178,7 @@ extension NostrTransport {
     func sendDeliveryAckGeohash(for messageID: String, toRecipientHex recipientHex: String, from identity: NostrIdentity) {
         Task { @MainActor in
             SecureLogger.debug("GeoDM: send DELIVERED mid=\(messageID.prefix(8))…", category: .session)
-            guard let embedded = NostrEmbeddedDogeChat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID) else { return }
+            guard let embedded = NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID) else { return }
             sendWrappedMessage(content: embedded, recipientHex: recipientHex, senderIdentity: identity, registerPending: true)
         }
     }
@@ -186,7 +186,7 @@ extension NostrTransport {
     func sendReadReceiptGeohash(_ messageID: String, toRecipientHex recipientHex: String, from identity: NostrIdentity) {
         Task { @MainActor in
             SecureLogger.debug("GeoDM: send READ mid=\(messageID.prefix(8))…", category: .session)
-            guard let embedded = NostrEmbeddedDogeChat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID) else { return }
+            guard let embedded = NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID) else { return }
             sendWrappedMessage(content: embedded, recipientHex: recipientHex, senderIdentity: identity, registerPending: true)
         }
     }
@@ -196,7 +196,7 @@ extension NostrTransport {
         Task { @MainActor in
             guard !recipientHex.isEmpty else { return }
             SecureLogger.debug("GeoDM: send PM mid=\(messageID.prefix(8))…", category: .session)
-            guard let embedded = NostrEmbeddedDogeChat.encodePMForNostrNoRecipient(content: content, messageID: messageID, senderPeerID: senderPeerID) else {
+            guard let embedded = NostrEmbeddedDogechat.encodePMForNostrNoRecipient(content: content, messageID: messageID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed geohash PM packet", category: .session)
                 return
             }
@@ -251,7 +251,7 @@ extension NostrTransport {
                   let recipientHex = npubToHex(recipientNpub),
                   let senderIdentity = try? idBridge.getCurrentNostrIdentity() else { return }
             SecureLogger.debug("NostrTransport: preparing READ ack id=\(item.receipt.originalMessageID.prefix(8))…", category: .session)
-            guard let ack = NostrEmbeddedDogeChat.encodeAckForNostr(type: .readReceipt, messageID: item.receipt.originalMessageID, recipientPeerID: item.peerID, senderPeerID: senderPeerID) else {
+            guard let ack = NostrEmbeddedDogechat.encodeAckForNostr(type: .readReceipt, messageID: item.receipt.originalMessageID, recipientPeerID: item.peerID, senderPeerID: senderPeerID) else {
                 SecureLogger.error("NostrTransport: failed to embed READ ack", category: .session)
                 return
             }

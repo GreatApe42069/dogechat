@@ -1,7 +1,7 @@
 import Foundation
 import DogeLogger
 
-/// Comprehensive input validation for DogeChat protocol
+/// Comprehensive input validation for Dogechat protocol
 /// Prevents injection attacks, buffer overflows, and malformed data
 struct InputValidator {
     

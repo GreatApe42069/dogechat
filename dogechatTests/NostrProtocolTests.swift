@@ -129,7 +129,7 @@ struct NostrProtocolTests {
         let senderPeerID = PeerID(str: "0123456789abcdef") // 8-byte hex peer ID
 
         let embedded = try #require(
-            NostrEmbeddedDogeChat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID),
+            NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .delivered, messageID: messageID, senderPeerID: senderPeerID),
             "Failed to embed delivered ack"
         )
 
@@ -152,7 +152,7 @@ struct NostrProtocolTests {
         // Verify sender is correct
         #expect(senderPubkey == sender.publicKeyHex)
 
-        // Parse DogeChat payload
+        // Parse Dogechat payload
         #expect(content.hasPrefix("dogechat1:"))
         let base64url = String(content.dropFirst("dogechat1:".count))
         let packetData = try #require(Self.base64URLDecode(base64url))
@@ -178,7 +178,7 @@ struct NostrProtocolTests {
         let messageID = "TEST-MSG-READ-1"
         let senderPeerID = PeerID(str: "fedcba9876543210") // 8-byte hex peer ID
         let embedded = try #require(
-            NostrEmbeddedDogeChat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID),
+            NostrEmbeddedDogechat.encodeAckForNostrNoRecipient(type: .readReceipt, messageID: messageID, senderPeerID: senderPeerID),
             "Failed to embed read ack"
         )
 

@@ -56,7 +56,7 @@ private func arti_go_dormant() -> Int32
 @_silgen_name("arti_wake")
 private func arti_wake() -> Int32
 
-/// Arti-based Tor integration for DogeChat.
+/// Arti-based Tor integration for Dogechat.
 /// - Boots a local Arti client and exposes a SOCKS5 proxy
 ///   on 127.0.0.1:socksPort. All app networking should await readiness and
 ///   route via this proxy. Fails closed by default when Tor is unavailable.

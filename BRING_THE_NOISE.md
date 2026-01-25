@@ -1,8 +1,8 @@
-# Bringing the Noise: Secure Communication in DogeChat
+# Bringing the Noise: Secure Communication in Dogechat
 
 ## Overview
 
-DogeChat implements the Noise Protocol Framework for end-to-end encryption, providing forward secrecy, identity hiding, and cryptographic authentication. This document details our Swift implementation and its integration with DogeChat's decentralized mesh network.
+Dogechat implements the Noise Protocol Framework for end-to-end encryption, providing forward secrecy, identity hiding, and cryptographic authentication. This document details our Swift implementation and its integration with Dogechat's decentralized mesh network.
 
 ## The Noise Protocol Framework
 
@@ -17,7 +17,7 @@ The Noise Protocol Framework offers:
 
 ### The XX Pattern
 
-DogeChat uses the Noise XX pattern:
+Dogechat uses the Noise XX pattern:
 ```
 XX:
   -> e
@@ -99,7 +99,7 @@ func removeSession(for peerID: String)
 func getSessionsNeedingRekey() -> [(String, Bool)]
 ```
 
-## Integration with DogeChat
+## Integration with Dogechat
 
 ### Peer ID Rotation
 
@@ -182,7 +182,7 @@ enum NoiseError: Error {
 
 ## Protocol Version Negotiation
 
-DogeChat implements protocol version negotiation to ensure compatibility between different client versions:
+Dogechat implements protocol version negotiation to ensure compatibility between different client versions:
 
 ### Version Negotiation Flow
 1. **Version Hello**: Upon connection, peers exchange supported protocol versions
@@ -214,4 +214,4 @@ case versionAck = 0x21      // Acknowledge and agree on version
 
 ## Conclusion
 
-DogeChat's Noise implementation provides encryption while maintaining the simplicity and performance required for a peer-to-peer messaging application. The protocol's elegant design ensures that people's communications remain private, authenticated, and forward-secure without sacrificing usability.
+Dogechat's Noise implementation provides encryption while maintaining the simplicity and performance required for a peer-to-peer messaging application. The protocol's elegant design ensures that people's communications remain private, authenticated, and forward-secure without sacrificing usability.

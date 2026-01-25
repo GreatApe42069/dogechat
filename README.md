@@ -101,7 +101,7 @@ Here's why:
 
 ## [Technical Architecture](https://deepwiki.com/GreatApe42069/dogechat)
 
-DogeChat uses a **hybrid messaging architecture** with two complementary transport layers:
+Dogechat uses a **hybrid messaging architecture** with two complementary transport layers:
 
 ### Bluetooth Mesh Network (Offline)
 
