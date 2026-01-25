@@ -82,9 +82,6 @@ jobs:
       - name: Get and increment version
         id: version
         run: |
-          # Fetch all tags
-          git fetch --tags --force
-          
           # Get the latest version tag matching pattern dogchat-iOS-v*
           LATEST_TAG=$(git tag -l "dogchat-iOS-v*" | sort -V | tail -n 1)
           
@@ -119,7 +116,7 @@ jobs:
                     --exclude='output' \
                     --exclude='source-temp' \
                     --exclude='.DS_Store' \
-                    /home/runner/work/dogechat/dogechat/ ./source-temp/
+                    ${{ github.workspace }}/ ./source-temp/
           
           # Create archives in output directory
           mkdir -p ./output
