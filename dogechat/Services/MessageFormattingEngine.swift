@@ -423,7 +423,7 @@ final class MessageFormattingEngine {
             var result = AttributedString()
 
             var mentionStyle = AttributeContainer()
-            mentionStyle.foregroundColor = .blue
+            mentionStyle.foregroundColor = .mentionColor  // Orange color (#FFA500) for mentions
             mentionStyle.font = .dogechatSystem(size: 14, weight: .semibold, design: .monospaced)
             result.append(AttributedString(baseName).mergingAttributes(mentionStyle))
 
@@ -436,7 +436,7 @@ final class MessageFormattingEngine {
             return result
 
         case .hashtag:
-            style.foregroundColor = .purple
+            style.foregroundColor = .hashtagColor  // Bright blue for hashtags
             style.font = .dogechatSystem(size: 14, weight: .medium, design: .monospaced)
 
         case .url:
@@ -448,14 +448,14 @@ final class MessageFormattingEngine {
             }
 
         case .cashu:
-            style.foregroundColor = .green
+            style.foregroundColor = .limeGreen  // Use lime green for cashu tokens
             style.font = .dogechatSystem(size: 14, weight: .medium, design: .monospaced)
-            style.backgroundColor = Color.green.opacity(0.1)
+            style.backgroundColor = Color.limeGreen.opacity(0.1)
 
         case .lightning, .bolt11, .lnurl:
-            style.foregroundColor = .yellow
+            style.foregroundColor = .dogecoinGold  // Use Dogecoin gold for lightning
             style.font = .dogechatSystem(size: 14, weight: .medium, design: .monospaced)
-            style.backgroundColor = Color.yellow.opacity(0.1)
+            style.backgroundColor = Color.dogecoinGold.opacity(0.1)
         }
 
         return AttributedString(text).mergingAttributes(style)

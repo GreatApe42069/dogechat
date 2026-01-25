@@ -55,7 +55,7 @@ struct PaymentChipView: View {
     let paymentType: PaymentType
     
     private var fgColor: Color {
-        colorScheme == .dark ? Color.green : Color(red: 0, green: 0.5, blue: 0)
+        Color.adaptiveGreen(isDark: colorScheme == .dark)
     }
     private var bgColor: Color {
         colorScheme == .dark ? Color.gray.opacity(0.18) : Color.gray.opacity(0.12)
