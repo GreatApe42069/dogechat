@@ -1,4 +1,5 @@
-<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/7afe4707-c27c-4e30-8cb0-d86b5571f623" />
+<img width="1024" height="1024" alt="image" src="https://github.com/user-attachments/assets/3e095140-d7a4-434f-88dd-97acd9a421fe" />
+
 
 ## dogechat iOS
 
