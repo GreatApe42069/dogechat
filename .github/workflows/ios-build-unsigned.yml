@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history and tags for version tracking
 
       - name: Select Xcode version
         uses: maxim-lobanov/setup-xcode@v1
@@ -77,6 +79,58 @@ jobs:
       - name: Get current date for version
         run: echo "BUILD_DATE=$(date +'%Y-%m-%d %H:%M:%S UTC')" >> $GITHUB_ENV
 
+      - name: Get and increment version
+        id: version
+        run: |
+          # Get the latest version tag matching pattern dogchat-iOS-v*
+          LATEST_TAG=$(git tag -l "dogchat-iOS-v*" | sort -V | tail -n 1)
+          
+          if [ -z "$LATEST_TAG" ]; then
+            # No previous version found, start with v1.0.0
+            NEW_VERSION="1.0.0"
+          else
+            # Extract version number from tag (e.g., dogchat-iOS-v1.0.0 -> 1.0.0)
+            CURRENT_VERSION=$(echo "$LATEST_TAG" | sed 's/dogchat-iOS-v//')
+            
+            # Split version into parts
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+            
+            # Increment patch version
+            PATCH=$((PATCH + 1))
+            
+            NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          fi
+          
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+          echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "New version: v$NEW_VERSION"
+
+      - name: Create source code archives
+        run: |
+          # Create a clean temporary directory for source
+          mkdir -p ./source-temp
+          
+          # Copy repository contents excluding build artifacts and git
+          rsync -av --exclude='.git' \
+                    --exclude='build' \
+                    --exclude='output' \
+                    --exclude='source-temp' \
+                    --exclude='.DS_Store' \
+                    ${{ github.workspace }}/ ./source-temp/
+          
+          # Create archives in output directory
+          mkdir -p ./output
+          cd ./source-temp
+          
+          # Create zip archive
+          zip -r ../output/dogechat-source-v${{ env.NEW_VERSION }}.zip .
+          
+          # Create tar.gz archive
+          tar -czf ../output/dogechat-source-v${{ env.NEW_VERSION }}.tar.gz .
+          
+          cd ..
+          rm -rf ./source-temp
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -84,16 +138,19 @@ jobs:
           path: |
             ./output/dogechat-unsigned.ipa
             ./output/dogechat-unsigned.app.zip
+            ./output/dogechat-source-v${{ env.NEW_VERSION }}.zip
+            ./output/dogechat-source-v${{ env.NEW_VERSION }}.tar.gz
           retention-days: 7
 
       - name: Create/Update Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ios-latest-unsigned
-          name: "Latest iOS Build (AltStore/SideStore Ready)"
+          tag_name: dogchat-iOS-v${{ env.NEW_VERSION }}
+          name: "dogchat-iOS-v${{ env.NEW_VERSION }} Latest iOS Build (AltStore/SideStore Ready)"
           body: |
-            ## 📱 Dogechat iOS - Latest Build
+            ## 📱 Dogechat iOS - Latest Build v${{ env.NEW_VERSION }}
             
+            **Version**: v${{ env.NEW_VERSION }}
             **Last Updated**: ${{ env.BUILD_DATE }}
             **Commit**: ${{ github.sha }}
             **Build Run**: #${{ github.run_number }}
@@ -145,9 +202,19 @@ jobs:
             ---
             
             **⚠️ Note**: You do NOT need a paid Apple Developer account. A free Apple ID works perfectly with AltStore!
+            
+            ---
+            
+            ### 📦 Source Code
+            
+            The source code archives are automatically included in this release:
+            - **dogechat-source-v${{ env.NEW_VERSION }}.zip** - Source code in ZIP format
+            - **dogechat-source-v${{ env.NEW_VERSION }}.tar.gz** - Source code in TAR.GZ format
           files: |
             ./output/dogechat-unsigned.ipa
             ./output/dogechat-unsigned.app.zip
+            ./output/dogechat-source-v${{ env.NEW_VERSION }}.zip
+            ./output/dogechat-source-v${{ env.NEW_VERSION }}.tar.gz
           prerelease: false
           draft: false
           token: ${{ secrets.GITHUB_TOKEN }}
