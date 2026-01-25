@@ -423,7 +423,7 @@ final class MessageFormattingEngine {
             var result = AttributedString()
 
             var mentionStyle = AttributeContainer()
-            mentionStyle.foregroundColor = .mentionColor  // Lime green color (#32CD32) for mentions
+            mentionStyle.foregroundColor = .mentionColor  // Green color (#32CD32) for mentions
             mentionStyle.font = .dogechatSystem(size: 14, weight: .semibold, design: .monospaced)
             result.append(AttributedString(baseName).mergingAttributes(mentionStyle))
 
